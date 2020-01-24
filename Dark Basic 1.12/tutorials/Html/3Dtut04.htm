@@ -1,0 +1,148 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Staton Richardson">
+   <meta name="Description" content="To show how to impliment third-person perspective">
+   <title>Third person perspective</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 1. The Basics</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>4.
+Third person perspective</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:&nbsp;
+To show how to implement third-person perspective</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Setup sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync Rate 30</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Make Cubes and place randomly</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For x = 1 to 5</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Make object cube x,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position object x,Rnd(2000),0,Rnd(2000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Next x</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Make sphere</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Make object sphere 10,50</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<br><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem&nbsp; Store Object angle Y in aY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+aY# = Object angle Y(10)</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem&nbsp; Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Upkey()=1 then Move object 10,10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Leftkey()=1 then Yrotate object 10,Wrapvalue(aY#-5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Rightkey()=1 then Yrotate object 10,Wrapvalue(aY#+5)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem get player object position and store in X# and Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+X# = Object position x(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Z# = Object position z(10)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem get new camera position and store in cZ# and cX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cZ# = Newzvalue(Z#,aY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cX# = Newxvalue(X#,aY#-180,100)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem position camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position Camera cX#,100,cZ#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem point the camera at the player object</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Point camera X#,50,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This tutorial will introduce
+the third-person camera perspective. The third-person point of view can
+be described as placing the camera behind and slightly above the player.
+Most of the code in this tutorial was explained in earlier tutorials. We
+will concentrate on the code and commands that are new.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+X# = Object position x(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Z# = Object position z(10)</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+"Object Position X" and "Object Position Z" commands are much like the
+"Object Angle" commands except these commands return the position of the
+object in world coordinates rather than the rotation of the object. In
+the parenthesis of this command you insert the number of the object you
+want the coordinate value from. We will store these values in the X# and
+Z# variables.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cZ# = Newzvalue(Z#,aY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cX# = Newxvalue(X#,aY#-180,100)</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+"NewZValue" and the "NewXValue" command save you from having to use some
+of the higher math functions like sine and cosine. These commands calculate
+a new position based on another position. We are using it to calculate
+a position 100 world units behind the player object. The first parameter
+is the respective coordinate the player object is currently positioned.
+Remember, we stored the object position in the X# and Z# variables. The
+second parameter is the angle of the direction where we want the new coordinate.
+We have taken the Y angle of the object, stored it in the aY# variable,
+and subtracted 180 degrees from the value. This angle is pointing directly
+behind the object. The third number is the number of world units away from
+the object position we want the coordinates from. We've used a value of
+100. What we have done is find the position 100 units directly behind the
+player object and stored the coordinates in the variables representing
+our camera position, cZ# and cX#.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position camera cX#,100,cZ#</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+"Position Camera" command works just like the "Position Object" command&nbsp;
+except we don't have to specify an object number, only the coordinate values.
+We are using our newly calculated X and Z values and 100 for our Y value.
+Since the Y coordinate of our player object is 0, and its radius is 50,
+setting the Y coordinate of our camera to 100, places the camera above
+the player object.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Point camera X#,50,Z#</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Our
+camera is pointed over the object. We'll use the "Point Camera" command
+to point the camera at the object. The parameters for this command are
+the X,Y and Z coordinates where you wish to point the camera. We will use
+the X# and Z# variables which hold the values of the X and Z position of
+the player object. For our Y value we will use 50. The camera should now
+be pointed at the center of our player object.</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the number of times the loop iterates to create more cubes. Remember
+to change the number of the player object so it's higher than the number
+used to create the objects in the loop or you'll receive an error of "Object
+already exists".</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the 180 to some other value less than 360 in the "NewXValue" and
+"NewYValue" commands to see how it changes the position of the camera.
+Change the last number in those commands to move the camera closer or further
+from the object</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the 50 in the "Point Camera" command to change how high or low
+the camera points as its directed at the player object.</font></font></font>
+</body>
+</html>

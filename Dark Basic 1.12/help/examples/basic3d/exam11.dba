@@ -1,0 +1,29 @@
+Rem * Title  : Using Meshes
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 11
+rem ============================================
+rem This program demonstrates using meshes
+rem --------------------------------------------
+
+rem Load your object
+load object "walk.x",1
+
+rem Make a mesh from the object
+make mesh from object 1,1
+
+rem Delete object
+delete object 1
+
+rem Make new object from mesh
+make object 2,1,0
+
+rem Show User
+while inkey$()="" : xrotate object 2,object angle x(2)+1 : endwhile
+
+rem Delete new object
+delete object 2
+
+rem End the program
+end

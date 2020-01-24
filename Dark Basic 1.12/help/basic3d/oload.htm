@@ -1,0 +1,37 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">LOAD OBJECT <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+This command loads a 3D model stored in the X file format into the specified 3D object number. You must specify an 3D Object Number between 1 and 65535. Once you have loaded the 3D object file successfully, you can use the specified 3D object number to position, rotate, scale, animate and manipulate your 3D object. The object number should be specified using an integer value.<BR>
+<BR>
+When you import a model from an external source, you should be aware of the dimensional size of your object. Models that are less than 50 units in size are too small and will appear tiny when loaded. Models that exceed several thousand units are too large and may disappear into the back clipping plane. Clipping planes define the finite visibility of your 3D world, and range from 1 (nearest to the camera) to 5000 (furthest point from the camera). You can change this using the SET CAMERA RANGE command.<BR>
+<BR>
+If your model file contains texture information, you need to make sure the texture bitmaps are located somewhere within the same directory as your model file. You should also be aware that the X file format only supports bitmap texture filenames in the 8.3 format. This means your texture filenames should be truncated to its first eight characters and end with a '.bmp' extension.<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+LOAD OBJECT Filename, Object Number<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="basic3d.htm">Basic3D Commands</a><br>
+<a href="glossary.htm">Glossary</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\basic3d\exam01.dba">Your First Object</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

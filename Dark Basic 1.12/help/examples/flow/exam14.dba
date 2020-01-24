@@ -1,0 +1,17 @@
+Rem * Title  : Using Includes
+Rem * Author : DBS-LB
+Rem * Date   : 1st Dec 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 14
+rem ===========================================================
+rem This program will show you how to use sub-programs
+rem -----------------------------------------------------------
+
+rem Include sub-program
+#include "mylib.dba"
+
+rem Call function from sub-program
+HelloWorldFunction(10)
+
+rem End program
+end

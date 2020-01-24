@@ -1,0 +1,134 @@
+Rem * Title  : Sliding Collision
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 25
+rem ==========================================
+rem This program shows use of object sliding
+rem collision and simple gravity influences
+rem ------------------------------------------
+autocam off : sync rate 60
+hide mouse : sync on
+
+rem Make four walls
+make object box 1,10,200,1000 : position object 1,-500,100,0 : color object 1,rgb(155,40,20)
+make object box 2,10,200,1000 : position object 2, 500,100,0 : color object 2,rgb(155,40,20)
+make object box 3,1000,200,10 : position object 3, 0,100,-500 : color object 3,rgb(155,40,20)
+make object box 4,1000,200,10 : position object 4, 0,100, 500 : color object 4,rgb(155,40,20)
+
+rem Make a floor and create texture for it
+make object box 5,1000,10,1000 : position object 5,0,-5,0 : color object 5,rgb(0,255,0)
+create bitmap 1,32,32 : cls rgb(0,155,0) : ink rgb(0,145,0),0 : box 4,4,12,12
+get image 1,0,0,32,32 : delete bitmap 1 : texture object 5,1
+scale object texture 5,200,200
+
+rem Make a pedestal steps
+for t=0 to 4
+	make object box 6+t,50,8,50
+	position object 6+t,0,4+(t*10),100+(t*50)
+	color object 6+t,rgb(100,200,100)
+next t
+
+rem Make a player object (and a non-rotated collision box for it)
+make object cylinder 11,10
+position object 11,0,0,0
+color object 11,rgb(20,100,255)
+make object collision box 11,-5,-5,-5,5,5,5,0
+disable object zdepth 11
+
+rem Make the pedastal use non-rotated box collision
+for t=0 to 4
+	make object collision box 6+t,-25,-4,-25,25,4,25,0
+next t
+
+rem Make the wall and floor objects into static objects (for auto-camera collision)
+for t=1 to 5
+	make static object t
+	objx#=object position x(t)
+	objy#=object position y(t)
+	objz#=object position z(t)
+	objsx#=object size x(t)/2.0
+	objsy#=object size y(t)/2.0
+	objsz#=object size z(t)/2.0
+	make static collision box objx#-objsx#,objy#-objsy#,objz#-objsz#,objx#+objsx#,objy#+objsy#,objz#+objsz#
+	delete object t
+next t
+
+rem Make sky black
+color backdrop 0
+
+rem Start off player gravity
+playergrav#=2.0
+
+rem Main loop
+do
+
+rem User prompts
+ink rgb(255,255,0),0
+center text 320,2,"SHOWS OBJECT SLIDING COLLISION AND CAMERA FOLLOW COMMANDS"
+center text 320,20,"USE ARROWS TO MOVE AND SPACE TO JUMP"
+
+rem Store old positions
+oldposx#=object position x(11)
+oldposy#=object position y(11)
+oldposz#=object position z(11)
+
+rem Control player object
+if upkey()=1 then move object 11,2
+if downkey()=1 then move object 11,-2
+if leftkey()=1 then yrotate object 11,wrapvalue(object angle y(11)-3)
+if rightkey()=1 then yrotate object 11,wrapvalue(object angle y(11)+3)
+if spacekey()=1 and playergrav#=0.0 then playergrav#=2.0
+
+rem Get current object position
+posx#=object position x(11)
+posy#=object position y(11)
+posz#=object position z(11)
+
+rem Handle a touch of gravity
+playergrav#=playergrav#-0.1
+posy#=posy#+playergrav#
+
+rem Handle sliding collision for player object with other objects
+position object 11,posx#,posy#,posz#
+if object collision(11,0)>0
+	dec posx#,get object collision x()
+	dec posy#,get object collision y()
+	dec posz#,get object collision z()
+	playergrav#=0.0
+endif
+
+rem Set a size for the player object
+s#=object size y(11)/2.0
+
+rem Ensure camera stays out of static collision boxes
+if get static collision hit(oldposx#-s#,oldposy#-s#,oldposz#-s#,oldposx#+s#,oldposy#+s#,oldposz#+s#,posx#-s#,posy#-s#,posz#-s#,posx#+s#,posy#+s#,posz#+s#)=1
+	dec posx#,get static collision x()
+	dec posy#,get static collision y()
+	dec posz#,get static collision z()	
+	if get static collision y()<>0.0 then playergrav#=0.0
+endif
+
+rem Update with new object position
+position object 11,posx#,posy#,posz#
+
+rem Use camera tracker to follow player object
+angle#=object angle y(11)
+camdist#=25.0 : camhigh#=posy#+10.0 : camfade#=3.5
+set camera to follow posx#,posy#,posz#,angle#,camdist#,camhigh#,camfade#,1
+
+rem Tilt camera down a little
+xrotate camera 15 
+
+rem For fun, slightly move pedastal step
+move object 10,0.01
+
+rem Update screen
+sync
+
+rem End loop
+loop
+
+rem Restore object if ever leave this loop
+enable object zdepth 11
+

@@ -1,0 +1,44 @@
+Rem * Title  : Memblock Data Access
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 01
+rem ===============================================
+rem This program handles Memblock Data Access
+rem -----------------------------------------------
+
+rem Make a memblock
+make memblock 1,1024
+
+rem Check if exists
+if memblock exist(1)=1
+
+	rem Write a memblock value
+	write memblock byte 1,0,42
+	write memblock word 1,1,42000
+	write memblock dword 1,3,4200000
+	write memblock float 1,7,42.42
+
+	rem Copy a memblock to another
+	make memblock 2,1024
+	copy memblock 1,2,0,0,1024
+	
+	rem Read a memblock value
+	value1=memblock byte(2,0)
+	value2=memblock word(2,1)
+	value3=memblock dword(2,3)
+	value4#=memblock float(2,7)
+
+	rem Show data
+	print value1
+	print value2
+	print value3
+	print value4#
+
+endif
+
+rem Delete a memblock
+delete memblock 1
+
+rem End program
+end

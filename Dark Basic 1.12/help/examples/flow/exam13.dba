@@ -1,0 +1,48 @@
+Rem * Title  : Using Functions
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 13
+rem ===========================================================
+rem This program will show you how to use simple functions
+rem -----------------------------------------------------------
+
+rem Call my own function as a command
+fillscreen(50)
+	
+rem Call my own function that returns a value
+print halfvalue(10)
+
+rem Call my own function that exits early
+print doublevalue(10)
+
+rem End of program
+end
+
+rem Declare a command function
+function fillscreen(count)
+
+	for t=1 to count
+		print t;", ";
+	next t
+
+endfunction
+
+rem Declare a function that returns a value
+function halfvalue(value)
+
+	value=value/2
+
+endfunction value
+
+rem Declare a function that returns a value
+function doublevalue(value)
+
+	value=value*2
+
+	exitfunction value
+
+	rem This line never happens
+	value=0
+
+endfunction value

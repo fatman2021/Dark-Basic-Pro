@@ -1,0 +1,182 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>1.
+HUD</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to create a "heads up display" and a simple radar screen.</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+show you how to create a heads up display otherwise known as a HUD. To
+make it easier to find the monster we will create a radar screen on our
+hud as well as a transparent background for the score.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+make HUD</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+object Plain 200,1,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>position
+object 200,-2.7,1.9,4</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Lock
+object on 200</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>ghost
+object on 200</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code segment is placed
+before the main loop. We create a plain object and lock it to the camera
+position. This plain will be used as our radar screen.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+object Plain 201,1,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>position
+object 201,2.7,1.9,4</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Lock
+object on 201</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>ghost
+object on 201</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code segment is also
+placed before the main loop. This plain object will be used as the background
+for our score display.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Load and create hud bitmaps.</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+Bitmap "Radar.bmp",2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Create
+Bitmap 1,50,50</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this code segment, we
+are loading the radar bitmap and storing it as bitmap 2. A bitmap is different
+from a texture. A bitmap can be painted on or changed within the program.
+One bitmap of particular importance is bitmap 0. This bitmap is your display
+where you see your 3D world. When you call the "Sync" command this is the
+bitmap that is redrawn and shown. We are loading the "Radar.bmp" image
+into bitmap 2 and creating a new blank bitmap assigning it the bitmap number
+1. Note, you can only load or create 32 bitmaps in DarkBASIC. The "Load
+Bitmap" command is similar to the "Load Image" command. The first parameter
+is the name of the bitmap image you wish to load. The second parameter is the number you wish to use as the unique identifier for the bitmap.
+The "Create Bitmap" command will create, in memory, a blank bitmap of a
+specified size. The first parameter is the number you wish to assign to
+the bitmap. The second two parameters are the width and height of the bitmap
+you wish to create. The width and height parameter represent the pixel
+resolution of the bitmap.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+make radar</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Copy
+Bitmap 2,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;set
+current bitmap 1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;ink
+rgb(0,0,255),rgb(0,0,0)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;PRX#=X#/200</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;PRZ#=50-(Z#/200)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Circle
+PRX#,PRZ#,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;ink
+rgb(255,0,0),rgb(0,0,0)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;MRX#=mX#/200</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;MRZ#=50-(mZ#/200)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Circle
+MRX#,MRZ#,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Get
+image 200,0,0,50,50</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;set
+current bitmap 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;texture
+object 200,200</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;ink
+rgb(255,128,128),rgb(0,0,0)</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>This code is placed near
+the end of the main loop. This is where the radar screen is created, drawn
+and applied to the plain used for the radar display.</font></font>
+<p><font size=+1>&nbsp;Copy
+Bitmap 2,1</font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Copy Bitmap" command&nbsp;
+copies a bitmap in memory to another bitmap in memory. The first parameter
+of this command is the number of the bitmap you wish to copy. The second
+parameter is the number of the bitmap you wish to copy the first bitmap
+to. Here, we are copying the bitmap we loaded for the background of our
+radar screen to the bitmap we will use as the radar screen.</font></font>
+<p><font size=+1>&nbsp;set
+current bitmap 1</font>
+<p><font face="Arial,Helvetica"><font size=+1>When you use the "Set Current
+Bitmap" command you are instructing your program, to make a specific bitmap
+the main bitmap for drawing. You must set the current bitmap back to 0
+in order to see your 3D world. We are setting the current bitmap to our
+radar bitmap. This bitmap contains the copied bitmap that we loaded for
+our radar background.</font></font>
+<p><font size=+1>&nbsp;ink
+rgb(0,0,255),rgb(0,0,0)</font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Ink" command is used
+to set the the foreground color and background color for any of your drawing
+or text commands. The first parameter of the "Ink" command is the color
+of the drawing ink we will use for drawing. We are using the "RGB" command
+to set this to blue. The second parameter is the background color. We are
+setting this parameter to black using the "RGB" command.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;PRX#=X#/200</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;PRZ#=50-(Z#/200)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Circle
+PRX#,PRZ#,1</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>These three lines of code
+are used to draw a blue circle on the radar bitmap that represents the
+player. The"PRX#" and "PRZ#" variables are used to store the position of
+our player. Since our matrix is 100,000 units square and our bitmap is
+only 50 pixels square, we divide 100,000 by 50 to get 200. 200 is our scaling
+variable. We divide the X position of the player by 200 to get the approximate
+X position on our radar bitmap. We store this value in the "PRX#" variable.
+We do the same calculations for the Z value. Since the bitmap coordinates
+start in the upper left hand corner and the matrix coordinates begin in
+the lower left hand corner, we take the scaled Z value and subtract it
+from 50 to get an inverted value for our radar display. If we didn't do
+this our radar display would be inverted.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Circle
+PRX#,PRZ#,1</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>We use our player radar X
+and Z coordinates to draw a circle at the coordinates on the radar bitmap.
+We use the "Circle" command to do this. The first two parameters of this
+command are the X and Y coordinates on the bitmap where you wish to draw
+the circle. The third parameter is the radius of the circle we wish to
+draw. We have set this value to 1 to draw a very small circle.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;ink
+rgb(255,0,0),rgb(0,0,0)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;MRX#=mX#/200</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;MRZ#=50-(mZ#/200)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Circle
+MRX#,MRZ#,1</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>These lines of code do the
+same thing as the code before except we set our ink color to red and we
+use the monsters X and Y variables for drawing the circle to represent
+the monster on the radar.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Get
+image 200,0,0,50,50</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Get Image" command copies
+a bitmap or portion of a bitmap to be used to create an image to be used
+as a texture.&nbsp; The first parameter of this command is the number of
+the new image we are creating. The second and third parameters of the command
+are the X and Y coordinates of the top left hand corner of the rectangular
+area we wish to copy to the image. The fourth and fifth parameters are
+the X and Y values of the lower right hand corner of the rectangular area
+we wish to copy to the image. Since our image is 50x50 pixels we are copying
+the whole bitmap for our image. Our main bitmap is still the number 1 bitmap,
+this is where the image is copied from.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;set
+current bitmap 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;texture
+object 200,200</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;ink
+rgb(255,128,128),rgb(0,0,0)</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The last part of the radar
+code segment, sets our main bitmap back to 0 which is where our 3D scene
+is being drawn. Next, we texture the plain object with our newly created
+image. The newly created image contains our radar image with two circles
+drawn on it to represent the player and the monster. We change our drawing
+ink to a dull red color. This will be the color of the ink that will be
+used until our radar screen is updated. Notice, the score values are this
+color.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

@@ -1,0 +1,304 @@
+DarkEDIT Windows Editor
+for
+DarkBASIC(tm) - The ULTIMATE 3D Games Creator
+
+DarkEDIT v1.56
+
+Copyright (c) 2000, 2001
+Dark Basic Software Limited
+All Rights Reserved
+
+REVISION INFORMATION AT BOTTOM OF DOCUMENT
+
+INTRODUCTION
+DarkEDIT is designed as a replacement code editor for the DarkBASIC programming language. Many users prefer a traditional Windows editor when working on medium and large sized projects. Although DarkBASIC has an integrated code editor, the fixed resolution and set of editing tools do not fit the needs of all programmers. DarkEDIT is a worthy alternative.
+
+I (Guy Savoie, guy@nmisoftware.com) approached Dark Basic Software Limited with one simple question, "If I make a syntax highlighted Windows editor for DarkBASIC, do you want it?" Lee Bamber, the creator of DarkBASIC, replied with a resounding "Yes!"
+
+This is my contribution to fellow programmers. Computers and programming have been very good to me, and I choose to share.
+
+OWNERSHIP
+DarkEDIT is owned by Dark Basic Software Limited. Although I designed it, created it, and actively maintain it, it is the property of Dark Basic Software Limited. The obvious question is, "Are you crazy?" Sure, I could keep it as MY program, I bet I could even charge a small fee for it, but no one benefits if I do. DarkBASIC is for creating and expressing, and DarkEDIT is designed to complement this wonderfully inexpensive tool. The best way to guarantee people can get access to it is for Dark Basic Software Limited to own it. I am not an agent, partner, or employ of Dark Basic Software Limited. I don't speak for them. If I promise you the moon, don't bug them for the rocket.
+
+DISCLAIMER
+No program can be bug free. No program can be guaranteed to run on every computer under every configuration. It is the nature of the beast. I have tried to make DarkEDIT as bug free as possible, and I will continue to work on it. If you run into problems,  please Email me at: darkeditor@nmisoftware.com. I just cannot promise I can make it work on your machine. If I can't get DarkEDIT working on your machine, please don't hate me. This is a voluntary effort on my part, and I do have other obligations in life.
+
+Similarly, if you do not like...well...just about anything, please consider that I designed DarkEDIT to serve many users, but not everyone works in the same way. I could spent 10 years adding a million features and configuration options, but that is not my goal.  Originally, I just wanted to open more than one file at a time and have syntax highlighting.
+
+FEATURES
+* Windows editor that supports multiple open documents (MDI interface) in any screen resolution you prefer to work.
+* Integration with the DarkBASIC engine. Since the release of DB v1.07d, users can seamlessly compile and run DarkBASIC programs from within DarkEDIT.
+* Full syntax highlighting, with configurable fonts, styles, and colors.
+* Line numbers, bookmarks, jump to line number.
+* Function declaration and label lists to quickly jump to sections of your code. (F8 & F9)
+* Access to the DarkBASIC help files (not context sensitive) (F1)
+* Comprehensive search & replace tools (Ctrl-F, Ctrl-H)
+* Right click access to files named in your source code. Built in previewers for BMP, WAV, MID, and AVI files, and use of external previewers.
+* Media browser to preview media files on disk, and insert filenames in your code if desired.
+* RGB color selector
+* Columnar text selection for cut/copy/paste (holding the Alt key while selecting text)
+* Drag and drop code (not between Windows)
+* Standard and user defined code templates (Ctrl-J)
+* Complete source code printing support, including highlighted format
+* Export code to RTF or HTML format (File type selection under the Save As menu)
+* "STEP THROUGH" code option - the editor will insert BREAK commands between every line of your code so you can step through your code in DarkBASIC. It is smart enough to not add breaks in comment blocks or after REM statements. 
+* Pre-processor to extend DarkBASIC with new commands, including Global simple variables, Defines, and User Defined Types.
+
+CONFIGURATION
+To use DarkEDIT effectively, you ***MUST*** set some options so the Editor knows where to find certain things, including DarkBASIC, the DarkBASIC help files, your preferred web browser (to view the HTML help files), your preferred source code saving directory, and the compiler switches. 
+
+***** EACH SETTING MUST BE MADE TO A VALID PROGRAM OR PATH FOR DarkEDIT TO RUN CORRECTLY. *****
+
+CODE TEMPLATES
+
+While editing your programs, you can press Ctrl-J to pop up the code template list. This will provide you with common programming structures - if you click on one, the code will automatically be inserted for you. For example, you can click on the IF-ELSE-ENDIF code template, and the editor will type:
+
+IF 
+
+ELSE
+
+ENDIF
+
+...and the editor will place the cursor right next to the IF for you. You will never forget that ENDIF again!
+
+There are many standard code templates, and you can define your own as well. To define your own, go into the directory where DarkEDIT.EXE is located. Create a new folder/subdirectory called TEMPLATES.  Within this directory, you can store any DBA source code file, and the editor will list it as a user defined template. The editor uses the filename as the template name, so don't be afraid to use a good, descriptive filename.
+
+You can use code templates if you find yourself typing certain things over and over again. For example, if you always use a couple of REM statements to begin your files with credits and comments, you can make a template for that. 
+
+I created a template that I called "Boolean Constants.dba", and in that file, I put the following code:
+
+True=(1=1)
+False=(1=0)
+
+I include that a lot when I program, so I can use True and False in my IF statements. I can now add that in my code with just a few keystrokes, and I can be sure that it will not be mis-typed.
+
+When you create your own code templates, you can tell the Code Template function where you want to place the cursor by typing a "|" (pipe character.) For example, IF-ENDIF would be:
+
+IF |
+
+ENDIF
+
+... and the cursor appears right after the IF.
+
+CREDITS 
+DarkEDIT was written in Borland Delphi 4 (www.inprise.com), and it would not be possible without the Dream Memo component (www.dream-com.com). This component allowed DarkEDIT to appear so quickly. It was programmed entirely by Guy Savoie (guy@nmisoftware.com). The features are a result of the responses from a great group of beta testers from the DarkBASIC forum. Thank you all for your hard work!
+
+KNOWN ISSUES
+* The portion of the software that makes the lists of functions expects functions to start in the first column. If it starts after another command and a colon, it will not be listed. This would be a pretty unusual way to program, so it should not be a problem. The label portion expects label lines to end with the colon. (no rem statements afterward)
+
+TECHNICAL SUPPORT
+Technical support is available from other users in the DarkBASIC forums and by Email at: darkeditor@nmisoftware.com. In the future, there may be support forums at darkedit.nmisoftware.com.
+
+REVISION INFORMATION
+
+Date/Release/Notes:
+
+11-October-2000 - Version 1.0 
+-----------------------------
+First public release
+
+13-October-2000 - Version 1.01 
+------------------------------
+* Numerous non-fatal bug fixes
+* fixed REMSTART/REMEND case sensitivity
+* added MOUSEMOVEZ. DIRECTIONAL to syntax list
+* left margin away from gutter in editor
+* enabled EOL limit, but disable it when alt-selecting
+* added extra check to make sure syntax highlighting gets turned on.
+* added media browser, with insert filename command (Ctrl-B, or right click while editing code)
+* current line highlighting
+* support for darkedit.sch scheme file (no technical support available)
+
+14-October-2000 - Version 1.02
+------------------------------
+* OK, so the last fix for REMSTART/REMEND didn't work. Try this one...
+* fixed preview button error in media browser
+* fixed bitmap view clipping in BMP previewer
+* added DarkBASIC v1.07d reserved words.
+
+20-October-2000 - Version 1.10
+------------------------------
+* Totally removed old syntax highlighter/parser - replaced with new parser that handles the multi-word commands. Prepared for bug reports. 
+* Cleaned up default color assumptions colors for people using different desktop color schemes. 
+
+21-October-2000  - Version 1.30
+-------------------------------
+* Totally upgraded the open window manager, hoping that the rare bug when window editing menus do not become enabled will be eliminated. (Please check, users with this problem.
+
+* Removed all forced color references from version 1.10.
+
+* Replaced Options Dialog to allow access to many editor features, including fonts, colors, sizes, styles, and items like auto-indent, line highlighting, syntax highlight enable/disable, and others.
+
+* Features destined for version 1.50 are listed in the options dialog but are grayed out (disabled.)
+
+* All settings saved to registry, not a scheme file.
+
+22-October-2000  - Version 1.35
+-------------------------------
+* Replaced File Save Code and Compilation code - you can now compile code changes without saving, or compile untitled (no filename) code, and enabled use of AutoSave and AutoBackup options in the options dialog.
+
+24-October-2000  - Version 1.37
+-------------------------------
+* Replaced Exec Core - no longer need mouse move to wake up program.
+* Added custom color list support during editing. Not saved between editing sessions. Depends on user requests.
+* Added Color insert/preview to right click menu. Inserts RGB value when "OK" clicked.
+
+26-October-2000  - Version 1.40
+-------------------------------
+* Enabled External Media Options - You can now use either the supplied internal media previewers or choose your own external programs.
+* Step Through (Insert BREAKS) added to compile menu. (From a Marc Fleury idea in the forum)
+* Added BREAK to reserved words. (for above)
+* Browse for folder method in media browser would sometimes crash - replaced method and appearance.
+* Added "Left Arrow at beginning of line moves up" if option is selected.
+* Revised this document to reflect current status of DarkBASIC.
+
+29-October-2000  - Version 1.43
+-------------------------------
+* Implemented GLOBAL command with the DarkEDIT pre-processor. Global variables are replaced with single element global arrays of the same name. Format:
+
+   Global varname,varname#,varname$,...
+
+
+   Note: The GLOBAL extension must be enabled in the options dialog. 
+         Globals are not accessible as simple variables in INCLUDE'd files. 
+
+Example use:
+
+   global x,y,z
+   print (x+y)/z
+
+Gets converted to:
+
+   dim x(1):dim y(1):dim z(1)
+   print (x(1)+y(1)/z(1)
+
+* Standardized a single internal DB execute code for all compiler switches, so inconsistencies in file handling will not appear if new switches are added. (There are 5 cases right now)
+* Made default text background color fill entire code window, not just under characters.
+* Added Cursor coordinates, "modified" flag, and insert/overwrite status to new statusbar in code windows.
+* Added "Cursor bounce" when cursor not allowed EOL. Ex. If you are on column 17, and press down,move over a blank line, then to a full line, cursor goes back to column 17.
+* Fixed cursor - when you switch from overwrite to insert, it updates immediately now.
+* Added 'GLOBAL' and 'TO' to keywords list (as in for x=1 TO 4 - how did nobody find THAT one by now?)
+
+30-October-2000  - Version 1.46
+-------------------------------
+* Tweaked label and function finder code to allow starting whitespace.
+* Implemented non-parameter DEFINE with the DarkEDIT pre-processor. Anything DEFINE'd is automatically replaced in the code with the desired replacement code. Format:
+
+Define defname,replacement
+
+Note: The DEFINE extension must be enabled in the options dialog. Defines are not accessible in INCLUDE'd files. Define replacements happen AFTER global replacements. No parameters are allowed yet, but will be allowed in a later version. Predefined items are:  ?, true, false.
+
+
+Example use: 
+   
+   define author,"Guy Savoie"
+   define maxwidth,(640)
+
+   print author
+   n# = 4/maxwidth
+
+Gets converted to:
+
+   REM define author,"Guy Savoie"
+   REM define maxwidth,(640)
+
+   print "Guy Savoie"
+   n# = 4/(640)
+
+You can use the predefined items ?, true, and false without any definition - they are built into the pre-processor. Please note that any number based replacements should have enough parenthesis to protect them. For example, consider this code:
+
+define four,2+2
+print 3*four*5
+
+on first appearance, this looks like it would print 60. However, it prints 16. When the code gets replaced, it looks like this:
+
+rem define four,2+2
+print 3*2+2*5
+
+Because of the order of precedence of math operators, the multiplications happen BEFORE The addition. To protect the integrity of your code, numbers should be protected by parenthesis in the following way:
+
+define four,((2)+(2))
+
+This is important to learn, and if you don't, it will cause headaches when parameter defines are allowed. 
+
+1-November-2000  - Version 1.48
+-------------------------------
+*Implemented parameter DEFINEs (from one to nine parameters) to pre-processor. Format:
+
+DEFINE cube(1),((%1)*(%1)*(%1))
+DEFINE mult(2),((%1)*(%2))
+DEFINE sum_3(3),((%1)+(%2)+(%3))
+
+Calling Convention:
+
+Print sum_3(10,n+5,(6*4)+LEN("FRED"))
+
+* Removed the pop-up log file display and implemented:
+
+* New Error Message Window in the bottom of the active code window. On error messages, the editor jumps to and highlights the reported line automatically. 
+
+Note: the line number will not be correct if you have INCLUDE'd functions, and if you intentionally hop out of DarkBASIC and switch windows in DarkEDIT, the log file message will appear in the currently active code window.
+
+* Added Line Number Reporting in Step-Through Mode - Requires 1.07 release version.
+
+5-November-2000  - Version 1.50
+-------------------------------
+* Centered Preprocessor dialog - lower resolutions reported the dialog went off screen.
+* Removed space eating bug in multi-parameter DEFINE pre-processor - it was looking for spaces between DEFINE keywords and the opening paren. It shouldn't allow that. Fixed. 
+* Implemented TYPEs pre-processor Format:
+
+      TYPE player_info
+         x,y,name$
+         inventory#(10)
+      ENDTYPE
+
+      DIMTYPE player_info,player,enemies(20)
+
+      PRINT player.name$
+      PRINT enemies(15).inventory#(2)
+
+Notes: DIMTYPES can only be single variables or single dimension arrays. Elements within a TYPE definition can be up to FOUR dimensions.
+
+All elements are global.
+
+The pre-processor will not catch the following error:
+
+      TYPE t1
+         v(20)
+      ENDTYPE
+      DIMTYPE t1, instance
+
+      instance.v(10,10) = 0 : rem An extra dimension added!
+
+However, DarkBASIC *WILL* complain about the extra dimension. For speed, the pre-processor doesn't try to parse what comes after the paren in elements.
+
+23-July-2001  - Version 1.51
+-------------------------------
+* Added Commands from version 1.09
+
+3-October-2001 - Version 1.55
+-------------------------------
+* Enabled Cascade, Tile Horizontal, and Tile Vertical Window Commands
+* Moved command list to external file (keywords.txt) for future DB1.x commands to be added 
+* Moved all resource strings to an external file (language.txt), allowing for Language Translations
+* Moved icon bitmaps for F4-F9 to external files (*.bmp), allowing for language editing
+* Set default Core Path to try and minimize number of "Error Running Core" complaints.
+* Imagine my surprise when I built this version in Delphi - the line count is 77,777 lines. Cool.
+
+19-October-2001
+--------------------------------
+* Added French translation for DarkEDIT. To use the French language resources, copy FRANCAIS.TXT from "\Additional Languages"  to LANGUAGE.TXT. Special thanks to Thierry - webmaster of 3DGC Land - http://perso.wanadoo.fr/3dgc-land/3DGCLand/  for the fast translation. Please visit his excellent French website.
+
+22-October-2001
+--------------------------------
+* Added Commands from the Dark BASIC expansion pack release.
+
+25-October-2001
+--------------------------------
+* OK, I really do listen:
+* Drag and drop files implemented
+* Filenames with spaces supported (when double clicking on an associated DBA file)
+* Editor now pops back from a DB execution in same position/size
+* Editor saves it's position and reloads it after you quit / restart DarkEDIT.
+
+--- Guy

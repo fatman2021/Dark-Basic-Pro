@@ -1,0 +1,153 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. Matrix</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>4.
+Third person perspective on a matrix</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To explain how to move an object across a matrix in third person perspective</font></font></font>
+<br>&nbsp;
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+Rate 30</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+make matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+matrix 1,10000,10000,20,20</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+texture matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+image "grass09.bmp",1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Prepare
+matrix texture 1,1,1,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Fill
+matrix 1,0,1</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Make player pawn</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+image "barry.bmp",2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+object sphere 10,25</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Texture
+object 10,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>position
+object 10,100,0,100</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Randomize the matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>randomize
+matrix 1,125</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Do</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>set
+cursor 0,0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>print
+screen fps()</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Store Object angle</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;AngleY#
+= object angle Y(10)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Upkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+XTest# = Newxvalue(X#,AngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+ZTest# = Newzvalue(Z#,AngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If XTest#>0 and XTest#&lt;10000 and ZTest#>0 and ZTest#&lt;10000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Move object 10,10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Leftkey()=1 then Yrotate object 10,Wrapvalue(AngleY#-5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Rightkey()=1 then Yrotate object 10,Wrapvalue(AngleY#+5)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;X#
+= Object position x(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Z#
+= Object position z(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Y#
+= Get Ground Height(1,X#,Z#)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+object 10,X#,Y#+12.5,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraZ#
+= Newzvalue(Z#,AngleY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraX#
+= Newxvalue(X#,AngleY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraY#
+= Get Ground Height(1,CameraX#,CameraZ#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+camera CameraX#,CameraY#+50,CameraZ#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Point
+camera X#,Y#+25,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Loop</font></font></font>
+<br>&nbsp;
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>This program allows the user
+to move a textured sphere object across a matrix using keyboard input.
+We'll begin this tutorial with a simple helper command.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;print
+screen fps()</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Screen Fps()" command
+is a useful command to see how fast your screen is refreshing. Try changing
+the sync rate to 0 and run the program. You will see a number printed on
+the screen showing how many times per second your screen is refreshing.
+If your video card is locked to your monitors refresh rate you may not
+see the maximum refresh rate your video card is capable of. Some video
+cards allow you to disable your "VSync" allowing your card to refresh the
+screen as fast as possible.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;X#
+= Object position x(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Z#
+= Object position z(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Y#
+= Get Ground Height(1,X#,Z#)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+object 10,X#,Y#+12.5,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraZ#
+= Newzvalue(Z#,AngleY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraX#
+= Newxvalue(X#,AngleY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraY#
+= Get Ground Height(1,CameraX#,CameraZ#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+camera CameraX#,CameraY#+50,CameraZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Point
+camera X#,Y#+25,Z#</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>As we did in the previous
+tutorial, we use the "Get Ground Height" to find the matrix height at a
+specific location. Here we are using the command twice, once to get the
+height where the sphere object is and the second time to get the height
+where the camera is located. You'll notice that the rest of the code is
+the same as our code in the earlier third person perspective tutorial.
+The only change we have made here is the addition of the Y# value.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Try using the "Rem" statement
+to comment out the,</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>CameraY#
+= Get Ground Height(1,CameraX#,CameraZ#)</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>line of code.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In the,</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Position
+camera CameraX#,CameraY#+50,CameraZ#</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>replace the CameraY# variable
+with the "Y#" variable to see how this changes the action of the camera.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

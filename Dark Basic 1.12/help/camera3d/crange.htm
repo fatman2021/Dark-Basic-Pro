@@ -1,0 +1,34 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SET CAMERA RANGE<BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+This command will set the viewing range of the camera. The Front Value specifies the closest point beyond which the camera starts to draw the 3D scene. The Back Value specifies the furthest point beyond which the camera stops drawing the 3D scene. The parameters must be specified using real numbers greater than zero. The default range starts drawing the 3D scene with a front value of 1 and a back value of 3000.<BR><BR>
+The built-in Z-Buffer ensures that objects closer to the camera obscure objects that are further away. If you set a very small Front Value and a very large Back Value, you will notice that objects do not always appear behind a closer object. You must ensure that the size of your objects are proportional to the range you select for your 3D scene.<br><br>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+SET CAMERA RANGE Front Value, Back Value<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="camera3d.htm">Camera3D Commands</a><br>
+<a href="glossary.htm">Glossary</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\camera3d\exam06.dba">Camera Range</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

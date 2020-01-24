@@ -1,0 +1,36 @@
+Rem * Title  : Simple Joystick
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ==============================================
+rem This program provides simple joystick movement
+rem ----------------------------------------------
+
+rem Set a coordinate in the middle of the screen
+x=320
+y=240
+
+rem Begin main loop
+do
+
+rem Clear the screen each cycle
+cls
+
+rem Move the coordinate based on the joystick input
+if joystick up()=1 then y=y-1
+if joystick down()=1 then y=y+1
+if joystick left()=1 then x=x-1
+if joystick right()=1 then x=x+1
+
+rem Set the ink color based on the fire button input
+if joystick fire a()=1 then ink rgb(255,0,0),0
+if joystick fire b()=1 then ink rgb(0,255,0),0
+if joystick fire c()=1 then ink rgb(0,0,255),0
+if joystick fire d()=1 then ink rgb(64,0,64),0
+
+rem Draw a circle at the coordinate
+circle x,y,20
+
+rem End the loop
+loop

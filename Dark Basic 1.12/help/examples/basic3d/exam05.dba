@@ -1,0 +1,99 @@
+Rem * Title  : Adding Limbs
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ===============================================
+rem This program adds a new limb to an object
+rem -----------------------------------------------
+
+rem Load a bitmap and grab image
+load bitmap "floor1.bmp",1
+get image 1,0,0,128,128
+delete bitmap 1
+
+rem Load your object
+load object "idle.x",1
+
+rem Find out how many limbs the object has and hide them
+perform checklist for object limbs 1
+numberoflimbs=checklist quantity()
+for t=1 to numberoflimbs : hide limb 1,t : next t
+
+rem Load a mesh
+load mesh "mesh.x",1
+
+rem Make sure mesh does exist
+if mesh exist(1)=1
+	rem Add and link the mesh to one of the objects limbs
+	numberoflimbs=numberoflimbs+1
+	add limb 1,numberoflimbs,1
+	link limb 1,numberoflimbs,4
+
+	rem Hide original limb and show new one
+	hide limb 1,4
+	show limb 1,numberoflimbs
+
+	rem Texture the limb using the pre-grabbed image
+	texture limb 1,numberoflimbs,1
+
+	rem Scale, rotate and offset the limb
+	scale limb 1,numberoflimbs,2000,2000,2000
+	rotate limb 1,numberoflimbs,45,0,0
+	offset limb 1,numberoflimbs,0,-20,0
+	color limb 1,numberoflimbs,rgb(255,255,0)
+
+	worldx = limb position x(1,numberoflimbs)
+	worldy = limb position y(1,numberoflimbs)
+	worldz = limb position z(1,numberoflimbs)
+	worldanglex = limb direction x(1,numberoflimbs)
+	worldangley = limb direction y(1,numberoflimbs)
+	worldanglez = limb direction z(1,numberoflimbs)
+
+endif
+
+rem Deactivate backdrop
+backdrop off
+
+rem Scroll through object limbs
+for l=0 to numberoflimbs
+
+rem Clear the screen
+cls
+
+rem Show each limb as it is viewed
+show limb 1,l
+
+rem Print information about object
+print "Limb Information"
+print "----------------"
+print
+print "Limb Number:";l
+print
+if limb exist(1, l)=1
+	print "limb offset x = ";limb offset x(1, l)
+	print "limb offset y = ";limb offset y(1, l)
+	print "limb offset z = ";limb offset z(1, l)
+	print "limb angle x = ";limb angle x(1, l)
+	print "limb angle y = ";limb angle y(1, l)
+	print "limb angle z = ";limb angle z(1, l)
+	print "limb position x = ";limb position x(1, l)
+	print "limb position y = ";limb position y(1, l)
+	print "limb position z = ";limb position z(1, l)
+	print "limb texture = ";limb texture(1, l)
+	print "limb visible = ";limb visible(1, l)
+endif
+
+rem Wait for key press
+print
+print "Prss Any Key"
+suspend for key
+
+Rem Complete next loop
+next l
+
+rem Delete your object
+delete object 1
+
+rem End the program
+end

@@ -1,0 +1,16 @@
+<HTML><BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED"><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">
+CALL DLL
+
+<BR><FONT COLOR="White"><FONT SIZE="4">
+This command will call a function of a loaded DLL. The DLL Number must be an integer value between 1 and 256. The DLL Number points to the DLL previously loaded. The Function String is the name of the function described in the export table of the DLL. You can optionally have upto 9 parameters of integer, real or string type providing the function you are calling matches the parameters exactly. You can optionally return a value of integer, real or string type providing the function exports the same type.
+
+<BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">SYNTAX<BR><FONT COLOR="White"><FONT SIZE="4">
+CALL DLL DLL Number, Function String, [Params]
+Return Data = CALL DLL(DLL Number, Function String, [Params])
+
+<BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">RELATED INFO<BR><FONT COLOR="White"><FONT SIZE="4">
+<a href="system.htm">System Commands</a>
+
+<BR><a href="glossary.htm">Glossary</a><BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">EXAMPLE<BR><FONT COLOR="White"><FONT SIZE="4">
+<a href="examples\system\exam08.dba">DLL Access</a><br>
+<BR><BR></FONT></BODY></HTML>

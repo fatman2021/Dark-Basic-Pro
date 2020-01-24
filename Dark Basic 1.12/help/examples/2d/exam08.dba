@@ -1,0 +1,62 @@
+Rem * Title  : Using RGB values
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ==========================================
+rem This program will use a rgb command
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),0
+
+rem The rgb command allows you to make any color you whant
+rem the maximum value you casn use is 255
+rem the color is split up into red green blue parts
+for t=0 to 100
+
+	rem Get a random ink color
+
+	rem the red part of the color
+	myred=rnd(255)
+
+	rem the green part of the color
+	mygreen=rnd(255)
+
+	rem the blue part of the color
+	myblue=rnd(255)
+
+	ink rgb(myred,mygreen,myblue),1
+	
+	rem where on screen to draw a box
+
+	rem Start of box
+	left=rnd(640)
+	top=rnd(480)
+
+	rem End of box 
+	right=left+50
+	bottom=top+50
+
+	rem Draw a box
+	box left,top,right,bottom
+
+next t
+
+rem Determine color of top/left pixel
+colorvalue=point(0,0)
+red=rgbr(colorvalue)
+green=rgbg(colorvalue)
+blue=rgbb(colorvalue)
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),rgb(red,green,blue)
+
+rem Print a message on screen
+text 200,240,"press the spacebar to quit"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

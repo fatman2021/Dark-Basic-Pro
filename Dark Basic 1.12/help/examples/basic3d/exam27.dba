@@ -1,0 +1,57 @@
+Rem * Title  : Restoring Textures
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 27
+rem ==========================================
+rem This program shows use of restoring textures
+rem ------------------------------------------
+hide mouse : sync on : sync rate 60
+
+rem Load an object
+load object "idle.x",1
+
+rem Load a texture for sphere
+load image "skin.bmp",1
+texture object 1,1
+backdrop off
+
+rem Paste images to screen
+for t=0 to 99
+	if image exist(1)=1 then paste image 1,rnd(600)-100,rnd(500)-100
+next t
+
+rem Move camera back
+position camera 0,100,-300
+point camera 0,100,0
+
+rem Main loop
+do
+
+	rem User prompt
+	set cursor 0,0
+	print "Switch out using ALT+TAB and Return"
+
+	rem Detect switch taken place
+	if screen invalid()=1
+
+		rem Restore 2D Screen
+		for t=0 to 99
+			if image exist(1)=1 then paste image 1,rnd(600)-100,rnd(500)-100
+		next t
+
+		rem List all Textures in Object
+		perform checklist for object limbs 1
+		print "Number of Limbs:";checklist quantity()
+		for t=1 to checklist quantity()
+			print t;". ";limb texture name$(1,t) 
+		next t
+
+	endif
+
+	rem Update screen
+	sync
+
+rem End loop
+loop
+

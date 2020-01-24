@@ -1,0 +1,17 @@
+Rem * Title  : Simple Input
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program will demonstrate simple input
+rem ------------------------------------------
+
+rem Ask the user for their name
+input "enter your name>";name$
+
+rem Respond to user
+print "hello ";name$
+
+rem End the program
+end

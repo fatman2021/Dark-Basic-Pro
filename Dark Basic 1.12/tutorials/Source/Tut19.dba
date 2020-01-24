@@ -1,0 +1,187 @@
+Rem * Title  : Gosub
+Rem Setup sync
+Sync On
+Sync Rate 30
+
+Backdrop on
+Set camera range 1,5000
+Autocam off
+
+Fog on
+Fog distance 4000
+Fog color RGB(128,128,128)
+Color Backdrop RGB(128,128,128)
+
+Rem make matrix
+Make matrix 1,10000,10000,20,20
+
+Rem texture matrix
+Load image "grass09.bmp",1
+Prepare matrix texture 1,1,1,1
+Fill matrix 1,0,1
+
+rem Make Gun
+Make object cylinder 1,2
+XRotate Object 1,90
+Fix object pivot 1 
+Scale object 1,100,100,500
+position object 1,0,-7,15
+Lock object on 1
+
+rem Make Bullet
+Make Object Sphere 2,2
+Hide Object 2
+
+rem load particles
+Load Image "fire.bmp",2
+For x  = 0 to 10
+	Make object plain x+10,5,5
+	Texture object x+10,2
+	Set object x+10,1,0,0	
+	Ghost object on x+10
+`	Hide object x+10
+Next x
+rem intialize particle counter
+Pn=10
+
+rem load sounds
+Load sound "crickets.wav",1
+Loop sound 1
+
+Load 3Dsound "fireball2.wav",2
+
+rem Randomize the matrix
+randomize matrix 1,125
+X#=5000
+Z#=5000
+
+Rem Load Target
+Load object "idle.x",3
+mX#=5000
+mY#= Get Ground Height(1,5000,5500)-1
+mZ#=5500
+Position Object 3,5000,mY#,5500
+Loop Object 3
+
+Rem Main loop
+Do
+	set cursor 0,0
+	print screen fps()
+	oldcAY# = cAY#
+	oldcAX# = cAX#
+	
+	cAY# = WrapValue(cAY#+MousemoveX()*0.2)
+	cAX# = WrapValue(cAX#+MousemoveY()*0.2)
+	caZ# = Camera angle Z()
+
+	Rem  Control input for camera
+	If Upkey()=1
+		XTest# = Newxvalue(X#,cAY#,5)
+		ZTest# = Newzvalue(Z#,cAY#,5)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+
+	If Downkey()=1
+		XTest# = Newxvalue(X#,Wrapvalue(cAY#-180),5)
+		ZTest# = Newzvalue(Z#,Wrapvalue(cAY#-180),5)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+
+	If Leftkey()=1 
+		XTest# = Newxvalue(X#,Wrapvalue(cAY#-90),5)
+		ZTest# = Newzvalue(Z#,Wrapvalue(cAY#-90),5)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+
+	If Rightkey()=1 	
+		XTest# = Newxvalue(X#,Wrapvalue(cAY#+90),10)
+		ZTest# = Newzvalue(Z#,Wrapvalue(cAY#+90),10)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+	
+	Rem Rotate camera
+	cTestX#=WrapValue(cAX#-180)
+	if cTestX# > 225 then cAX#=45
+	if cTestX# < 135 then cAX#=315
+
+	YRotate camera CurveAngle(cAY#,oldcAY#,24)
+	XRotate camera CurveAngle(cAX#,oldcAX#,24)
+
+
+	Rem Position Camera
+	Y# = Get ground height(1,X#,Z#)+35
+	Position Camera X#,Y#,Z#
+
+	Rem Position Listener
+	Position Listener X#,Y#,Z#
+	Rotate Listener 0,cAY#,0		
+
+	Rem Shoot bullet	
+	if Mouseclick()=1 
+		if BulletLife=0 or BulletLife>100
+			Position object 2,X#,Y#-7,Z#
+			Set object to camera orientation 2
+			BulletLife =500
+			show object 2
+			for x=10 to 20
+				show object x
+			next x
+			Loop sound 2
+		Endif
+	Endif
+	
+	If BulletLife > 0 then Gosub ShootBullet
+	
+	Rem Refresh Screen
+	Sync
+Loop
+
+ShootBullet:
+		Dec BulletLife
+		Move object 2,10
+
+		bX#=Object position X(2)
+		bY#=Object position Y(2)
+		bZ#=Object position Z(2)		
+
+		inc Pn
+		if Pn=21 then Pn=10
+		Scale object Pn,100,100,100
+		Position object Pn,bX#,bY#,bZ#
+		point object Pn,X#,Y#,Z#
+		Zrotate object Pn,rnd(180)
+		for x = 1 to 10
+			scale object int((Wrapvalue((Pn-9+x)*36))/36)+10,100+x*25,100+x*25,100+x*25
+		set cursor 10,10
+		next x
+		
+		if bY# < Get Ground height(1,bX#,bZ#) then BulletLife=0
+		Position sound 2,bX#,bY#,bZ#
+		set cursor 10,10
+		if Sqrt((mX# - bX#)^2 + (mY#+25 - bY#)^2 + (mZ# - bZ#)^2) <20
+			print "hit hit hit hit hit hit hit hit"
+			BulletLife = 0
+		endif
+		if BulletLife = 0 
+			Hide object 2
+			stop sound 2
+			for x=10 to 20
+				hide object x
+			next x
+			Explode = 20
+		endif
+Return	
+
+

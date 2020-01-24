@@ -1,0 +1,34 @@
+Rem * Title  : Character Sets
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 10
+rem ==========================================
+rem This program will use Character Sets
+rem ------------------------------------------
+	
+rem Normal English Fonts using PRINT
+print "READY"
+
+rem Normal French Fonts using PRINT
+print "PRET"
+
+rem Normal English Fonts using CENTER TEXT
+center text 320,132,"READY"
+
+rem Normal French Fonts using CENTER TEXT
+center text 320,152,"PRET"
+
+rem Using character sets, you can do more...
+
+rem Switch to Arial Russian Character Set [204]
+set text font "Arial",204
+set text size 20
+
+rem Russian Fonts using PRINT
+print "√Œ“Œ¬"
+
+rem Russian Fonts using CENTER TEXT
+center text 320,172,"√Œ“Œ¬"
+
+

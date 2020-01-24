@@ -1,0 +1,33 @@
+Rem * Title  : String Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ========================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ========================================
+rem This program will use string command
+rem ----------------------------------------
+	
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Pick a new font
+rem the new font will work with all text command but not the print command
+	
+rem This is the font i want to use
+set text font "times new roman"
+	
+rem Set the size of the new font  
+set text size 32
+
+print "IF YOU WANT TO FIND THE SIZE OF STRING IN PIXEL"
+print "USE THE TEXT WIDTH AND TEXT HEIGHT COMMANDS"
+print 
+print "THIS STRING IS ",text width("THIS STRING IS ")," PIXEL WIDE" 
+print "THIS STRING IS ",text height("THIS STRING IS ")," PIXEL HIGH"
+print 
+	
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

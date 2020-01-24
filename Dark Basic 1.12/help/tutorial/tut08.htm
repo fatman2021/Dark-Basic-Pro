@@ -1,0 +1,79 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL EIGHT<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+WALKING SPRITE<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to demonstrate how to take a bitmap animation sequence and extract the images to provide a sprite with animation. The sprite will automatically run across the screen, using the animation sequence extracted from the bitmap.<br>
+<br>
+This tutorial program can be loaded directly into the editor by clicking
+<a href="tutorial\programs\sample08.dba">SAMPLE08.DBA</a>.<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+rem Load character into hidden bitmap<br>
+LOAD BITMAP "runner.bmp",1<br>
+<br>
+rem Grab images for character animation<br>
+FOR y=0 to 1<br>
+FOR x=0 TO 6<br>
+GET IMAGE 1+x+(y*7),(x*89),(y*120),(x*89)+89,(y*120)+120<br>
+NEXT x<br>
+NEXT y<br>
+<br>
+rem Delete character bitmap<br>
+DELETE BITMAP 1<br>
+<br>
+rem Set player variables<br>
+xpos=0<br>
+ypos=300<br>
+image=1<br>
+<br>
+rem Activate manual syncronization<br>
+SYNC ON<br>
+<br>
+rem Begin Loop<br>
+DO<br>
+<br>
+rem Run right and wrap<br>
+xpos=xpos+6 : IF xpos>640 THEN xpos=-64<br>
+<br>
+Rem Animate runner and wrap<br>
+image=image+1 : IF image>12 THEN image=2<br>
+<br>
+rem Update sprite<br>
+SPRITE 1,xpos,ypos,image<br>
+<br>
+rem Refresh screen now<br>
+SYNC : SLEEP 20<br>
+<br>
+rem End Loop<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The first part of the program loads the bitmap animation sequence into bitmap 1. Bitmap numbers 1 through 32 are offscreen bitmaps and are not visible. A bitmap animation sequence is a normal bitmap file with a grid of single images side by side that provide the effect of animation when displayed in sequence. A FOR NEXT loop is used to extract images from the bitmap. The bitmap is then deleted as the images are now safely stored in memory.<br>
+<br>
+The second part of the program sets values to our variables and prepares to enter the main loop. The SYNC ON command informs the system that the program will take responsibility for refreshing the screen. We do this to ensure the screen refresh rate is smooth and controlled. Leaving this out would cause the program to run so fast you would hardly see the sprite at all!<br>
+<br>
+The main loop begins with the increment of two variables. Both are given maximum values, beyond which the variable will wrap around. The SPRITE command displays sprite 1 at the latest coordinate and image value. The XPOS variable makes sure the sprite is continually moving across the screen. The IMAGE variable keeps changing the image value to make the sprite animate from frame to frame.<br>
+<br>
+The last part of the loop synchronizes the refresh of the screen and forces a small delay to prevent the sprite from moving too fast.<br>
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to position the character nearer the top of the screen<br>
+2. Change the program to make the sprite move faster<br>
+3. Change the program to make the animation slower without slowing down movement<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut09.htm">TUTORIAL NINE</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

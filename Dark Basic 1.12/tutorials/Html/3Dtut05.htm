@@ -1,0 +1,150 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Staton Richardson">
+   <meta name="Description" content="To explain how to impliment collision.">
+   <title>Collision Detection</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 1. The Basics</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>5.
+Collision detection</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:&nbsp;
+To explain how to implement collision&nbsp; detection.</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Setup sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync Rate 30</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Make Cubes and place randomly</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For x = 1 to 5</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Make object cube x,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position object x,Rnd(2000),0,Rnd(2000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set object collision to boxes x</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Next x</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Make sphere</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Make object sphere 10,50</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position object 10,-100,0,-100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set object collision to spheres 10</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<br><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem&nbsp; Store Object angle Y in aY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+aY# = Object angle Y(10)</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem&nbsp; Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Upkey()=1 then Move object 10,10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Leftkey()=1 then Yrotate object 10,Wrapvalue(aY#-5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Rightkey()=1 then Yrotate object 10,Wrapvalue(aY#+5)</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Detect collision</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Object collision(10,0)>0 then position object 10,X#,0,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem get player object position and store in X# and Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+X# = Object position x(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Z# = Object position z(10)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem get new camera position and store in cZ# and cX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cZ# = Newzvalue(Z#,aY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cX# = Newxvalue(X#,aY#-180,100)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem position camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position Camera cX#,75,cZ#</font></font></font>
+<p><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font face="Courier New,Courier"><font color="#FFFF99">Rem point the camera
+at the player object</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Point camera X#,25,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFF99">Rem Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+show you how to use DarkBASIC's collision detection commands. We have added
+collision detection to the code from the previous tutorial.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set object collision to boxes x</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>In
+our loop where we create and randomly place our cube objects, we have inserted
+the "Set Object Collision To Boxes" command. This command sets the type
+of collision detection for the object to a box shape, which is the same
+as the shape we are creating. We are using the loops "x" variable to pass
+the object number to the command.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set object collision to spheres 10</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>This
+line implements collision much like the previous collision command, except
+"Set Object Collision To Spheres" sets our player object to a collision
+type of spheres. This collision type is the same shape as our player object.
+The type of collision you give an object is up to you, but try to use a
+collision type that works best for what you are trying to accomplish in
+your program.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Object collision(10,0)>0 then position object 10,X#,0,Z#</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>This
+line of code is where all the collision detection is performed. In this
+line, if our player object collides with one of the other objects, the
+X# and Z# variables are used to reposition the player object where it was
+before it collided. Notice, we put this line after we move the player object
+and before we store the values of the new position in our variables. By
+doing this we can always ensure our X# and Z# values are never in a position
+where the player object can collide with another object. The "Object Collision"
+command is used to check for collision. The first value in the command's
+parenthesis is the number of the first object on which&nbsp; we wish to
+detect a collision event. The second number is the number of the second
+object on which we wish to detect a collision event with the first object.
+We use a value of 0 to instruct DarkBASIC that we wish to check for collision
+against any other object in the scene. By setting it to 0 it will return
+the value of the object, that object number 10 collides with. This command
+returns a value of 0 if no collision event is detected. If the value is
+greater than 0, a collision event is detected and we position the object
+where it was before it collided.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+other type of collision is polygon. This is the type of collision you should
+use if you are&nbsp; colliding with a large object such as a model of a
+building you build in a 3D modeling application. You should now be familiar
+with the commands that allow you to implement DarkBASIC's collision detection.
+Try some of these changes to the code to further your understanding.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the second number in the "Object Collision" command to 3. Move
+around in the 3d world and see if you can find the number 3 object by colliding
+with the cubes.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the object collision for the cubes to sphere collision to see
+how it changes your collision with the cubes.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the sphere collision of the player object to boxes to see what
+changes it makes in your collision.</font></font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

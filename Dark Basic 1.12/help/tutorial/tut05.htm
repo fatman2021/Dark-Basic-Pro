@@ -1,0 +1,83 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL FIVE<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+STOCK MARKET ARRAYS<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to demonstrate the use of arrays to read and write data in an organized manner. When programs reach a certain size, the storage and organized retrieval of data is very important. When you lose control of your data, you lose control of your program.<br>
+<br>
+Step 1 : Creating the stock market database<br>
+<br>
+In order to store large amounts of data, you must first create an array to store it in. Arrays can be thought of a vaults of data, with a box for each piece of data. You can have as many boxes as you want, and each box can have its own set of boxes. As an example, we shall write a program that controls the stock of five companies. Each company requires a stock price and a stock quantity. We will need at least 5 boxes, and in each box we will need a place to store 2 pieces of data:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+DIM companies(5,2)<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+Step 2 : Filling the database<br>
+<br>
+We must fill the array with data before we can start trading:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+companies(1,1)=90 : companies(1,2)=200<br>
+companies(2,1)=70 : companies(2,2)=1000<br>
+companies(3,1)=60 : companies(3,2)=2000<br>
+companies(4,1)=20 : companies(4,2)=1500<br>
+companies(5,1)=15 : companies(5,2)=300<br>
+
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+Step 3 : Reading the database<br>
+<br>
+Once we have stored this data, we are able to read it back a number of ways. The most common way is to use a variable that holds the value of the company we are interested in. We can print out the data for all five companies using a variable. Add these lines of code:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+CLS<br>
+FOR c=1 TO 5<br>
+PRINT "#";c;" Price ";companies(c,1);"  Quantity ";companies(c,2)<br>
+NEXT c<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+This demonstrates the practicality of using arrays. You are able to store data values that belong together, and by changing the index variable, you can jump to new records with the same pattern of data. This understanding will allow you to organize your data to make your programs easier to read and manipulate.<br>
+<br>
+Step 4 : Writing to the database<br>
+<br>
+Writing to the array is the same as before. The only difference in the following lines of code is the use of an index variable instead of a numerical value. The following code will ask the user to enter a company number and a new price and quantity value:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+INPUT "Enter a company number(1-5)>";index<br>
+PRINT "Company #";index;" Change Request"<br>
+PRINT<br>
+INPUT "Enter new Price>";price<br>
+INPUT "Enter new Quantity>;quantity<br>
+companies(index,1)=price<br>
+companies(index,2)=quantity<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+You can view the results of this change by making your program loop back to the top and printing out the companies list again. Can you figure out how to use the DO and LOOP commands to accomplish this?<br>
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to loop and EXIT when the user enters zero for company number<br>
+2. Change the program randomly change the stock price in each company every cycle<br>
+3. Change the program to list the worth of each company (price * quantity)<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut06.htm">TUTORIAL SIX</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

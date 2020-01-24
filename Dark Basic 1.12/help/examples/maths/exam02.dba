@@ -1,0 +1,58 @@
+Rem * Title  : Maths Expressions
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem =========================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem =========================================
+rem This program will use some maths command
+rem -----------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+print 
+rem the sqrt() command
+print "THE SQUARE ROOT OF 25 IS ",sqrt(25)
+print
+rem the abs() command
+print "THE POSITIVE NUMBER OF -100.0 IS ",abs(-100.0)
+print
+rem the acos() command
+print "THE ARC COSINE OF 1.0 IS ",acos(1.0)
+print
+rem the asin() command
+print "THE ARC SIN OF 1.0 IS ",asin(1.0)
+print
+rem the atan() command
+print "THE ARC TANGENT OF 1.0 IS ",atan(1.0)
+print
+rem the cos() command
+print "THE COSINE OF 100 IS ",cos(100)
+print
+rem the exp() command
+print "THE EXPONENT OF THE VALUE 5 IS ",exp(5)
+print
+rem the hcos() command
+print "THE HYPERBOLIC COSINE OF 1.0 IS ",hcos(1.0)
+print
+rem the hsin() command
+print "THE HYPERBOLIC SINE OF 1.0 IS ",hsin(1.0)
+print
+rem the htan() command
+print "THE HYPERBOLIC TANGENT OF 1.0 IS ",htan(1.0)
+print
+rem the int() command
+print "THE INT OF 123.4 IS ",int(123.4)
+print
+rem the tan() command
+print "THE TANGENT OF 45 IS ",tan(45.0)
+print
+rem the sin() command
+print "THE SINE OF 90.0 IS ",sin(90.0)
+print
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

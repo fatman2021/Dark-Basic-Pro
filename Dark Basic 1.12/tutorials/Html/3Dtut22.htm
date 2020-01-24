@@ -1,0 +1,134 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>11.
+How to score</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to score a the game</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+show you how to keep track of the player and monster score as well as move
+the monster or player to a new position when they are hit with a bullet.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Gosub
+PlaceMonster</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Gosub
+PlacePlayer</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>We've placed these two "Gosub"
+commands before our main loop. These two subroutines place the player and
+monster at random positions on the matrix.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>PlaceMonster:</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+mX#=X#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+mZ#=Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+mY#=Y#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+While Sqrt((X# - MX#)^2 + (Y#+25 - MY#)^2 + (Z# - MZ#)^2)&lt;1600</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mX#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mZ#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mY#= get ground height(1,mX#,mZ#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+EndWhile</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Position object 3,mX#,mY#,mZ#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Return</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "PlaceMonster" subroutine
+places the monster on the matrix at a random location. This subroutine
+initialy sets the location of the monster to the players position, then
+checks to make sure the monster is out of range of the player. Positioning
+the player and the monster at the same coordinates, ensures a random location
+is generated. In the code of this subroutine we use a "While" Loop to make
+sure the monster is positioned in an acceptable location. As long as the
+distance between the monster and the player is less than 1600, the loop
+will repeat. We are using the distance formula, from the math collision
+tutorial, to check the distance between the monster and the player. If
+the distance is less than 1600 then the code in the loop is executed. A
+random position is generated and stored in the monster position variables.
+When the distance between the two positions is greater than 1600 then the
+loop exits and the monster is positioned at the new location.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>PlacePlayer:</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+While Sqrt((X# - mX#)^2 + (Y#+25 - mY#)^2 + (Z# - mZ#)^2)&lt;1000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+X#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Z#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Y#= get ground height(1,X#,Z#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+EndWhile</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Position camera X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Return</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "PlacePlayer" subroutine
+is the same as the "PlaceMonster" subroutine. The difference here is that
+we place the player instead of the monster. We also point the camera in
+the direction of the monster to make the monster easier to find.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;set
+cursor 550,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;print
+"MScore: ",MonsterScore</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;set
+cursor 550,40</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;print
+"PScore: ",PlayerScore</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code is placed inside
+the main loop. We are using the set cursor command to place the text on
+the right hand side of the screen. At the cursor position we print the
+words "MScore" and "PScore" to represent the monster score and the player
+score. After those two we print the values of the "MonsterScore" and "PlayerScore"
+variables.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;if
+Sqrt((mX# - bX#)^2 + (mY#+25 - bY#)^2 + (mZ# - bZ#)^2) &lt;20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Gosub PlaceMonster</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+inc PlayerScore</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+MonsterBulletLife = 1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+BulletLife=0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This collection of code is
+from the "ShootBullet" subroutine. This is the part of the subroutine that
+checks to see if the monster has been hit. We've inserted two lines of
+code into this "If" comparison. When the Monster is hit we call the "PlaceMonster"
+subroutine to place the monster at a new location. The next thing we do
+is to increment the "PlayerScore" variable using the "Inc" command.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Pdist=Sqrt((X#
+- MbX#)^2 + (Y#+25 - MbY#)^2 + (Z# - MbZ#)^2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if&nbsp; Pdist&lt;50</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+GoSub PlacePlayer</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+MonsterBulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+inc MonsterScore</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This collection of code is
+from the "MonsterShootBullet" subroutine. Like the previous section of
+code this segment checks to see if the player is hit. If the player is
+hit The "PlacePlayer" subroutine is called to place the player at a new
+location. We then increment the monster score using the "Inc" command and
+return to the "Monster shoot bullet" subroutine.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

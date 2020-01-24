@@ -1,0 +1,33 @@
+Rem * Title  : Clone and Play Sounds
+Rem * Author : DBS-LB
+Rem * Date   : 1st January 2000
+rem ================================================
+rem DARK BASIC EXAMPLE PROGRAM 9
+rem ================================================
+rem This program will clone and play a wav sound file 
+rem ------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a wav sound file into number one
+load sound "sound.wav",1
+clone sound 2,1
+
+rem Play sound number
+play sound 1
+play sound 2
+
+rem Will wait for you to press any key
+suspend for key
+
+rem Stop sound
+stop sound 1
+stop sound 2
+
+rem Delete sound
+delete sound 1
+delete sound 2
+
+rem End the program
+end

@@ -1,0 +1,65 @@
+Rem * Title  : ARRAY Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 10
+rem ===========================================================
+rem This program will show you how to use the dim command
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+rem Reserve room for 10 numbers
+dim a(10)
+
+rem Reserve room for 10 string max size 255 chars
+dim a$(10)
+
+rem Read 10 number into the array
+for t=1 to 10	
+	read a(t)
+next t
+
+rem Read 10 string into the array
+for t=1 to 10
+	read a$(t)
+next t
+
+rem Print out 10 number and 10 strings
+for t=1 to 10
+	print a(t);
+	print a$(t)
+next t
+
+rem Now we will save the array
+print "saving array"
+save array "test",a(0)
+
+rem Now we will load the array back
+print "load array"
+load array "test",a(0)
+
+rem Wait for key
+print "please press spacekey"
+suspend for key
+
+rem Print out 10 number and 10 strings again
+cls
+for t=1 to 10
+	print a(t);
+	print a$(t)
+next t
+
+rem Free memory use by a(10)
+undim a(10)
+
+rem Free memory use by a$(10)
+undim a$(10)		
+
+rem End of program
+end
+
+data 1,2,3,4,5,6,7,8,9,10
+data "a","b","c","d","e","f","g","h","i","j"
+

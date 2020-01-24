@@ -1,0 +1,42 @@
+Rem * Title  : Fogging Effect
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ==========================================
+rem This program creates the effect of fogging
+rem ------------------------------------------
+
+rem placing SYNC ON here prevent the user seeing the object
+rem before you are ready to display it (with the SYNC command)
+sync on
+
+rem Load your object
+load object "walk.x",1
+color backdrop 0
+
+rem Create fog (if supported)
+fog on
+fog color 0
+fog distance 1000
+
+rem Cast dark ambience with a touch of green
+set ambient light 25
+color ambient light rgb(0,255,0)
+
+rem Begin main loop
+while mouseclick()=0
+
+rem Position the object to circle in and out of the fog
+a#=wrapvalue(a#+2.0)
+yrotate object 1,a#
+position object 1,sin(a#)*100.0,0.0,(cos(a#)*500.0)+250.0
+
+rem Update Screen
+sync
+
+rem End main loop
+endwhile
+
+rem Deactivate fog
+fog off

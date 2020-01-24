@@ -1,0 +1,58 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL SIX<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+PHOTO COPIER<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to demonstrate how to load a bitmap onto the screen and manipulate the image. The program loads the picture then grabs four equal segments from it, storing the images in memory. The images are then pasted back onto the screen clockwise. By repeating this action, the segments will appear to be rotating around the screen in a clockwise direction.<br>
+<br>
+This tutorial program can be loaded directly into the editor by clicking
+<a href="tutorial\programs\sample06.dba">SAMPLE06.DBA</a>.<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+rem Load a bitmap onto the screen<br>
+LOAD BITMAP "sample.bmp"<br>
+<br>
+rem Begin loop<br>
+DO<br>
+<br>
+rem Grab all four quarters of the screen<br>
+GET IMAGE 1,0,0,320,240<br>
+GET IMAGE 2,320,0,640,240<br>
+GET IMAGE 3,320,240,640,480<br>
+GET IMAGE 4,0,240,320,480<br>
+<br>
+rem Paste in their neighbors quarter<br>
+PASTE IMAGE 1,320,0<br>
+PASTE IMAGE 2,320,240<br>
+PASTE IMAGE 3,0,240<br>
+PASTE IMAGE 4,0,0<br>
+<br>
+rem Small delay<br>
+SLEEP 100<br>
+<br>
+rem End loop<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The LOAD BITMAP command takes the filename of a media file in the BMP file format. The media file has to be in the same directory as the program. When the GET IMAGE command is used, it copies the specified area from the screen and stores it in memory. This image can then be pasted to any location. The SLEEP command works in units of 1000 per second, and is used to momentarily pause the program.<br>
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to slow down the rate of clockwise rotation<br>
+2. Change the program to make the segments rotate anti-clockwise<br>
+3. Change the program to divide the picture up into smaller tiles when rotating<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut07.htm">TUTORIAL SEVEN</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

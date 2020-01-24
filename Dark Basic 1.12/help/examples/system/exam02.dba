@@ -1,0 +1,78 @@
+Rem * Title  : Set Emulation Mode
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ===========================================
+rem This program will set software or hardware
+rem -------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem What graphic card is dark baisc using 
+print "THE CURRENT GRAPHICS CARD IS CALLED ",current graphics card$()
+
+rem This command will set dark basic not to use any 3d hardware
+print "SETING DARK BASIC TO USE 3D HARDWARE" 
+set emulation on
+draw to back
+
+rem Pick a random pen color
+ink rgb(rnd(255),rnd(255),rnd(255)),1
+
+make object cube 1,200.0 : sync on : backdrop off
+repeat
+
+	cls
+	if emulation mode()=0
+		print "USING 3D HARDWARE ACCELERATION"
+	else
+		print "USING 3D SOFTWARE EMULATION"
+	endif
+	print "PLEASE PRESS LEFT MOUSE BUTTON"
+
+	rem Spin 3D Cube
+	r#=wrapvalue(r#+4.0)
+	rotate object 1,r#,r#,0
+
+	rem Update screen
+	sync
+
+until mouseclick()=1
+delete object 1 : sync off
+
+rem Clear the screen
+cls 
+
+rem This command will set dark basic to use any 3d hardware 
+print "SET DARK BASIC TO NOT USE ANY 3D HARDWARE" 
+set emulation off
+
+rem Pick a random pen color
+ink rgb(rnd(255),rnd(255),rnd(255)),1
+
+make object cube 1,200.0 : sync on
+repeat
+
+	cls
+	if emulation mode()=0
+		print "USING 3D HARDWARE ACCELERATION"
+	else
+		print "USING 3D SOFTWARE EMULATION"
+	endif
+	print "PLEASE PRESS LEFT MOUSE BUTTON"
+
+	rem Spin 3D Cube
+	r#=wrapvalue(r#+4.0)
+	rotate object 1,r#,r#,0
+
+	rem Update screen
+	sync
+
+until mouseclick()=1
+delete object 1 : sync off
+
+rem End the program
+end
+

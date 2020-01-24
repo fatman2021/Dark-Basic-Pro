@@ -1,0 +1,33 @@
+Rem * Title  : Scroll Texture
+Rem * Author : DBS-LB
+Rem * Date   : 1st April 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 17
+rem ==========================================
+rem This program scrolls an objects UV data
+rem ------------------------------------------
+
+rem Make new objects
+make object sphere 1,100
+make object cylinder 2,80
+
+rem Apply a texture
+load image "skin.bmp",1
+texture object 1,1
+texture object 2,1
+
+rem Shift the intial UV data
+scroll object texture 1,0.0,0.9
+
+rem Main loop
+do
+
+rem Scroll the texture via object
+scroll object texture 1,0.01,0.0
+
+rem Scroll the texture via limb
+scroll limb texture 2,0,0.0,0.01
+
+rem End of loop
+loop
+

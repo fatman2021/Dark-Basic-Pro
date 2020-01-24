@@ -1,0 +1,91 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>6.
+Math collision</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to implement simple math collision.</font></font></font>
+<p><font size=+1>In this tutorial we
+will use math collision to check collision between the bullet and the target.
+Math collision can be faster than normal collision since normal collision
+has to check more objects in a program. Using this simple math collision
+routine we can check to see how close our bullet is to the target. If the
+distance between the two is small enough we can determine they are close
+enough to say they have collided.</font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>If
+BulletLife > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Dec BulletLife</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Move object 2,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bX#=Object position X(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bY#=Object position Y(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bZ#=Object position Z(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position sound 2,bX#,bY#,bZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+set cursor 10,10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if Sqrt((mX# - bX#)^2 + (mY#+25 - bY#)^2 + (mZ# - bZ#)^2) &lt;20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+text 240,220 ,"hit hit hit hit hit hit hit hit"</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Hide object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+stop sound 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>We have added the following
+code to our bullet life section of the code.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Sqrt((mX# - bX#)^2 + (mY#+25 - bY#)^2 + (mZ# - bZ#)^2) &lt;20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+text 240,220 ,"hit hit hit hit hit hit hit hit"</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This comparison uses the
+math function "Sqrt" to calculate the distance between the two objects.
+If the distance is less than 20 then it prints an indication to the screen
+informing the player the target has been hit and ending the life of the
+bullet by setting the bullet life to 0. What the line of math collision
+code is doing is subtracting the X position of the target, which is stored
+in the mX# variable, from the X position of the bullet. The code then multiplies
+that number by itself through the use of the exponential operation " ^
+". This same operation is done to the Y coordinate and the Z coordinate.
+Notice, we have added 25 to the targets Y position, this is the position
+roughly in the middle of the target as it is standing. These numbers are
+added together and the square root is found for the value. The final value
+can be considered the distance between the two objects. You may wish to
+remember this code snippet if you ever need to know the distance between
+two points in your 3D world.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>If you are unfamiliar with
+square roots and exponentials you may wish to consult a math book to gain
+a complete understanding of how the distance is calculated. Knowing what
+the variables are and the value that is generated by the formula should give you enough information to use the code segment in your own programs.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

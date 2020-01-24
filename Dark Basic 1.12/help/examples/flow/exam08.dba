@@ -1,0 +1,24 @@
+Rem * Title  : SLEEP Command
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ===========================================================
+rem This program will show you how to use the sleep command
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+print "please type how long you what your computer to sleep for"
+print "in seconds"
+input a
+print "thank you"
+print "your computer will sleep for ",a," second"
+print "I`M GOING TO SLEEP NOW FOR ",a," SECONDS" 
+sleep (a*1000)
+print "I`M BACK NOW"
+
+rem End of program
+end
+

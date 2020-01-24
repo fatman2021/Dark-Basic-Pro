@@ -1,0 +1,40 @@
+Rem * Title  : Environmental Audio
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 12
+rem ===============================================
+rem This program handles Environmental Audio
+rem -----------------------------------------------
+
+rem Load sound
+load 3dsound "sound.wav",1
+
+rem Main loop
+while mouseclick()=0
+
+rem Clear screen
+cls 0
+
+rem Start effect loop
+for t=1 to 5
+
+rem Determine Effect
+if t=1 then effect=0 : t$="Normal"
+if t=2 then effect=1 : t$="Generic"
+if t=3 then effect=4 : t$="Bathroom"
+if t=4 then effect=23 : t$="Underwater"
+if t=5 then effect=26 : t$="Psychotic"
+
+rem Play sound with EAX effect
+print "Playing ";t$;" sound"
+set eax effect : loop sound 1
+
+rem Continue until hit key
+print "Press Any Key" : wait key
+
+rem Repeat
+next t
+
+rem End loop
+endwhile

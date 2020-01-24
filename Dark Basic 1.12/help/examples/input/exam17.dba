@@ -1,0 +1,36 @@
+Rem * Title  : File Expressions
+Rem * Author : DBS-LB
+Rem * Date   : 1st April 2000
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 17
+rem ============================================
+rem This program handles file expressions
+rem --------------------------------------------
+
+rem Count lines
+lines=0
+
+rem Read file to screen
+open to read 1,"exam17.dba"
+	if file open(1)=1
+		while file end(1)=0
+			read string 1,a$
+			print a$
+			inc lines
+			if lines>30 then cls : lines=0
+		endwhile
+	endif
+close file 1
+
+rem User prompt
+print "End of File"
+print
+print "File Size: ";file size("exam17.dba");" bytes"
+print
+print
+
+rem Wait for user keypress
+print "Press Any Key"
+suspend for key
+end
+

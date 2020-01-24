@@ -1,0 +1,74 @@
+Rem * Title  : GOSUB Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ===========================================================
+rem This program will show you how to use gosub command
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+startofprogram:
+
+rem Clear the screen
+cls
+
+print "PLEASE PRESS LEFT OR RIGHT MOUSE BUTTON"	
+
+rem Start of the main loop
+do
+
+	rem Check for left mouse button 
+	if mouseclick()=1
+		rem jump to label leftbutton
+		gosub leftbutton
+	endif
+	
+	rem Check for right mouse button
+	if mouseclick()=2 
+		rem jump to label rightbutton
+		gosub rightbutton
+	endif
+
+rem End of the main loop	
+loop
+
+
+rem this a label leftbutton
+leftbutton:
+
+print "YOU HAVE PRESSED THE LEFT MOUSE BUTTON"
+
+rem wait till no mouse button are pressed
+repeat:until mouseclick()=0
+
+rem clear the screen
+cls
+
+print "PLEASE PRESS LEFT OR RIGHT MOUSE BUTTON"	
+
+rem return will jump back to the next command 
+rem after gosub leftbutton
+return
+
+rem this is label rightbutton
+rightbutton:
+
+print "YOU HAVE PRESSED THE RIGHT MOUSE BUTTON"
+
+rem wait till no mouse button are pressed
+repeat:until mouseclick()=0
+
+rem clear the screen
+cls
+
+print "PLEASE PRESS LEFT OR RIGHT MOUSE BUTTON"	
+
+rem return will jump back to the next command 
+rem after gosub rightbutton
+return
+
+
+

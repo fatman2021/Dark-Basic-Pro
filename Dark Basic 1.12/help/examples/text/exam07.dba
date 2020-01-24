@@ -1,0 +1,49 @@
+Rem * Title  : See Through Text
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ============================================
+rem This program will use set text transparency
+rem --------------------------------------------
+	
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Pick a new font
+rem the new font will work with all text command but not the print command
+	
+rem This is the font i want to use
+set text font "times new roman"
+	
+rem Set the size of the new font  
+set text size 32
+
+print "THE CURRENT FONT NAME IS ",text font$()
+print
+print "THE SIZE OF A FONT LETTER CAN BE FOUND BY USEING THE TEXT SIZE COMMAND "
+print "THE CURRENT FONT PIXEL SIZE IS ",text size()," ACROSS AND ",text size()," DOWN"
+print
+print "TO FIND OUT IF THE CURRENT FONT IS SET TO PRINT TEXT ON SCREEN"
+print "WITH A TRANPARENT BACKGROUND USE THE TEXT BACKGROUND TYPE COMMAND"
+print "THE FONT BACKGROUND IS SET TO "
+
+if text background type()=0
+	print "TRANPARENT IS OFF"
+else
+	rem Text background type command must have retuned a 1
+	print "TRANPARENT IS ON"
+endif
+
+print
+print "THE CURRENT FONT STYLE IS SET TO "
+if text style()=0:print "NORMAL":endif
+if text style()=1:print "ITAILC":endif
+if text style()=2:print "BOLD":endif
+if text style()=3:print "BOLD ITALIC":endif
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

@@ -1,0 +1,71 @@
+Rem * Title  : Sprite Collision
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 9
+rem ===================================================
+rem This program will detect sprite collision
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a bitmap on to the screen
+load bitmap "face.bmp"
+
+rem Grab image 1 from bitmap
+get image 1,32,52,152,170
+
+rem Now we will make two sprites
+sprite 1,100,100,1 : mirror sprite 1
+sprite 2,300,200,1 : flip sprite 2 : scale sprite 2,200
+
+rem Activate manual sync
+sync on
+
+rem Press left mouse button to quit
+repeat
+
+	rem Clear screen
+	cls
+
+	rem Record old position
+	oldx=x
+	oldy=y
+
+	rem Control position with cursors
+	if upkey()=1 then y=y-3
+	if downkey()=1 then y=y+3
+	if leftkey()=1 then x=x-3
+	if rightkey()=1 then x=x+3
+
+	rem draw the sprite at the new position
+	sprite 1,x,y,1
+
+	rem Check for initial impact
+	if sprite hit(1,0)>0 then ink 0,rgb(255,255,255) else ink rgb(255,255,255),0
+
+	rem Check for collision and block new position
+	if sprite collision(1,0)>0
+		x=oldx
+		y=oldy
+		sprite 1,x,y,1
+	endif
+
+	rem Update screen
+	sync
+
+until mouseclick()=1
+
+rem Clear the screen
+cls 
+
+rem Remove sprites from memory
+delete sprite 1
+delete sprite 2
+
+rem Remove image 1 from memory
+delete image 1
+
+rem End the program
+end

@@ -1,0 +1,74 @@
+Rem * Title  : Switch Graphic Cards
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem ==========================================
+rem This program will switch graphics cards
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+rem Ask computer what graphics card are in the computer
+perform checklist for graphics cards
+
+for t=1 to checklist quantity()
+	rem print the name of any graphics card we have found
+	print t," ",checklist string$(t)
+next t
+print
+ 
+rem What graphic card is Dark Basic using 
+print "using ";current graphics card$()
+print
+
+rem Wait for any key
+print "Press Any Key"
+suspend for key
+
+rem Set to use the primary display drivers
+set graphics card checklist string$(1)
+
+repeat
+
+	rem Prompt
+	set cursor 0,0
+	print "SELECT PRIMARY DISPLAY DRIVER"
+	print "LEFT MOUSE BUTTON"
+
+	rem Pick a random pen color
+	ink rgb(rnd(255),rnd(255),rnd(255)),1
+
+	rem Draw a random circle on screen
+	circle rnd(640),rnd(480),rnd(90)+10
+
+until mouseclick()=1
+
+rem Clear screen
+cls
+
+if checklist quantity()>1
+
+	rem Set dark basic to use secondary display drivers
+	set graphics card checklist string$(2)
+
+	repeat
+
+		rem Prompt
+		set cursor 0,0
+		print "SELECT PRIMARY DISPLAY DRIVER"
+		print "LEFT MOUSE BUTTON"
+
+		rem Pick a random pen color
+		ink rgb(rnd(255),rnd(255),rnd(255)),1
+
+		rem Draw a random circle on screen
+		circle rnd(640),rnd(480),rnd(90)+10
+
+	until mouseclick()=1
+
+endif
+
+rem End the program
+end

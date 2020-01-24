@@ -1,0 +1,40 @@
+Rem * Title  : Setting Text Style
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ========================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ========================================
+rem This program will use the set text style 
+rem ----------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Set a new font
+rem the new font will work with all text command but not the print command
+set text font "times new roman"
+set text size 32
+
+rem Clear the screen
+cls
+		
+rem Were on screen text will be printed	
+textdown=90
+
+set text to normal
+text 0,90,"THIS TEXT STYLE IS NORMAL"
+
+set text to bold
+text 0,122,"THIS TEXT STYLE IS BOLD"
+
+set text to italic
+text 0,154,"THIS TEXT STYLE IS ITALIC"
+
+set text to bolditalic
+text 0,186,"THIS TEXT STYLE IS BOLD ITALIC"
+		
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

@@ -1,0 +1,61 @@
+Rem * Title  : Grabbing Images
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ===================================================
+rem This program will grab a image from a bitmap
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a bitmap on to the screen
+load bitmap "face.bmp"
+
+rem Load back ground to bitmap 1
+load bitmap "back.bmp",1
+
+rem Shen you load a bitmap that bitmap becomes the current bitmap
+rem where all drawing is done 
+
+rem Use this command to set drawing to the screen
+set current bitmap 0 
+
+rem Grab image 1 from bitmap
+get image 1,18,17,156,196
+
+rem Grab image 2 from bitmap
+get image 2,207,29,341,198
+
+rem Grab image 3 from bitmap
+get image 3,404,21,535,209
+	
+rem Copy background to screen
+copy bitmap 1,0
+
+screenwidth=640
+screenheight=480
+repeat
+
+	rem paste all the images at random places
+	paste image 1,rnd(screenwidth),rnd(screenheight)
+	paste image 2,rnd(screenwidth),rnd(screenheight)
+	paste image 3,rnd(screenwidth),rnd(screenheight)
+
+until mouseclick()=1
+
+rem Clear the screen
+cls 
+
+rem Remove image 1 from memory
+delete image 1
+
+rem Remove image 2 from memory
+delete image 2
+
+rem Remove image 3 from memory
+delete image 3
+
+rem End the program
+end

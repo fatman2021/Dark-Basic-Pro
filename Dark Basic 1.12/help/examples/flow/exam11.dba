@@ -1,0 +1,38 @@
+Rem * Title  : REMARK Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 11
+rem ===========================================================
+rem This program will show you how to use the rem command
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Put your comments about your program after the REM
+rem the computer will not compile any thing it finds on that line
+
+print "THE COMPUTER WILL PRINT THIS"
+print "AND THIS TOO"
+
+rem To block out more than one line use these commands
+
+rem Start of block  
+remstart
+
+print "TO BLOCK OUT PART OF YOUR PROGRAM USE REMSTART AND REMEND"
+print "THE COMPUTER WILL NOT SEE ANY OF THIS"
+print "try removing remstart and remend" 
+
+rem End of block
+remend	 
+
+print "AND THIS LINE"	
+	
+print "please press spacekey"
+suspend for key
+
+rem End of program
+end
+	

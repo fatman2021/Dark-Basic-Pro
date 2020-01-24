@@ -1,0 +1,56 @@
+Rem * Title  : Pausing Music
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem =======================================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem =======================================================
+rem This program will pause and resume playing a music file
+rem -------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem This command will load a midi music file into number one
+load music "music1.mid",1
+print "music file music1.mid loaded"
+
+rem Play the music that was loaded into number one
+play music 1
+
+print "please press the left mouse button to pause this music"
+rem wait till you press left mouse button
+repeat:until mouseclick()=1
+rem wait till you release the left mouse button
+repeat:until mouseclick()=0
+
+rem This command will pause the music number one
+pause music 1
+
+if music paused(1)=1:print "The music has been pause":endif
+
+print "please press the left mouse button to resume the music"
+rem wait till you press left mouse button
+repeat:until mouseclick()=1
+rem wait till you release the left mouse button
+repeat:until mouseclick()=0
+
+rem This command will resume playing the music
+resume music 1
+
+if music paused(1)=1
+	print "The music has been paused"
+else
+	print "The music has resumed playing"
+endif
+
+rem Will wait for you to press any key
+suspend for key
+
+rem Stop the music from playing
+stop music 1
+
+rem Delete music from memory and free the music number used
+delete music 1
+
+rem End the program
+end

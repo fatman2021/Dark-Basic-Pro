@@ -1,0 +1,37 @@
+Rem * Title  : Setting Text Size
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ========================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ========================================
+rem This program will use the set text size  
+rem ----------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Set a new font
+rem the new font will work with all text command but not the print command
+set text font "times new roman"
+
+for t =8 to 100 step 2
+
+	rem Clear the screen
+	cls
+		
+	rem Set the current font size
+	set text size t
+
+	text 0,10,"MY NEW TEXT SIZE"
+	text 0,(10+text size())+2,"FONT SIZE "+str$(text size())
+
+	rem This will delay the loop so that you can see the fonts
+	for a= 0 to 32000:next a 
+
+next t
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

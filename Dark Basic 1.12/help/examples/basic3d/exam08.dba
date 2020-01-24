@@ -1,0 +1,60 @@
+Rem * Title  : Backdrop Control
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ==========================================
+rem This program controls the 3D backdrop
+rem ------------------------------------------
+
+rem Create a simple image
+circle 64,64,54
+get image 1,0,0,128,128
+get image 2,64,64,128,128
+
+rem Load and animate your object (backdrop is auto-activated)
+load object "walk.x",1
+loop object 1,5,25
+
+rem Activate manual sync
+sync on
+
+rem Begin main loop
+while mouseclick()=0
+
+rem Inform user
+set cursor 0,0
+print "Press [1] or [2] to see backdrop effects!"
+
+rem Use number keys to reveal backdrop effects
+if inkey$()="1" then color backdrop rgb(255,0,0)
+if inkey$()="2" then texture backdrop 1
+if inkey$()="3" then texture backdrop 2
+
+rem Continually scroll backdrop to reveal itself when textured
+x=x+1
+y=y-1
+scroll backdrop x,y
+
+rem Position the object to circle in and out of the fog
+a#=wrapvalue(a#+2.0)
+yrotate object 1,a#
+position object 1,sin(a#)*100.0,0.0,(cos(a#)*500.0)+500.0
+
+rem Update Screen
+sync
+
+rem End main loop
+endwhile
+
+rem Switch off backdrop
+backdrop off
+
+rem Wait 1 second to see the result
+sleep 1000
+
+rem Now delete your object
+delete object 1
+
+rem End the program
+end

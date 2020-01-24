@@ -1,0 +1,20 @@
+Rem * Title  : Exit Prompt
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 09
+rem ===============================================
+rem This program handles Exit Prompt
+rem -----------------------------------------------
+
+rem When compiled as an executable, the message
+rem below will be prompted upon its termination.
+exit prompt "My Exit Prompt", "My Message to You"
+
+rem Waiting a little while
+print "Waiting 3 seconds..."
+sleep 3000
+
+rem End program
+end
+

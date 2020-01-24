@@ -1,0 +1,23 @@
+Rem * Title  : WAIT Command
+Rem * Author : DBS-MB
+Rem * Date   : 1st January 2000
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 15
+rem ===========================================================
+rem This program will show you how to use the wait command
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+print "please type how long you what your computer to wait for"
+print "in seconds"
+input a
+print "thank you"
+print "I`M GOING TO WAIT NOW FOR ",a," SECONDS" 
+wait (a*1000)
+print "I`M BACK NOW"
+
+rem End of program
+end
+

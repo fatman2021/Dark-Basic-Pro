@@ -1,0 +1,78 @@
+Rem * Title  : Amending Models
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem ===============================================
+rem This program adds to and amends your model data
+rem -----------------------------------------------
+
+rem Load your object
+load object "idle.x",1
+
+rem Add walk animation data to your object appending to frame 100
+append object "walk.x",1,100
+
+rem Reset model so character faces Y angle of zero 
+rotate object 1,0,180,0
+fix object pivot 1
+
+rem Rotate model to face right
+yrotate object 1,90
+
+rem Set the properties of your model to wireframe and unculled
+set object 1,0,1,0
+
+rem Alternatively, an extra flag can determine texture filtering
+set object 1,0,1,0,0
+
+rem Set new speed for your model
+set object speed 1,20
+
+rem Animate your object
+loop object 1
+
+rem Set object to interpolate to a new frame at a speed of 25%
+set object interpolation 1,25
+
+rem Activate manual sync
+sync on
+
+rem Begin main loop
+while mouseclick()=0
+
+rem If walk animation required, make sure can perform animation
+if animpause=0
+	animpause=4
+	if upkey()=1
+		if animstate=0
+			rem then slowly interpolate to the first walk frame
+			animstate=1 
+			stop object 1
+			set object frame 1,105
+		endif
+	else
+		if animstate=1
+			rem else slowly interpolate to the first idle frame
+			animstate=0
+			stop object 1
+			set object frame 1,0
+		endif
+	endif
+else
+	rem Count down until the interpolation has finished
+	animpause=animpause-1
+	if animpause=0
+		if animstate=0 then loop object 1,0,20
+		if animstate=1 then loop object 1,105,125
+	endif
+endif
+
+rem Syncronise
+sync
+
+rem End main loop
+endwhile
+
+rem End the program
+end

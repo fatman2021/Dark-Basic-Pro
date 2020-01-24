@@ -1,0 +1,107 @@
+Rem * Title  : Using Matrix Normals
+Rem * Author : DBS-LB
+Rem * Date   : 19th July 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 08
+rem ==========================================
+rem This program shows use of matrix normals
+rem ------------------------------------------
+hide mouse : autocam off : sync on
+
+rem Make a green matrix
+cls rgb(128,255,32)
+get image 1,0,0,32,32
+make matrix 1,500,1000,50,100
+prepare matrix texture 1,1,1,1
+
+rem Set matrix bumps
+for z=1 to 99
+	for x=0 to 49
+		height#=50.0-(sin((x*12))*50)
+		height#=height#+(50.0-(sin((z*12))*50))
+		height#=height#/2.0
+		set matrix height 1,x,z,height#
+	next x
+next z
+update matrix 1
+
+rem Use matrix normals to make it smooth
+for z=1 to 99
+	for x=1 to 49
+
+		rem Get matrix heights
+		h8#=get matrix height(1,x,z-1)
+		h4#=get matrix height(1,x-1,z)
+		h#=get matrix height(1,x,z)
+		h2#=get matrix height(1,x,z)
+
+		rem Calculate projected angle X using heights
+		x1#=(x-1)*25.0 : y1#=h#
+		x2#=(x+0)*25.0 : y2#=h4#
+		dx#=x2#-x1#
+		dy#=y2#-y1#
+		ax#=atanfull(dx#,dy#)
+		ax#=wrapvalue(90-ax#)
+
+		rem Calculate projected angle Z using heights
+		z1#=(z-1)*25.0 : y1#=h2#
+		z2#=(z+0)*25.0 : y2#=h8#
+		dz#=z2#-z1#
+		dy#=y2#-y1#
+		az#=atanfull(dz#,dy#)
+		az#=wrapvalue(90-az#)
+
+		rem Make normal from projected angle
+		nx#=sin(ax#)
+		ny#=cos(ax#)
+		nz#=sin(az#)
+
+		rem Setting matrix normal for smoothness
+		set matrix normal 1,x,z,nx#,ny#,nz#
+		
+	next x
+next z
+update matrix 1
+
+rem Place camera
+position camera 250,400,-150
+point camera 250,0,400
+
+rem Place light at camera
+set point light 0,250,100,200
+color light 0,rgb(255,255,0)
+set ambient light 0
+
+rem Make light marker
+make object sphere 1,10
+ox#=250 : oy#=200 : oz#=500
+
+rem Text setup
+set text size 36
+set text font "Arial"
+
+rem View loop
+do
+
+rem Prompt
+center text 320,5,"ULTRA SMOOTH MATRIX"
+center text 320,40,"THE COMMAND 'SET MATRIX NORMAL'"
+
+rem See wireframe
+if mouseclick()=1
+	set matrix wireframe on 1
+else
+	set matrix wireframe off 1
+endif
+
+rem Update light
+ox#=ox#+mousemovex()
+oz#=oz#-mousemovey()
+position object 1,ox#,oy#,oz#
+position light 0,ox#,oy#,oz#
+
+rem Update screen
+sync
+
+loop
+

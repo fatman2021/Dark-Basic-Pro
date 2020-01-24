@@ -1,0 +1,23 @@
+Rem * Title  : Copying a File
+Rem * Author : DBS-LB
+Rem * Date   : 1st January 2000
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 13
+rem ============================================
+rem This program copies an existing file to a new file
+rem --------------------------------------------
+
+rem Set filenames
+sourcefile$="exam13.dba"
+destfile$="newfile.txt"
+
+rem Copy an existing file to a new file
+if file exist(sourcefile$)=1
+	if file exist(destfile$)=0
+		copy file sourcefile$,destfile$
+		print "file copied."
+	else
+		print "file already exists."
+	endif
+endif
+

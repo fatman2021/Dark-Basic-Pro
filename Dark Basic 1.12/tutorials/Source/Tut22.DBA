@@ -1,0 +1,390 @@
+Rem * Title  : Scoring
+Rem Setup sync
+Sync On
+Sync Rate 30
+Draw to front
+Backdrop on
+Set camera range 1,3000
+Autocam off
+Hide mouse
+
+Fog on
+Fog distance 3000
+Fog color RGB(128,128,128)
+Color Backdrop RGB(128,128,128)
+
+Rem make matrix
+Make matrix 1,10000,10000,20,20
+
+Rem texture matrix
+Load image "grass09.bmp",1
+Prepare matrix texture 1,1,1,1
+Fill matrix 1,0,1
+
+rem Make Gun
+Make object cylinder 1,2
+XRotate Object 1,90
+Fix object pivot 1 
+Scale object 1,100,100,500
+position object 1,0,-7,15
+Lock object on 1
+
+rem fire texture
+Load Image "fire.bmp",2
+
+rem Make Bullet
+Make Object Sphere 2,2
+texture object 2,2
+Hide Object 2
+
+rem Make MonsterBullet
+Make Object Sphere 102,2
+texture object 102,2
+Hide Object 102
+
+rem Make Explosion
+Make Object Sphere 30,20
+texture object 30,2
+ghost object on 30
+Hide Object 30
+Make Object Sphere 31,20
+texture object 31,2
+ghost object on 31
+Hide Object 31
+
+rem Make Monster Explosion
+Make Object Sphere 130,20
+texture object 130,2
+ghost object on 130
+Hide Object 130
+Make Object Sphere 131,20
+texture object 131,2
+ghost object on 131
+Hide Object 131
+
+rem load particles
+For x  = 0 to 10
+	Make object plain x+10,5,5
+	Texture object x+10,2
+	Set object x+10,1,0,0	
+	Ghost object on x+10
+	Hide object x+10
+Next x
+
+rem load Monsterparticles
+Load Image "fire.bmp",2
+For x  =100 to 110
+	Make object plain x+10,5,5
+	Texture object x+10,2
+	Set object x+10,1,0,0	
+	Ghost object on x+10
+	Hide object x+10
+Next x
+
+rem intialize particle counter
+Pn=10
+MPn=110
+
+rem load sounds
+Load sound "crickets.wav",1
+Loop sound 1
+
+Load 3Dsound "fireball2.wav",2
+Load 3Dsound "fireball2.wav",102
+Load 3Dsound "Explode.wav",3
+Load 3Dsound "Explode.wav",103
+
+rem Randomize the matrix
+randomize matrix 1,125
+
+Rem Load Target
+Load object "idle.x",3
+Yrotate object 3,180
+Fix Object Pivot 3
+Loop Object 3
+mX# = 5000
+mZ# = 5000
+mY# = Get Ground Height(1,5000,5000)
+
+X# = 5500
+Y# =  Get Ground Height(1,5500,5500)
+Z# = 5500
+MonsterScore=0
+PlayerScore=0
+Gosub PlaceMonster
+Gosub PlacePlayer
+
+Rem Main loop
+Do
+
+	set cursor 550,20
+	print "MScore: ",MonsterScore
+	set cursor 550,40
+	print "PScore: ",PlayerScore
+
+	oldcAY# = cAY#
+	oldcAX# = cAX#
+
+	oldX#=X#
+	oldY#=Y#
+	oldZ#=Z#
+	
+	cAY# = WrapValue(cAY#+MousemoveX()*0.2)
+	cAX# = WrapValue(cAX#+MousemoveY()*0.2)
+	caZ# = Camera angle Z()
+
+	Rem  Control input for camera
+	If Upkey()=1
+		XTest# = Newxvalue(X#,cAY#,7)
+		ZTest# = Newzvalue(Z#,cAY#,7)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+
+	If Downkey()=1
+		XTest# = Newxvalue(X#,Wrapvalue(cAY#-180),7)
+		ZTest# = Newzvalue(Z#,Wrapvalue(cAY#-180),7)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+
+	If Leftkey()=1 
+		XTest# = Newxvalue(X#,Wrapvalue(cAY#-90),7)
+		ZTest# = Newzvalue(Z#,Wrapvalue(cAY#-90),7)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+
+	If Rightkey()=1 	
+		XTest# = Newxvalue(X#,Wrapvalue(cAY#+90),7)
+		ZTest# = Newzvalue(Z#,Wrapvalue(cAY#+90),7)
+		If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000
+			X#=XTest#
+			Z#=ZTest#
+		Endif
+	Endif
+	
+	Rem Rotate camera
+	cTestX#=WrapValue(cAX#-180)
+	if cTestX# > 225 then cAX#=45
+	if cTestX# < 135 then cAX#=315
+
+	YRotate camera CurveAngle(cAY#,oldcAY#,24)
+	XRotate camera CurveAngle(cAX#,oldcAX#,24)
+	Y# = Get ground height(1,X#,Z#)+35
+
+	Rem Position Camera
+
+	Position Camera X#,Y#,Z#
+
+	Rem Position Listener
+	Position Listener X#,Y#,Z#
+	Rotate Listener 0,cAY#,0
+
+	Rem Shoot bullet	
+	if Mouseclick()=1 and Explode =0
+		if BulletLife=0 or BulletLife<50
+			Position object 2,X#,Y#-7,Z#
+			Set object to camera orientation 2
+			BulletLife =120
+			show object 2
+			Loop sound 2
+		Endif
+	Endif	
+
+	If BulletLife > 0 then Gosub ShootBullet
+	If MonsterBulletLife > 0 then Gosub MonsterShootBullet
+
+	If Explode > 0 then Gosub ExplodeRocket
+	If MonsterExplode > 0 
+		Gosub MonsterExplodeRocket
+	else
+			Gosub MonsterAI
+	Endif
+	
+	Rem Refresh Screen
+	Sync
+Loop
+
+Rem Shoot player bullet
+ShootBullet:
+		Dec BulletLife
+		Move object 2,12
+
+		bX#=Object position X(2)
+		bY#=Object position Y(2)
+		bZ#=Object position Z(2)		
+
+		inc Pn
+		if Pn=21 then Pn=10
+		Scale object Pn,100,100,100
+		Position object Pn,bX#,bY#,bZ#
+		point object Pn,X#,Y#,Z#
+		Zrotate object Pn,rnd(180)
+		Show object Pn
+		for x = 1 to 10
+			scale object int((Wrapvalue((Pn-9+x)*36))/36)+10,100+x*25,100+x*25,100+x*25
+		set cursor 10,10
+		next x
+		
+		if bY# < Get Ground height(1,bX#,bZ#) then BulletLife=0
+		Position sound 2,bX#,bY#,bZ#
+		set cursor 10,10
+		if Sqrt((mX# - bX#)^2 + (mY#+25 - bY#)^2 + (mZ# - bZ#)^2) <20
+			Gosub PlaceMonster
+			inc PlayerScore
+			MonsterBulletLife = 1
+			BulletLife=0
+		endif
+
+		if BulletLife = 0 
+			Hide object 2
+			stop sound 2
+			for x=10 to 20
+				hide object x
+			next x
+			Explode = 20
+		endif
+Return	
+
+Rem Explode bullet
+ExplodeRocket:
+	Position object 30,bX#,bY#,bZ#
+	Show object 30
+	Position object 31,bX#,bY#,bZ#
+	Show object 31
+	EScale=20*(30-Explode)
+	Scale object 30,EScale,EScale,EScale
+	Yrotate object 30,WrapValue(Explode*37)
+	Scale object 31,EScale/1.5,EScale/1.5,EScale/1.5
+	Yrotate object 31,WrapValue(359-Explode*37)
+	Dec Explode
+	If Explode = 0 then hide object 30: Hide object 31
+	If Explode=18 
+		position sound 3,bX#,bY#,bZ#
+		play sound 3
+	endif
+	If Explode < 15 then position sound 3,X#,Y#,Z#
+Return
+
+Rem Explode monster bullet
+MonsterExplodeRocket:
+	Position object 130,MbX#,MbY#,MbZ#
+	Show object 130
+	Position object 131,MbX#,MbY#,MbZ#
+	Show object 131
+	EScale=20*(30-MonsterExplode)
+	Scale object 130,EScale,EScale,EScale
+	Yrotate object 130,WrapValue(MonsterExplode*37)
+	Scale object 131,EScale/1.5,EScale/1.5,EScale/1.5
+	Yrotate object 131,WrapValue(359-MonsterExplode*37)
+	Dec MonsterExplode
+	If MonsterExplode = 0 then hide object 130: Hide object 131
+	If MonsterExplode=18 
+		position sound 103,X#,Y#,Z#
+		play sound 103
+	endif
+	If MonsterExplode < 15 then position sound 103,X#,Y#,Z#
+Return
+
+Rem Simple AI for guided monster misile
+MonsterAI:
+
+			Point object 3,X#,mY#,Z#
+			Position Object 3,mX#,mY#,mZ# 
+			PDist=Sqrt((mX# - X#)^2 + (mY#+25 - Y#)^2 + (mZ# - Z#)^2)
+			if PDist<1500
+				if MonsterBulletLife=0 or MonsterBulletLife < 500-Pdist/10
+					Point object 3,X#,Y#-25,Z#
+					Position object 102,mX#,mY#+25,mZ#
+					Set object to object orientation 102,3
+					MonsterBulletLife =500
+					show object 102
+					Loop sound 102
+				Endif				
+			endif
+Return
+	
+Rem Shoot Monster bullet	
+MonsterShootBullet:
+		Dec MonsterBulletLife
+		Move object 102,12
+
+		MbX#=Object position X(102)
+		MbY#=Object position Y(102)
+		MbZ#=Object position Z(102)		
+
+		inc MPn
+		if MPn=121 then MPn=110
+		Scale object MPn,100,100,100
+		Position object MPn,MbX#,MbY#,MbZ#
+		Position sound 102,MbX#,MbY#,MbZ#
+		point object MPn,X#,Y#,Z#
+		Zrotate object MPn,rnd(180)
+		Show object MPn
+		for x = 1 to 10
+			scale object int((Wrapvalue((MPn-9+x)*36))/36)+110,100+x*25,100+x*25,100+x*25
+		next x
+		
+		if MbY# < Get Ground height(1,MbX#,MbZ#) then MonsterBulletLife=0
+		Pdist=Sqrt((X# - MbX#)^2 + (Y#+25 - MbY#)^2 + (Z# - MbZ#)^2)
+		if  Pdist<50
+			GoSub PlacePlayer
+			MonsterBulletLife = 0
+			inc MonsterScore
+		endif
+		Rem guided missile
+		if Pdist <500+PlayerScore*100 and Pdist>250 then Point object 102,X#,Y#,Z#
+		if Pdist < 100 then point object 102,X#,Y#,Z#
+
+		if MonsterBulletLife = 0 
+			Hide object 102
+			stop sound 102
+			for x=110 to 120
+				hide object x
+			next x
+			MonsterExplode = 20
+		endif
+
+Return	
+
+PlaceMonster:
+
+			mX#=X# 
+			mZ#=Z#
+			mY#=Y#
+
+			While Sqrt((X# - MX#)^2 + (Y#+25 - MY#)^2 + (Z# - MZ#)^2)<1000
+					mX#=rnd(10000)
+					mZ#=rnd(10000)
+					mY#= get ground height(1,mX#,mZ#)
+			EndWhile
+			
+			Position object 3,mX#,mY#,mZ#
+
+Return
+
+PlacePlayer:
+			X#=mX# 
+			Z#=mZ#
+			Y#=mY#
+
+
+			While Sqrt((X# - mX#)^2 + (Y#+25 - mY#)^2 + (Z# - mZ#)^2)<1000
+				X#=rnd(10000)
+				Z#=rnd(10000)
+				Y#= get ground height(1,X#,Z#)	
+			EndWhile
+			
+			Position camera X#,Y#,Z#
+			Point camera mX#,mY#,mZ#
+
+Return
+
+

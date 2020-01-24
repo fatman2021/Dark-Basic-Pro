@@ -1,0 +1,73 @@
+Rem * Title  : Matrix Smoothscroll
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ===========================================
+rem This program will smooth scroll a matrix
+rem -------------------------------------------
+
+load bitmap "floor1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+
+rem Make a matrix
+make matrix 1,1000,1000,20,20
+
+rem Randomize the matrix
+randomize matrix 1,150.0
+set matrix height 1,10,10,200.0
+update matrix 1
+
+rem Prepare matrix with a texture cut into a 2x2 texture grid 
+prepare matrix texture 1,1,2,2
+
+rem Position camera
+position camera 500,400,-200
+point camera 500,0,500
+
+rem Add depth effect
+fog on
+fog distance 1500
+
+rem Activate manual sync
+sync on
+
+rem Begin main loop
+while mouseclick()=0
+
+rem Smooth scroll the matrix
+if upkey()=1 then sz#=sz#-5.0
+if downkey()=1 then sz#=sz#+5.0
+if leftkey()=1 then sx#=sx#+5.0
+if rightkey()=1 then sx#=sx#-5.0
+if sx#<0.0
+	shift matrix left 1
+	sx#=sx#+50.0
+endif
+if sx#>=50.0
+	shift matrix right 1
+	sx#=sx#-50.0
+endif
+if sz#<0.0
+	shift matrix up 1
+	sz#=sz#+50.0
+endif
+if sz#>=50.0
+	shift matrix down 1
+	sz#=sz#-50.0
+endif
+position matrix 1,sx#,0,sz#
+
+rem Syncronise
+sync
+
+rem End main loop
+endwhile
+
+rem Delete the matrix
+delete matrix 1
+
+rem End the program
+end
+

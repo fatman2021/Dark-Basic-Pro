@@ -1,0 +1,54 @@
+Rem * Title  : Tutorial Sample 10
+Rem * Author : DBS-LB
+Rem * Date   : 1/8/99
+rem Position camera off center
+POSITION CAMERA 0.0,0.0,-1000.0
+
+rem Load 3D object and append walking data to it
+LOAD OBJECT "idle.x",1 : APPEND OBJECT "walk.x",1,100
+YROTATE OBJECT 1,180 : FIX OBJECT PIVOT 1
+
+rem Loop 3D object animation from 0 to 20 (idle)
+LOOP OBJECT 1,0,20 : SET OBJECT SPEED 1,10
+
+rem Activate manual syncronization
+SYNC ON
+
+rem Begin loop
+DO
+
+rem Modify character angle based on left/right keys
+stage=0
+IF LEFTKEY()=1 THEN a#=a#-8.0
+IF RIGHTKEY()=1 THEN a#=a#+8.0
+a#=wrapvalue(a#)
+
+rem Modify character position based on up/down keys
+IF UPKEY()=1 THEN x#=NEWXVALUE(x#,a#,3) : z#=NEWZVALUE(z#,a#,3) : stage=1
+IF DOWNKEY()=1 THEN x#=NEWXVALUE(x#,a#,-3) : z#=NEWZVALUE(z#,a#,-3) : stage=1
+
+rem If character action changes
+IF stage<>oldstage
+	IF stage=0
+		SET OBJECT FRAME 1,0.0
+		LOOP OBJECT 1,0,20
+		SET OBJECT SPEED 1,10
+	ENDIF
+	IF stage=1
+		SET OBJECT FRAME 1,105.0
+		LOOP OBJECT 1,105,125
+		SET OBJECT SPEED 1,40
+	ENDIF
+	oldstage=stage
+ENDIF
+
+rem Update character position and angle
+POSITION OBJECT 1,x#,0.0,z#
+YROTATE OBJECT 1,a#
+
+rem Refresh screen
+SYNC
+
+rem End loop
+LOOP
+

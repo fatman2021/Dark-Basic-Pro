@@ -1,0 +1,45 @@
+Rem * Title  : Camera Rotation Order
+Rem * Author : DBS-LB
+Rem * Date   : 1st January 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ==========================================
+rem This program sets the camera rotation order
+rem ------------------------------------------
+
+rem Make a simple scene
+position camera 100,100,-100
+point camera 0,0,0
+autocam off
+sync on
+make matrix 1,1000,1000,25,25
+autocam on
+
+rem Show camera types
+for camera=1 to 2
+
+rem 1=camera default / 2=camera reversed
+if camera=1 then set camera rotation zyx : s$="Normal"
+if camera=2 then set camera rotation xyz : s$="Reversed"
+
+rem Slide camera to face floor
+for x=0 to 20
+	set cursor 0,0 : print s$+" Camera Rotation Order"
+	rotate camera x,0,0
+	sync
+next x
+
+rem Circle view
+for y=0 to 359
+	set cursor 0,0 : print s$+" Camera Rotation Order"
+	rotate camera 20,y,0
+	sync
+next y
+
+rem Now wait for keypress
+while inkey$()=""
+	set cursor 0,0 : print "Press Any key"
+	sync
+endwhile
+
+next camera

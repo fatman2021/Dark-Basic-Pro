@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">GET IMAGE<BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+This command will copy a selected area of the current bitmap. You must specify an image number between 1 and 65535. Amongst other things, you can use this command to store sequences of image data and provide animations for sprites. When images are grabbed, they are stored in memory and do not require the bitmap from which the image was taken. The parameters should be specified using integer values.<br>
+<br>
+The optional Texture Mode value is used to control the texture capabilities of the image. If you set the Texture Mode value to 1 you will copy the image directly into Video memory, rather than having the system automatically do it later on. If you set the Texture Mode to 2 you will ask that the image be compressed when used as a texture. Compressed textures take up less Video memory when used but requires special hardware on the card called Hardware Texture Compression.<br>
+<br>
+It is recommended you don't use compressed textures when using the black transparency option on 3D objects that use the texture, as the performance hit is considerable.<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+GET IMAGE Image Number, Left, Top, Right, Bottom<BR>
+GET IMAGE Image Number, Left, Top, Right, Bottom, Texture Mode<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="sprite.htm">Sprite Commands</a><br>
+<a href="glossary.htm">Glossary</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\sprite\exam01.dba">Grabbing Images</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

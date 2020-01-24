@@ -1,0 +1,736 @@
+Rem * Title  : TANK
+Rem * Author : DBS-LB
+Rem * Date   : 1st May 2000
+rem ********************************************
+rem *                   TANK                   *
+rem ********************************************
+rem * AUTHOR: Lee Bamber    DATE: 1st May 2000 *
+rem ********************************************
+
+rem Setup environment
+hide mouse
+sync rate 30
+autocam off
+sync on
+
+rem Decal limit (full version users can set this to 100)
+dim decallimit(1)
+decallimit(1)=50
+
+rem Game array
+dim decal#(100,10)
+
+rem Load sounds and music
+load sound "bang.wav",1 
+load music "music.mid",1 : loop music 1
+
+rem Load and create images
+load bitmap "sands.bmp",1
+get image 13,0,0,256,256
+ink rgb(255,255,255),rgb(150,150,255) : cls
+for t=1 to 10000 : dot rnd(256),rnd(256) : next t
+blur bitmap 1,1
+get image 1,0,0,256,256
+delete bitmap 1
+
+rem Load images
+gosub _loadimages
+
+rem Make landscape
+landsize=5000
+set camera range 10,landsize*2
+make matrix 1,landsize*2,landsize*2,25,25
+prepare matrix texture 1,13,4,4
+randomize matrix 1,200
+
+rem Texture landscape
+for z=0 to 24
+	for x=0 to 24
+		
+		rem Shaded dirt and grass
+		shade=getshade(x,z)
+		set matrix tile 1,x,z,shade
+
+		rem Roads
+		if z=12 or x=12
+			lvl=rnd(2)
+			lvl#=0.0-(lvl*10.0)
+			set matrix tile 1,x,z,13+lvl
+			set matrix height 1,x,z,lvl#
+			set matrix height 1,x+1,z,lvl#
+			set matrix height 1,x,z+1,lvl#
+			set matrix height 1,x+1,z+1,lvl#
+		endif
+
+	next x
+next z
+update matrix 1
+
+rem Load and place objects
+dim size(35)
+for t=1 to 10
+	load object "build1.x",20+t
+	position object 20+t,landsize+700,-49,landsize-(t*2000)
+	size(20+t)=350
+next t
+load object "build3.x",31 : position object 31,landsize+900,-49,landsize+900
+load object "wtower.x",32 : position object 32,landsize-900,-49,landsize-900
+load object "turret.x",33 : position object 33,landsize-500,-49,landsize-3500
+load object "radar.x",34 : position object 34,landsize-1000,-49,landsize+1900
+load object "milveh01.x",35 : position object 35,landsize,50,landsize+3000
+scale object 34,300,300,300 : scale object 35,5000,5000,5000
+size(31)=400 : size(32)=250 : size(33)=200 : size(34)=400 : size(35)=250
+
+rem Create fog and ambience
+set ambient light 40
+if fog available()=1
+	fog on : fog distance 5000 : fog color rgb(150,40,0)
+endif
+
+rem Create a tilt object (to handle "independent" X & Z axis rotation)
+make object cone 1,5
+hide limb 1,0
+
+rem Load tank model
+load object "irontank\attack.x",2
+scale object 2,100,100,100  :rem 75,75,75
+yrotate object 2,180
+fix object pivot 2
+hide limb 2,1 : hide limb 2,11 : hide limb 2,14
+
+rem Glue tank to tilt-object
+glue object to limb 2,1,0
+
+rem Tank track texture
+load bitmap "irontank\tanktrak.bmp",2
+get image 2,0,0,128,128
+get image 3,0,0,128,128
+set current bitmap 0
+
+rem Apply texture to tank tracks
+texture limb 2,12,2
+texture limb 2,15,2
+
+rem Create small bullet
+make object sphere 3,50
+texture object 3,6
+hide object 3
+
+rem Create spherical sky
+make object sphere 4,(landsize*2)-500
+set object collision off 4
+scale object 4,100,50,100
+set object 4,1,1,0
+texture object 4,1
+fade object 4,0
+backdrop off
+
+rem Create map stat
+load image "map.bmp",5
+make object plain 51,256,256
+lock object on 51
+position object 51,-490,-340,800
+ghost object on 51
+texture object 51,5
+
+rem Small ground of perimitor trees
+load image "tree.bmp",4
+make object plain 52,200,400 : make mesh from object 52,52
+add limb 52,1,52 : rotate limb 52,1,0,90,0
+make mesh from object 52,52 : delete object 52
+make object 52,52,0
+range=5000
+halfrange=range/2
+for t=1 to 80
+	if t>=1 and t<=20 : rx=rnd(range) : rz=range : endif
+	if t>20 and t<=40 : rx=range : rz=rnd(range) : endif
+	if t>40 and t<=60 : rx=rnd(range) : rz=0 : endif
+	if t>60 and t<=80 : rx=0 : rz=rnd(range) : endif
+	rx=(rx-500)+rnd(1000)
+	rz=(rz-500)+rnd(1000)
+	if rx>halfrange-250 and rx<halfrange+250 then rx=halfrange-250
+	if rz>halfrange-250 and rz<halfrange+250 then rz=halfrange-250
+	add limb 52,t,52
+	offset limb 52,t,rx,0,rz
+next t
+make mesh from object 52,52 : delete object 52 : make object 52,52,4
+position object 52,landsize-(halfrange),190,landsize-(halfrange)
+set object 52,1,0,0
+
+rem Set game variables
+x#=landsize
+z#=landsize
+bulletalive=0
+cx#=landsize
+cy#=2000
+cz#=landsize-2000
+
+rem Begin main loop
+lowmode=0
+do
+
+ rem Low Mode switch
+ if lower$(inkey$())="l" and lowmode=0
+	lowmode=1
+	hide object 4
+	hide object 51
+	hide object 52
+	backdrop on
+	color backdrop rgb(0,0,0)
+	fog off
+ endif
+
+ rem Control tank
+ if upkey()=1 and s#<10.0 then s#=s#+4.0
+ if downkey()=1 and s#>-10.0 then s#=s#-4.0
+ if leftkey()=1 then s#=s#+0.1 : a#=wrapvalue(a#-5)
+ if rightkey()=1 then s#=s#+0.1 : a#=wrapvalue(a#+5)
+
+ rem Control turret bullet
+ if spacekey()=1 and bulletalive=0 then gosub _start_bullet
+ if bulletalive>0 then gosub _move_bullet
+ if bulletalive<0 then gosub _explode_bullet
+
+ rem Calculate tank data
+ oldx#=x#
+ oldz#=z#
+ x#=newxvalue(x#,a#,s#)
+ z#=newzvalue(z#,a#,s#)
+ s#=s#/1.2
+
+ rem Detect for tank collision with structures
+ for t=21 to 34
+	if getdistance(x#,z#,t)<size(t)
+		x#=oldx# : z#=oldz#
+	endif
+ next t
+
+ rem Detect for tank collision with other tank
+ if getdistance(x#,z#,35)<size(35)
+	dx#=object position x(35)-x#
+	dz#=object position z(35)-z#
+	da#=atanfull(dx#,dz#)
+	a#=curveangle(da#,a#,15.0)
+	x#=newxvalue(x#,a#,-30.0)
+	z#=newzvalue(z#,a#,-30.0)
+ endif
+
+ rem Landscape follows tank (using smooth shifting)
+ gridunitsize#=(landsize*2)/25.0
+ shx#=shx#+(x#-oldx#)
+ shz#=shz#+(z#-oldz#)
+ if shx#<0.0 then shx#=shx#+gridunitsize# : shift matrix right 1 : shtrackx=shtrackx+1
+ if shx#>=gridunitsize# then shx#=shx#-gridunitsize# : shift matrix left 1 : shtrackx=shtrackx-1
+ if shz#<0.0 then shz#=shz#+gridunitsize# : shift matrix down 1 : shtrackz=shtrackz+1
+ if shz#>=gridunitsize# then shz#=shz#-gridunitsize# : shift matrix up 1 : shtrackz=shtrackz-1
+ mx#=(x#-landsize)-shx# : mz#=(z#-landsize)-shz#
+ position matrix 1,mx#,0,mz#
+
+ rem Smooth control camera
+ cdx#=newxvalue(x#,a#,-500)
+ cdz#=newzvalue(z#,a#,-500)
+ cdy#=get ground height(1,cx#-mx#,cz#-mz#)+50
+ if cdy#<225 then cdy#=225
+ cx#=curvevalue(cdx#,cx#,10.0)
+ cy#=curvevalue(cdy#,cy#,10.0)
+ cz#=curvevalue(cdz#,cz#,10.0)
+ position camera cx#,cy#,cz#
+ point camera x#,get ground height(1,x#-mx#,z#-mz#)+100,z#
+
+ rem Update textures
+ if s#<=-0.1 or s#>=0.1 then scrolltanktracks(s#)
+
+ rem Scroll sky
+ scroll object texture 4,0.0005,0
+ fade object 4,0
+
+ rem Calculate four X+Z coordinates for each corner
+ foot#=110
+ ta#=wrapvalue(a#-45)
+ frontleftx#=newxvalue(x#,ta#,foot#) : frontleftz#=newzvalue(z#,ta#,foot#)
+ ta#=wrapvalue(a#+45)
+ frontrightx#=newxvalue(x#,ta#,foot#) : frontrightz#=newzvalue(z#,ta#,foot#)
+ ta#=wrapvalue(a#+225)
+ backleftx#=newxvalue(x#,ta#,foot#) : backleftz#=newzvalue(z#,ta#,foot#)
+ ta#=wrapvalue(a#+135)
+ backrightx#=newxvalue(x#,ta#,foot#) : backrightz#=newzvalue(z#,ta#,foot#)
+
+ rem Calculate degree of tilting from corner heights
+ frontlefth#=get ground height(1,frontleftx#-mx#,frontleftz#-mz#)
+ frontrighth#=get ground height(1,frontrightx#-mx#,frontrightz#-mz#)
+ backlefth#=get ground height(1,backleftx#-mx#,backleftz#-mz#)
+ backrighth#=get ground height(1,backrightx#-mx#,backrightz#-mz#)
+ across#=((frontrighth#-frontlefth#)+(backrighth#-backlefth#))/2.0
+ length#=((backlefth#-frontlefth#)+(backrighth#-frontrighth#))/2.0
+
+ rem Update tank model
+ h#=get ground height(1,x#-mx#,z#-mz#)
+ trackh#=(frontlefth#+frontrighth#+backlefth#+backrighth#)/4.0
+ if trackh#>h# then h#=trackh#
+ position object 1,x#,h#,z#
+ yrotate object 1,a#
+ rotate object 2,wrapvalue(length#/4.0),0,wrapvalue(across#/4.0)
+
+ rem Sky follows tank
+ position object 4,x#,0,z#
+
+ rem Rotate radar
+ rotate limb 34,1,0,wrapvalue(limb angle y(34,1)+0.1),0
+
+ rem Contro enemy tank
+ gosub _control_enemytank
+
+ rem Control decals
+ controldecals(mx#,mz#)
+
+ rem Update screen
+ sync
+
+rem End loop
+loop
+
+rem ** Subroutines
+
+_control_enemytank:
+
+ rem Move enemy tank
+ yrotate object 35,180
+ move object 35,-20
+ if getdistance(x#,z#,35)>6000.0
+	if enemygo=0
+		position object 35,landsize,50,z#-6000
+		enemygo=1
+	endif
+ else
+	enemygo=0
+ endif
+
+ rem Adjust to ground height
+ gh#=get ground height(1,object position x(35)-mx#,object position z(35)-mz#)
+ position object 35,object position x(35),gh#+60.0,object position z(35)
+
+ rem Control enemy tank
+ ex#=object position x(35)-x#
+ ez#=object position z(35)-z#
+ dist#=sqrt(abs(ex#*ex#)+abs(ez#*ez#))
+ if dist#<2500
+	etankd#=wrapvalue(atanfull(ex#,ez#)+180)
+ else
+	etankd#=0.0
+ endif
+ etank#=wrapvalue(curveangle(etankd#,etank#,5.0))
+ eox#=sin(etank#)*-3.0
+ eoz#=(sin(wrapvalue(etank#-90))*3)+1.5
+
+ rem Setup enemy tank turret
+ rotate limb 35,3,0,etank#,0
+ rotate limb 35,12,0,etank#,0
+ rotate limb 35,13,0,etank#,0
+ rotate limb 35,14,0,etank#,0
+ rotate limb 35,16,0,etank#,0
+ rotate limb 35,18,0,etank#,0
+ rotate limb 35,19,0,etank#,0
+ offset limb 35,3,eox#,0,eoz#
+ offset limb 35,12,eox#,0,eoz#
+ offset limb 35,13,eox#,0,eoz#
+ offset limb 35,14,eox#,0,eoz#
+ offset limb 35,16,eox#,0,eoz#
+ offset limb 35,18,eox#,0,eoz#
+ offset limb 35,19,eox#,0,eoz#
+
+ rem Enemy fires when tank gets close
+ if dist#<1500.0
+	fx#=newxvalue(limb position x(35,19),etank#,250.0)
+	fy#=limb position y(35,19)-35.0
+	fz#=newzvalue(limb position z(35,19),etank#,250.0)
+	da#=etank# : inc#=rnd(100)/100.0
+	makeflame(fx#,fy#,fz#,da#,inc#)
+ endif
+
+ rem Enemy turret also fires flames
+ rotate limb 33,4,0,wrapvalue(limb angle y(33,4)+1.0),0
+ ex#=object position x(33)-x#
+ ez#=object position z(33)-z#
+ dist#=sqrt(abs(ex#*ex#)+abs(ez#*ez#))
+ adif#=abs(wrapvalue(180+(atanfull(ex#,ez#)-(limb angle y(33,4)+90))))
+ if dist#<1000.0 and (adif#<45.0 or adif#>315.0) then turretflameon=50
+
+ rem Turret-flame control
+ if turretflameon>0
+	turretflameon=turretflameon-1
+	makeflame(limb position x(33,7),limb position y(33,7)-50.0,limb position z(33,7),limb angle y(33,4)+90,-1.0)
+	makeflame(limb position x(33,10),limb position y(33,10)-50.0,limb position z(33,10),limb angle y(33,4)+90,-1.0)
+ endif
+
+return
+
+_start_bullet:
+
+rem Calculate position of bullet creation
+bx#=newxvalue(x#,a#,100)
+bz#=newzvalue(z#,a#,100)
+by#=get ground height(1,bx#-mx#,bz#-mz#)+50
+
+rem Recoil tank
+play object 2 : set object speed 2,40 : play sound 1 : s#=-25.0
+
+rem Begin life of bullet
+position object 3,bx#,by#,bz#
+rotate object 3,wrapvalue(object angle x(2)-10),a#,0
+scale object 3,100,50,100
+color object 3,rgb(180,180,230)
+fade object 3,100
+ghost object off 3
+show object 3
+bulletalive=50
+
+rem Smoke from bullet
+makesmoke(object position x(3),object position y(3),object position z(3),1.0)
+
+return
+
+_move_bullet:
+
+rem Arc bullet by slowly rotation X axis whilst moving
+xrotate object 3,wrapvalue(object angle x(3)+1.0)
+move object 3,40
+
+rem Detect for tank collision
+detonate=0
+for t=21 to 35
+	if getdistance(object position x(3),object position z(3),t)<size(t) and object position y(3)<size(t)
+		detonate=1
+	endif
+next t
+
+rem Detect collision with ground to destroy
+if get ground height(1,object position x(3)-mx#,object position z(3)-mz#)>object position y(3) or detonate=1
+
+	rem Show explosion from bullet
+	bulletalive=-20 : play sound 1
+	texture object 3,6
+	ghost object on 3
+
+	rem At point of impact, make crator
+	gridunitsize#=(landsize*2.0)/25.0
+	gridx=int((object position x(3)-mx#)/gridunitsize#)
+	gridz=int((object position z(3)-mz#)/gridunitsize#)
+
+	rem Affect matrix with changes
+	gridy#=get ground height(1,object position x(3)-mx#,object position z(3)-mz#)
+	for tx=gridx-1 to gridx+1
+		for ty=gridz-1 to gridz+1
+			if tx>0 and tx<25 and ty>0 and ty<25
+				gridy#=get matrix height(1,tx,ty)
+				ngy#=gridy#-20-rnd(20)
+				if ngy#<-50.0 then ngy#=-50.0
+				set matrix height 1,tx,ty,ngy#
+				relax=(tx-shtrackx)
+				if relax<0 then relax=relax+25
+				if relax>25 then relax=relax-25
+				relaz=(ty-shtrackz)
+				if relaz<0 then relaz=relaz+25
+				if relaz>25 then relaz=relaz-25
+				if relax=12 or relaz=12
+					set matrix tile 1,tx,ty,16
+				else
+					tt=12-abs((ngy#+50.0)/10.0)
+					if tt<0 then tt=0
+					if tt>12 then tt=12
+					set matrix tile 1,tx,ty,tt
+				endif
+			endif
+		next ty
+	next tx
+	update matrix 1
+
+	rem Make a huge explosion
+	gh#=get ground height(1,object position x(3)-mx#,object position z(3)-mz#)
+	makefire(object position x(3),gh#,object position z(3),0)
+	makefire(object position x(3),gh#,object position z(3),45)
+	makefire(object position x(3),gh#,object position z(3),90)
+	makefire(object position x(3),gh#,object position z(3),135)
+	makesmoke(object position x(3),object position y(3)+25.0,object position z(3),1.0)
+	makesmoke(object position x(3),object position y(3)+25.0,object position z(3),1.0)
+	for t=1 to 5
+		makedebree(object position x(3),object position y(3)+25.0,object position z(3))
+	next t
+
+endif
+
+return
+
+_explode_bullet:
+
+rem Scale up bullet as it explodes
+scl=(((50*150))-(((abs(bulletalive))*150)))-3500
+scale object 3,scl,scl,scl
+fd=abs(bulletalive*5)
+if fd<0 then fd=0
+if fd>100 then fd=100
+fade object 3,fd
+xrotate object 3,wrapvalue(object angle x(3)+10)
+
+rem Count down during explosion
+bulletalive=bulletalive+2
+if bulletalive=0
+	hide object 3
+endif
+
+return
+
+_loadimages:
+
+rem Load fires
+load image "fire.bmp",6
+load bitmap "fireanim.bmp",5
+for x=0 to 3 : get image 7+x,(x*128),0,(x*128)+128,140 : next x
+delete bitmap 5
+load image "fireball.bmp",12
+
+rem Load smoke
+load image "smoke.bmp",11
+
+return
+
+rem ** Functions
+
+function makefire(x#,y#,z#,r)
+
+	rem Find spare decal
+	fd=1 : for d=1 to decallimit(1) : if decal#(d,1)=0 : fd=d : endif : next d
+	
+	rem Create fire
+	decal#(fd,1)=1
+	decal#(fd,2)=x#
+	decal#(fd,3)=y#
+	decal#(fd,4)=z#
+	decal#(fd,5)=r
+	decal#(fd,6)=0
+	decal#(fd,7)=0
+	decal#(fd,8)=100
+
+	rem Object
+	objid=1000+fd : dodecal(objid)
+
+endfunction
+
+function makesmoke(x#,y#,z#,size#)
+
+	rem Find spare decal
+	fd=1 : for d=1 to decallimit(1) : if decal#(d,1)=0 : fd=d : endif : next d
+	
+	rem Create fire
+	decal#(fd,1)=2
+	decal#(fd,2)=x#+5-rnd(10)
+	decal#(fd,3)=y#+5-rnd(10)
+	decal#(fd,4)=z#+5-rnd(10)
+	decal#(fd,5)=rnd(350)
+	decal#(fd,6)=2+rnd(2)
+	decal#(fd,7)=rnd(20)/10.0
+	decal#(fd,8)=100-rnd(10)
+	decal#(fd,9)=size#
+
+	rem Object
+	objid=1000+fd : dodecal(objid)
+	texture object objid,11
+
+endfunction
+
+function makedebree(x#,y#,z#)
+
+	rem Find spare decal
+	fd=1 : for d=1 to decallimit(1) : if decal#(d,1)=0 : fd=d : endif : next d
+	
+	rem Create fire
+	decal#(fd,1)=3
+	decal#(fd,2)=x#
+	decal#(fd,3)=y#
+	decal#(fd,4)=z#
+	decal#(fd,5)=15.0+rnd(5)
+	decal#(fd,6)=rnd(6)-3.0
+	decal#(fd,7)=rnd(6)-3.0
+	decal#(fd,8)=100-rnd(10)
+
+	rem Object
+	objid=1000+fd : dodecal(objid)
+	texture object objid,6
+	rotate object objid,rnd(350),rnd(350),rnd(350)
+	ghost object off objid
+
+endfunction
+
+function makeflame(x#,y#,z#,da#,inc#)
+
+	rem Find spare decal
+	fd=1 : for d=1 to decallimit(1) : if decal#(d,1)=0 : fd=d : endif : next d
+	
+	rem Create fire
+	decal#(fd,1)=4
+	decal#(fd,2)=x#
+	decal#(fd,3)=y#+50.0
+	decal#(fd,4)=z#
+	decal#(fd,5)=inc#
+	decal#(fd,6)=da#
+`	decal#(fd,7)=dz#
+	decal#(fd,8)=80
+	decal#(fd,9)=rnd(350)
+
+	rem Object
+	objid=1000+fd : dodecal(objid)
+	texture object objid,12
+
+endfunction
+
+function dodecal(objid)
+	if object exist(objid)=0 then make object plain objid,250,100
+	set object objid,1,0,0,0,0,0,0
+	ghost object on objid,1
+endfunction
+
+function controldecals(mx#,mz#)
+
+	rem All decals
+	aftersmoke=0
+	for d=1 to decallimit(1)
+
+		rem Object id
+		objid=1000+d
+		if object exist(objid)=1
+
+			rem Control fire decals
+			if decal#(d,1)=1
+				ex#=1.0*decal#(d,8)
+				position object objid,decal#(d,2),decal#(d,3)+ex#-75.0,decal#(d,4)		
+				rotate object objid,0,wrapvalue(decal#(d,5)),0
+				texture object objid,7+decal#(d,6)
+				decal#(d,7)=decal#(d,7)+1
+				if decal#(d,7)=2
+					decal#(d,7)=0
+					decal#(d,6)=decal#(d,6)+1
+					if decal#(d,6)=4 then decal#(d,6)=0
+				endif
+				scale object objid,decal#(d,8),decal#(d,8),decal#(d,8)
+				decal#(d,8)=decal#(d,8)-1
+				if decal#(d,8)=0
+					decal#(d,1)=0
+				endif
+				show object objid
+			endif
+			
+			rem Control smoke decals
+			if decal#(d,1)=2
+				position object objid,decal#(d,2),decal#(d,3),decal#(d,4)		
+				point object objid,camera position x(),camera position y(),camera position z()
+				xrotate object objid,0 : zrotate object objid,0
+				decal#(d,5)=wrapvalue(decal#(d,5)+4)
+				decal#(d,2)=decal#(d,2)+(cos(decal#(d,5))*decal#(d,7))
+				decal#(d,3)=decal#(d,3)+decal#(d,6)
+				scx#=(150-(decal#(d,8)*1.3))*decal#(d,9)
+				scz#=(250-decal#(d,8))*decal#(d,9)
+				scale object objid,scx#,decal#(d,8)*2,scz#
+				decal#(d,8)=decal#(d,8)-0.75-(1.0-decal#(d,9))
+				if decal#(d,8)<=0
+					decal#(d,1)=0
+				endif
+				show object objid
+			endif			
+
+			rem Control debree decals
+			if decal#(d,1)=3
+				position object objid,decal#(d,2),decal#(d,3),decal#(d,4)		
+				rotate object objid,wrapvalue(object angle x(objid)+4),0,wrapvalue(object angle z(objid)+3)
+				decal#(d,2)=decal#(d,2)+decal#(d,6)
+				decal#(d,3)=decal#(d,3)+decal#(d,5)
+				decal#(d,4)=decal#(d,4)+decal#(d,7)
+				decal#(d,5)=decal#(d,5)-1
+				if decal#(d,5)<-10.0 then decal#(d,5)=-20.0
+				scale object objid,decal#(d,8)/5.0,decal#(d,8)/5.0,decal#(d,8)/5.0
+				decal#(d,8)=decal#(d,8)-1
+				if decal#(d,8)<=0
+					decal#(d,1)=0
+				endif
+				show object objid
+			endif
+
+			rem Control flame decals
+			if decal#(d,1)=4
+				position object objid,decal#(d,2),decal#(d,3),decal#(d,4)		
+				point object objid,camera position x(),camera position y(),camera position z()
+				xrotate object objid,0
+				decal#(d,9)=wrapvalue(decal#(d,9)+8.0)
+				zrotate object objid,decal#(d,9)
+				decal#(d,2)=newxvalue(decal#(d,2),decal#(d,6),15.0)
+				decal#(d,4)=newzvalue(decal#(d,4),decal#(d,6),15.0)
+				decal#(d,3)=decal#(d,3)+decal#(d,5)
+				decal#(d,5)=decal#(d,5)-0.15
+				if decal#(d,5)<-10.0 then decal#(d,5)=-20.0
+				scale object objid,(100-decal#(d,8))/1.5,100-decal#(d,8),100-decal#(d,8)
+				decal#(d,8)=decal#(d,8)-1
+				gh#=get ground height(1,object position x(objid)-mx#,object position z(objid)-mz#)
+				if gh#>decal#(d,3) then decal#(d,8)=0
+				if decal#(d,8)<=0
+					aftersmoke=d
+					decal#(d,1)=0
+				endif
+				show object objid
+			endif
+
+			rem Control..
+
+			rem Hide unused decals
+			if decal#(d,1)=0 then hide object objid
+
+		endif
+	
+	rem End of decal loop
+	next d
+
+	rem New smoke
+	if aftersmoke>0
+		d=aftersmoke : makesmoke(decal#(d,2),decal#(d,3),decal#(d,4),0.5)
+		aftersmoke=0
+	endif
+
+endfunction
+
+function scrolltanktracks(s#)
+
+ rem Scroll the tank track texture
+ scroll limb texture 2,12,s#/60.0,0
+ scroll limb texture 2,15,s#/60.0,0
+
+endfunction
+
+function getshade(x,z)
+	
+ rem Calculate shade value from surrounding tiles
+ nav#=0 : navc=0
+ for tx=-1 to 1
+	for tz=-1 to 1
+		nx=x+tx
+		nz=z+tz
+		if nx>=0 and nx<=24
+			if nz>=0 and nz<=24
+				nav#=nav#+get matrix height(1,nx,nz)
+				inc navc
+			endif
+		endif
+	next tz
+ next tx					
+ shade=abs(nav#/navc)/10.0
+ if shade<0 then shade=0
+ if shade>10 then shade=10
+
+endfunction shade
+
+function getdistance(x#,z#,obj2)
+
+ rem Calculate distance between two objects
+ dx#=object position x(obj2)-x#
+ dz#=object position z(obj2)-z#
+ dist#=sqrt((dx#*dx#)+(dz#*dz#))
+
+endfunction dist#
+
+

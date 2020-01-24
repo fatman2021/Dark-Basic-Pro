@@ -1,0 +1,85 @@
+Rem * Title  : Matrix Moulding
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ===========================================
+rem This program will mould a matrix landscape
+rem -------------------------------------------
+
+load bitmap "floor1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+
+rem Make a matrix
+make matrix 1,1000,1000,11,11
+
+rem Prepare matrix with a texture cut into a 2x2 texture grid 
+prepare matrix texture 1,1,2,2
+
+rem Set matrix to use a mipmap
+set matrix texture 1,0,1
+
+rem Fill matrix with first texture tile
+fill matrix 1,200.0,1
+for x=0 to 10
+	for y=0 to 10
+		set matrix height 1,x,5,0.0
+		set matrix height 1,x,6,0.0
+		set matrix height 1,x+1,5,0.0
+		set matrix height 1,x+1,6,0.0
+		set matrix height 1,5,y,0.0
+		set matrix height 1,6,y,0.0
+		set matrix height 1,5,y+1,0.0
+		set matrix height 1,6,y+1,0.0
+		set matrix tile 1,x,5,2
+		set matrix tile 1,5,y,2
+	next y
+next x
+update matrix 1
+
+rem Make simple object to demonstrate ground height grabbing
+make object cone 1,100
+scale object 1,20,100,20
+xrotate object 1,180
+
+rem Add fog for depth effect
+fog on
+
+rem Activate manual sync
+sync on
+
+rem Begin Loop
+while mouseclick()=0
+
+	rem Place and point camera to see matrix properly
+	a#=wrapvalue(a#+0.1)
+	position camera newxvalue(500,a#,300),400,newzvalue(500,a#,300)
+	point camera 500,0,500
+
+	rem Position object to show ground height
+	gx#=newxvalue(500,wrapvalue(a#+180),150)
+	gz#=newzvalue(500,wrapvalue(a#+180),150)
+	gy#=50+get ground height(1,gx#,gz#)
+	position object 1,gx#,gy#,gz#
+
+	rem Show difference
+	if gy#<>50
+		color backdrop rgb(0,255,0) : set mipmap mode 2
+		center text 320,20,"NOTICE HOW MIPMAPPING SMOOTHS THIS EFFECT"
+	else
+		color backdrop rgb(0,0,255) : set mipmap mode 0
+		center text 320,20,"NOTICE THE SWIMMING PIXELS"
+	endif
+
+	rem Update screen
+	sync
+
+rem End loop
+endwhile
+
+rem Delete the matrix
+delete matrix 1
+
+rem End the program
+end

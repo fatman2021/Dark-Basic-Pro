@@ -1,0 +1,24 @@
+    Rem Setup sync rate 
+    Sync On 
+    Sync Rate 30 
+
+    Rem Create sphere 
+    Make object cube 1,100 
+
+    Rem Main loop 
+    Do 
+       Rem  Store the object's Y angle in aY# 
+       aY# = Object angle Y(1) 
+
+       Rem  Control input 
+       If Upkey()=1 then Move object 1,2 
+       If Leftkey()=1 then aY# = Wrapvalue(aY#+5) 
+       If Rightkey()=1 then aY# = Wrapvalue(aY#-5) 
+
+       Rem rotate the sphere 
+       Yrotate object 1,aY# 
+
+       Rem Refresh Screen 
+       Sync 
+    Loop 
+

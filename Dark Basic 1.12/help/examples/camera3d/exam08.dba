@@ -1,0 +1,63 @@
+Rem * Title  : Camera View
+Rem * Author : DBS-LB
+Rem * Date   : 13th October 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ==========================================
+rem This program sets the camera view area
+rem ------------------------------------------
+
+rem Make a simple scene
+position camera 100,100,-100
+point camera 0,0,0
+autocam off
+sync on
+make matrix 1,1000,1000,25,25
+autocam on
+
+rem Change camera views
+cls rgb(255,0,0)
+set camera view 0,0,320,240
+sleep 500 : cls
+set camera view 320,0,640,240
+sleep 500 : cls
+set camera view 320,240,640,480
+sleep 500 : cls
+
+rem Dynamic resize
+for t=0 to 200 step 5
+	set camera view 319-(t*1.5),239-t,321+(t*1.5),241+t
+next t
+
+rem Clear all screen
+cls 0
+
+rem Clear using camera view
+backdrop off : draw to back
+
+rem Simple camera movement
+do
+	rem Clear camera view
+	clear camera view rgb(0,128,255)
+
+	rem Rotate camera angle
+	rotate camera 0,wrapvalue(camera angle y()+2),0 : sync
+
+	rem Adjust camera every rotation to zoom camera in using FOV
+	if camera angle y()>=180 and camera angle y()<=182
+		for t=0 to 50
+			t#=2.905+t
+			clear camera view rgb(0,128,255)
+			set camera fov 3.14/t#
+			sync
+		next t
+		for t=0 to 50 step 2
+			t#=2.905+(50-t)
+			clear camera view rgb(0,128,255)
+			set camera fov 3.14/t#
+			sync
+		next t
+	endif
+
+loop
+

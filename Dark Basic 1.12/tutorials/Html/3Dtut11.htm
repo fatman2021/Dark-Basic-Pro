@@ -1,0 +1,166 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. Matrix</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>5.
+Fog and backdrop</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To explain the use of the fog and basic backdrop commands.</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The fog commands can be used
+to create distance fog in your 3D world. With a few changes in the parameters
+they can be used to create effects such as smoke, an underwater environment,
+as well as a night time effect. Another very important use of fog is for
+the use of hiding culled geometry. If you have a rich 3D environment with
+many polygons, you can use fog to hide geometry that is beyond what your
+camera range is set to. This technique can greatly increase the performance
+of your programs.</font></font><font face="Arial,Helvetica"><font size=+1></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+Rate 30</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Backdrop
+on</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Set
+camera range 1,5000</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Fog
+on</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Fog
+distance 4000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Fog
+color RGB(128,128,128)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Color
+Backdrop RGB(128,128,128)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+make matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+matrix 1,10000,10000,20,20</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+texture matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+image "grass09.bmp",1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Prepare
+matrix texture 1,1,1,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Fill
+matrix 1,0,1</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Make player pawn</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+image "barry.bmp",2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+object sphere 10,25</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Texture
+object 10,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>position
+object 10,100,0,100</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Randomize the matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>randomize
+matrix 1,125</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Do</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Store Object angle</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;AngleY#
+= object angle Y(10)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Upkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+XTest# = Newxvalue(X#,AngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+ZTest# = Newzvalue(Z#,AngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If XTest#>0 and XTest#&lt;10000 and ZTest#>0 and ZTest#&lt;10000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Move object 10,10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Leftkey()=1 then Yrotate object 10,Wrapvalue(AngleY#-5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Rightkey()=1 then Yrotate object 10,Wrapvalue(AngleY#+5)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;X#
+= Object position x(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Z#
+= Object position z(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Y#
+= Get Ground Height(1,X#,Z#)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+object 10,X#,Y#+12.5,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraZ#
+= Newzvalue(Z#,AngleY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraX#
+= Newxvalue(X#,AngleY#-180,100)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+camera CameraX#,Y#+50,CameraZ#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Point
+camera X#,Y#+25,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>We'll begin the explanation
+with a few setup commands.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Backdrop
+on</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Backdrop on" command
+turns the backdrop on. If the backdrop is off, you would see a hall of
+mirrors effect. You'll notice while you move around the field that is behind
+the matrix and the player object won't erase or clip what was previously
+there. You should use the backdrop on command if you know the player will
+be able to see the background.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Set camera range 1,5000</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Set Camera Range" command
+allows you to set the view distance of the camera. The first parameter
+in this command designates how many world units in front of the camera
+where DarkBASIC should begin rendering the 3D world. The second parameter
+designates the distance where DarkBASIC should stop rendering the world.
+When you set the last value, you should consider how far you wish your
+player to see and how many polygons you wish to render at one time. Try
+changing the first parameter to 1000 to see how it affects the rendering
+of the scene also try changing the last value to 100,000 or 1000 to see
+how it changes the rendering.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Fog on</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Fog On"&nbsp; command
+instructs DarkBASIC to use distance fog in your 3D World.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Fog distance 4000</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Fog Distance" command
+sets where the thickest view able fog should begin. The parameter after
+the command is the distance in world units where this should begin. You
+will want to set this equal to or less than the last parameter in your
+"Set Camera Range" command or you will get an ugly effect of&nbsp; polygons
+being clipped where you can see them.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Fog color RGB(128,128,128)</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Fog Color" command sets
+the color of the fog. The parameter after the command is the color of the
+fog. Here we are using the "RGB" command to set the color.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Color Backdrop RGB(128,128,128)</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Color Backdrop" command
+sets the color of your backdrop. The parameter after this command is the
+color we wish to assign to the backdrop. As in the previous command we
+are using the "RGB" command to set the color of the backdrop. To add realism
+to your fog effect you should set the color of the backdrop equal to the
+color of the fog. This will cause the fog to blend with the backdrop. You
+may wish to set these colors to different values to create other effects.
+Try changing the fog distance to 500, set the fog color to "0,0,0" and
+the backdrop color to "0,0,32". This creates the effect of a landscape
+silhouette against an almost dark sky.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

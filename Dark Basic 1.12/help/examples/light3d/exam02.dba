@@ -1,0 +1,98 @@
+Rem * Title  : Shadow Effect
+Rem * Author : AD
+Rem * Date   : 17th July 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 02
+rem ==========================================
+rem This program shows how to create shadows
+rem ------------------------------------------
+hide mouse : sync on : sync rate 0
+
+rem Make a floor texture
+cls rgb(0,255,0)
+get image 1,0,0,32,32
+
+rem Make a rough floor
+make matrix 1,500,500,50,50
+randomize matrix 1,5.0
+prepare matrix texture 1,1,1,1
+
+rem Create rough ground by altering normals
+for x=0 to 50
+	for z=0 to 50
+		set matrix normal 1,x,z,0,0.9-(rnd(5)/10.0),0
+	next z
+next x
+
+rem Create some walls for this matrix
+for x=0 to 50
+	set matrix height 1,x,0,50.0
+	set matrix height 1,x,50,50.0
+	set matrix height 1,0,x,50.0
+	set matrix height 1,50,x,50.0
+	set matrix normal 1,x,0,0,0,0.5
+	set matrix normal 1,x,50,0,0,-0.5
+	set matrix normal 1,0,x,0.5,0,0
+	set matrix normal 1,50,x,-0.5,0,0
+next x
+update matrix 1
+
+rem Make object to represent light
+make object sphere 1,125
+position object 1,250,100,250
+set object 1,0,1,0,1,0,1,1
+color object 1,rgb(255,255,0)
+
+rem Make object to move over floor
+make object sphere 2,50
+position object 2,100,50,250
+color object 2,rgb(255,0,0)
+
+rem Position camera
+position camera 50,75,50
+point camera 250,0,250
+
+rem Make normal light
+set ambient light 0
+color backdrop rgb(0,0,32)
+set point light 0,250,100,250
+
+rem Make shadow light
+make light 1
+if light exist(1)=1
+	set spot light 1,0,90
+	position light 1,250,100,250
+	point light 1,250,0,250
+	color light 1,-255,-255,-255
+endif
+
+rem Place mouse to begin
+position mouse 320,480
+
+rem Main loop
+do
+
+rem User prompt
+center text 320,20,"USE MOUSE TO MOVE SUN LIGHT"
+
+rem Move light and object using mouse
+position object 1,240+(mousex()-320),(480-mousey()),240+mousez()
+if object position y(1)<-25 then position object 1,250,-25,250
+
+rem Move object over floor
+move object 2,2
+yrotate object 2,wrapvalue(object angle y(2)+1)
+
+rem Position natural point light
+position light 0,object position x(1),object position y(1)+35,object position z(1)
+
+rem Make shadow light affect the floor
+position light 1,object position x(1),object position y(1)+35,object position z(1)
+point light 1,object position x(2),object position y(2),object position z(2)
+position light 1,object position x(2),object position y(2),object position z(2)
+
+rem Update screen
+sync
+
+rem End of loop
+loop

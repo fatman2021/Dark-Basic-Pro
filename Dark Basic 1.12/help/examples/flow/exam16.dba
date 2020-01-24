@@ -1,0 +1,18 @@
+Rem * Title  : Using CL$()
+Rem * Author : DBS-LB
+Rem * Date   : 1st January 2000
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 16
+rem ===========================================================
+rem This program will show you how to use the CL$() command
+rem -----------------------------------------------------------
+
+rem Decide what display depth to use
+depth=16
+if cl$()="-d16" then depth=16
+if cl$()="-d24" then depth=24
+if cl$()="-d32" then depth=32
+set display mode 640,480,depth
+
+rem End of program
+end

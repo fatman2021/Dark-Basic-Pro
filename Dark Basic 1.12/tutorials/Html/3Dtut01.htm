@@ -1,0 +1,126 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Staton Richardson">
+   <meta name="Description" content="The introduction and importance of DarkBASIC's screen refresh commands">
+   <title>The sync command set</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 1. The Basics</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>1.
+The "sync" command set</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+The Introduction and importance of DarkBASIC’s screen refresh commands</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>&nbsp;Let's begin this tutorial
+with a program that draws a 3D sphere on the screen.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Make Object Sphere 1,100</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>We will continue by explaining
+what each command does and how it creates and displays the sphere on the
+screen.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Sync on</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>"Sync on" Instructs DarkBASIC
+to only update the screen when the "Sync" command is called. You will use
+"Sync" and "Sync on"&nbsp; in every 3D program you write in DarkBASIC.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Make Object Sphere 1,100</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Like most commands in DarkBASIC,
+the "Make Object Sphere" command is easily understood. This command instructs
+DarkBASIC to create a sphere shaped object. The two numbers at the end
+of the command are a little less obvious. The first number "1" is the number
+of the object you wish to create. The number is like a name to DarkBASIC.
+It's used to instruct DarkBASIC which object you wish to move, change or
+in this case create. The second number "100" is the size of the sphere
+or rather the radius of the sphere you wish to create.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>"Do" and "Loop" are used
+together to create a loop in the program. Any command you put between "Do"
+and "Loop" will be executed repeatedly until you hit the escape key or
+"f12" in the editor. Almost every program or game you write will have a
+loop similar to this, which is usually called the "main loop" or "game
+loop". In this loop, we have inserted the "sync" command</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>"Sync" is short for synchronize.
+As your program changes the position of objects, the new position values
+are written into memory as an abstract of your 3D scene. If your synchronization
+is turned off your screen will update every time something changes or sometimes
+not at all. This can cause your program to run slowly or produce a blank
+screen. Think of sync as a curtain in a theater. When the curtain is closed
+the stage hands are moving props around. When the curtain opens all of
+the props are where they should be. When it's time to change the scene
+the curtain closes, the scene is changed and "Sync" is called to open the
+curtain again. Although there are exceptions, the "Sync" command is usually
+called near the end of your main loop and in most cases only one time in
+your program.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Let's complete our discussion
+of the sync command set with the addition of the "Sync Rate" command.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync Rate 30</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Make Object Sphere 1,100</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+"Sync Rate" command allows you to set a constant screen refresh rate. The
+refresh rate is best explained as the number of times the curtain on your
+stage opens and closes every second. The reason we want a constant frame
+rate is for consistency. If the refresh rate on your computer is 40 frames
+per second and you give your program to a friend who has a faster computer,
+it may run at 120 frames per second which is way too fast. By locking the
+sync rate to a set value, like "30" in this example, you ensure the program
+will run at the same rate on all computers. There's a limit to how many
+times the human eye can detect screen refresh each second so setting the
+sync rate too high is a waste of resources. Consequently, setting the sync
+rate too low will cause the animation of your 3D objects to run choppy
+and slow. One exception to a low value is "0". If you set the sync rate
+to "0" this instructs DarkBasic to update the screen as soon as it possibly
+can, displaying the maximum frames per second your system can handle.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>This
+completes our discussion of the sync command set. You should now be able
+to set your screen refresh rate and have an understanding of when to update
+the screen in your program. We've also introduced some of DarkBASIC’s primitive
+object commands. Try changing or adding the following commands to the program.
+Change the size, width, height and depth values to see how they change
+each of the objects they create. Insert a value for each of the "xyz" values
+in the "Make Object Triangle" command to see what odd shaped triangles
+you can create.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>MAKE
+OBJECT CUBE Object Number, Size Value</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>MAKE
+OBJECT BOX Object Number, Width, Height, Depth</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>MAKE
+OBJECT CYLINDER Object Number, Size Value</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>MAKE
+OBJECT CONE Object Number, Size Value</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>MAKE
+OBJECT PLAIN Object Number, Width Value, Height Value</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>MAKE
+OBJECT TRIANGLE Object Number, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3</font></font></font>
+<br>&nbsp;
+</body>
+</html>

@@ -1,0 +1,20 @@
+Rem * Title  : Using the Clipboard
+Rem * Author : DBS-LB
+Rem * Date   : 1st October 2000
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 18
+rem ==============================================
+rem This program reads and writes to the clipboard
+rem ----------------------------------------------
+
+rem Select choice prompt
+input "Enter 1(write) or 2(read) >";choice
+
+if choice=1
+	rem Store a string in the clipbard
+	write to clipboard "hello world"
+	print "done."
+else
+	rem Read string from clipboard
+	print get clipboard$()
+endif

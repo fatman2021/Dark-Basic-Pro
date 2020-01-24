@@ -1,0 +1,30 @@
+Rem * Title  : Saving An Image
+Rem * Author : DBS-LB
+Rem * Date   : 1st January 2000
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 10
+rem ===================================================
+rem This program will load and save an image
+rem ---------------------------------------------------
+
+rem Create an image
+for t=1 to 100
+dot rnd(100),rnd(100)
+next t
+get image 1,0,0,100,100
+
+rem Save the Image
+save image "image.bmp",1
+
+rem Clear everything
+delete image 1
+cls
+
+rem Load the Image
+load image "image.bmp",2
+
+rem Paste Image
+paste image 2,50,50
+
+rem End the program
+end

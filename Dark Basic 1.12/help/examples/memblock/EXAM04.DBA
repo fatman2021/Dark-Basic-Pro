@@ -1,0 +1,62 @@
+Rem * Title  : Image Data Access
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 04
+rem ===============================================
+rem This program handles Image Data Access
+rem -----------------------------------------------
+
+rem Set sync of screen
+sync rate 0 : sync on
+
+rem Load an image
+load image "dbsmall.jpg",1
+
+rem Create memblock from image
+make memblock from image 1,1
+
+rem Main loop
+x=40 : y=30
+while mouseclick()=0
+
+	rem Modify image in memblock-image
+	width=memblock dword(1,0)
+	position=x+(y*width)
+	if position<0 then position=0
+	if position>=64*48 then position=(64*48)-1
+	write memblock word 1,12+(position*2),0
+
+	rem Move eraser cursor
+	inc x,rnd(2)-1 : inc y,rnd(2)-1
+	if x<0 then x=63
+	if x>63 then x=0
+	if y<0 then y=47
+	if y>47 then y=0
+
+	rem Make image from current memblock-image
+	make image from memblock 1,1
+
+	rem Paste image to see it
+	for ty=0 to 9
+		for tx=0 to 9
+			raise=0
+			if mousey()>ty*48 and mousey()<=(ty*48)+48
+				if mousex()>tx*64 and mousex()<=(tx*64)+64
+					raise=1
+				endif
+			endif
+			if raise=1
+				paste image 1,(tx*64)+rnd(4)-2,(ty*48)+rnd(4)-2
+			else
+				paste image 1,tx*64,ty*48
+			endif
+		next tx
+	next ty
+
+	rem Update screen
+	sync
+
+rem End loop
+endwhile
+

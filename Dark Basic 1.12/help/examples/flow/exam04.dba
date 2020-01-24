@@ -1,0 +1,63 @@
+Rem * Title  : GOTO Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ===========================================================
+rem This program will show you how to use goto commands
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+startofprogram:
+
+rem Clear the screen
+cls
+
+rem Print a user prompt
+print "PLEASE PRESS LEFT OR RIGHT MOUSE BUTTON"	
+
+rem Start of the main loop
+do
+
+	rem check for left mouse button 
+	if mouseclick()=1
+		rem jump to label leftbutton
+		goto leftbutton
+	endif
+							
+	rem check for right mouse button
+	if mouseclick()=2 
+		rem jump to label rightbutton
+		goto rightbutton
+	endif
+							
+rem End of the main loop	
+loop
+
+rem This a label leftbutton
+leftbutton:
+
+print "YOU HAVE PRESSED THE LEFT MOUSE BUTTON"
+
+rem Wait till no mouse button are pressed
+repeat:until mouseclick()=0
+
+rem Jump to the label startofprogram
+goto startofprogram
+
+
+rem This is label rightbutton
+rightbutton:
+
+print "YOU HAVE PRESSED THE RIGHT MOUSE BUTTON"
+
+rem Wait till no mouse button are pressed
+repeat:until mouseclick()=0
+
+rem Jump to the label startofprogram
+goto startofprogram
+
+
+

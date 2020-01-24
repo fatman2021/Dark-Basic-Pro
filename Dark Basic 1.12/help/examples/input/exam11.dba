@@ -1,0 +1,46 @@
+Rem * Title  : Force Feedback B
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 11
+rem ============================================
+rem This program uses special force feedback
+rem --------------------------------------------
+
+rem Performs a checklist for all contol devices
+perform checklist for control devices
+
+rem Check for FF flag
+ffok=0
+for t=1 to checklist quantity()
+	if checklist value a(t)=1 then ffok=t
+next t
+
+rem Assume the first one is a force feedback device
+if ffok=0
+	print "You have no force feedback control devices available!"
+	print "Cannot continue with example"
+	end
+else
+	set control device checklist string$(ffok)
+endif
+
+rem Begin main loop
+do
+
+rem Use the number keys to control force effects
+if inkey$()="1" then force chainsaw 100,0
+if inkey$()="2" then force shoot 100,300 : sleep 300
+if inkey$()="3" then force impact 100,0
+
+rem Use the shift key to activate auto center
+if shiftkey()=1 then force auto center on
+
+rem Use the return key to activate water effect
+if returnkey()=1 then force water effect 100,0
+
+rem Use the spacebar to cancel all effects
+if spacekey()=1 then force no effect
+
+rem End the loop
+loop

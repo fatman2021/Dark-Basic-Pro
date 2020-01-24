@@ -1,0 +1,41 @@
+Rem * Title  : Gamma Fading
+Rem * Author : DBS-MB
+Rem * Date   : 8th September 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ==========================================
+rem This program will change the gamma level
+rem ------------------------------------------
+
+rem Simple picture
+ink rgb(255,255,255),0
+for r=0 to 200 step 10
+	circle 320,240,r
+next r
+
+rem Fade picture out
+for f=0 to 255 step 8
+	r=255-f
+	g=255-f
+	b=255-f
+	set gamma r,g,b
+next f
+
+rem Short wait
+sleep 500
+
+rem Fade picture in (using twice as much RED)
+for f=0 to 255 step 8
+	r=f*2
+	g=f
+	b=f
+	set gamma r,g,b
+next f
+
+rem Short wait
+sleep 500
+
+rem Restore and End
+set gamma 255,255,255
+end
+

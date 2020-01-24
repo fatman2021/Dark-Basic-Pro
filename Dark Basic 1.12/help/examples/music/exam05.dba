@@ -1,0 +1,21 @@
+Rem * Title  : Display CDAudio Data
+Rem * Author : DBS-LB
+Rem * Date   : 17th July 2000
+rem =======================================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem =======================================================
+rem This program will load and play a CD Audio track 
+rem -------------------------------------------------------
+
+rem Load a music track into number one
+load cdmusic 1,1
+loop music 1
+
+rem Listen for a while
+sleep 5000
+
+rem Delete music
+delete music 1
+
+rem End the program
+end

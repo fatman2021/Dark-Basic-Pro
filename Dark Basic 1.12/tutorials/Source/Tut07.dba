@@ -1,0 +1,34 @@
+
+    Rem Setup sync 
+    Sync On 
+    Sync Rate 30 
+
+    Rem Create matrix 
+    Make Matrix 1,2000,2000,50,50 
+
+    Rem mY is the variable for random matrix height 
+    mY=100 
+
+    Rem Position Camera above the matrix 
+    Position Camera 0,1000,0 
+
+    Rem Main loop 
+    Do 
+
+         Rem  Control input for camera 
+         If Upkey()=1 then Move camera 10 
+         If Downkey()=1 then Move camera -10 
+
+         Rem input for radomizing the matrix 
+         If Spacekey()=1 then randomize matrix 1,mY 
+         If Leftkey()=1 then mY=mY+1 
+         If Rightkey()=1 then mY=mY-1 
+         If mY < 1 then mY =1 
+
+         Rem Point camera at matrix center 
+         Point Camera 1000,0,1000 
+
+         Rem Refresh Screen 
+         Sync 
+    Loop 
+

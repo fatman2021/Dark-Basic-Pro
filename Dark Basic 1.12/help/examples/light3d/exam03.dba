@@ -1,0 +1,74 @@
+Rem * Title  : Light Ranges
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 03
+rem ==========================================
+rem This program shows use of light ranges
+rem ------------------------------------------
+set ambient light 25
+color ambient light rgb(10,10,255)
+hide mouse
+sync on
+
+rem Make cylinders
+make object cylinder 1,50 : position object 1,-100,0,0
+make object cylinder 2,50 : position object 2, 100,0,0
+make object cylinder 3,50 : position object 3,   0,0,0
+
+rem Create sphere to represent light
+make object sphere 11,10
+
+rem Position camera
+position camera 0,50,-200
+
+rem Set light zero as point light
+set point light 0,0,0,0 : color light 0,rgb(255,255,0)
+
+rem Move lights past cylinders
+do
+
+rem User prompt
+center text 320,20,"Press SPACE to change Light Range"
+center text 320,40,rangedesc$
+
+rem Range selection
+if spacekey()=1
+	if keypressed=0
+		rangemode=1-rangemode	
+		if rangemode=1 then rangedesc$="Shallow Range"
+		if rangemode=0 then rangedesc$="Deep Range"
+		if rangemode=1 then set light range 0,200
+		if rangemode=0 then set light range 0,3000
+		if rangemode=1 then color object 11,rgb(32,32,32) : set object 11,1,1,1,0,0,0,0
+		if rangemode=0 then color object 11,rgb(255,255,255) : set object 11,1,1,1,0,0,0,0
+		keypressed=1
+	endif
+else
+	keypressed=0
+endif
+
+rem Move light
+a#=wrapvalue(a#+1)
+x#=cos(a#)*100
+position object 11,x#,0,-100
+position light 0,x#,0,-100
+
+rem Relay light information
+e$=str$(light exist(0))
+v$=str$(light visible(0))
+t$=str$(light type(0))
+r$=str$(light range(0))
+center text 320,440,"exists:"+e$+" visible:"+v$+" type:"+t$+" range:"+r$
+x$=str$(light position x(0))
+y$=str$(light position y(0))
+z$=str$(light position z(0))
+ax$=str$(light direction x(0))
+ay$=str$(light direction y(0))
+az$=str$(light direction z(0))
+center text 320,460,"x:"+x$+" y:"+y$+" z:"+z$+" dirx:"+ax$+" diry:"+ay$+" dirz:"+az$
+
+rem Update screen
+sync
+
+loop

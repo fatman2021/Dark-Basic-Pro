@@ -1,0 +1,199 @@
+CharSet=0
+MainCaption=DarkEDIT version 1.56
+ErrorRunningDefaultBrowser=Error running default browser.
+ErrorRunningBrowser=Error running browser for:
+ErrorRunningCore=Error running Core
+TooManyWindows=There are 25 open windows. You will need to close a window before you open another window.
+UntitledWindow=[untitled]
+GotoBookMark=Goto Bookmark
+SetBookmarkatCursor=Set Bookmark at Cursor
+BreakLineCommand=break "Ln. #  Esc-Step  F12-Edit"
+Function=FUNCTION
+DeclaredFunctions=Declared Functions
+DeclaredLabels=Declared Labels
+
+FileMenu=&File
+EditMenu=&Edit
+SearchMenu=&Search
+CompileMenu=&Compile
+WindowMenu=&Window
+HelpMenu=&Help
+
+FileNew=&New
+FileOpen=&Open
+FileClose=&Close
+FileSave=&Save
+FileSaveAs=Save &As...
+FilePrint=&Print
+FileExit=E&xit
+
+EditUndo=&Undo
+EditRedo=&Redo
+EditCut=Cu&t
+EditCopy=&Copy
+EditPaste=&Paste
+EditDelete=&Delete
+EditSelectAll=Select &All
+EditOptions=Edit &Options...
+
+SearchFind=&Find
+SearchReplace=&Replace
+SearchFindAgain=Find &Again
+SearchSetBookmark=&Set Bookmark
+SearchClearBookmark=&Clear Current Bookmark
+SearchGotoLineNumber=Goto Line &Number
+SearchGotoBookmark=Goto &Bookmark
+SearchGotoFunction=Goto &Function
+SearchGotoLabel=Goto &Label
+
+CompileCheckSyntax=&Check Syntax
+CompileExecute=E&xecute
+CompileStepthrough=&Step Through (Insert BREAKs)
+CompileMakeEXE=Make &EXE File
+CompileMakeFinal=Make &Final EXE (Include Media)
+
+WindowCascade=&Cascade
+WindowTileH=Tile &Horizontally
+WindowTileV=Tile &Vertically
+
+HelpAbout=&About...
+HelpDBHelp=DarkBASIC Help...
+HelpMediaBrowser=Media Browser
+
+Functions=Functions
+Labels=Labels
+
+OKbutton=&OK
+cancelbutton=Cancel
+
+AboutCaption=About DarkEDIT...
+AboutL1=designed for use with
+AboutL2=DarkBASIC = The ULTIMATE 3D Games Creator
+AboutL3=
+AboutL4=Copyright © 2000
+AboutL5=Dark Basic Software Limited
+AboutL6=All Rights Reserved
+AboutL7=
+AboutL8=Programming by Guy Savoie
+AboutL9=guynmisoftware.com - darkedit.nmisoftware.com
+
+MediaBrowserCaption=Media Browser
+MediaBrowserPreviewButton=&Preview
+MediaBrowserInsertButton=&Insert Filename
+MediaBrowserAbsolute=&Absolute Path
+
+MediaViewerCaption=Media Viewer
+
+PreCaption=DarkEDIT PreProcessor Status...
+PreStatusLabel=Status:
+PreErrorLabel=Error Message:
+PreGotoErrorButton=Goto &Error Line
+PreReplaceSourceButton=&Replace Source
+PreEditModifiedButton=Edit &Modified
+PreContinue=&Continue
+
+PreNoneFound=...none found.
+PreDone=...done.
+PreAdding=...adding:
+PreFound=found.
+
+PreCheckDefines=Checking for DEFINE definitions...
+PreReplacingDefines=Replacing DEFINEs in source code...
+PreCheckGlobals=Checking for GLOBAL definitions...
+PreReplacingGlobals=Replacing GLOBAL variables in source code...
+PreGlobalTrue=TRUE
+PreGlobalFalse=FALSE
+
+PreErrorRedeclare=Attempted to redeclare
+PreErrorVarExpected=Variable name expected,
+PreErrorIllegalChar=Illegal Identifier character:
+PreErrorFoundBeforeEnd=found before end.
+PreReplacedDefinition=...replaced definition with:
+PreErrorParamCount=Parameter Count of 1-9 Expected.
+PreErrorParenExpected=Parenthesis Expected.
+PreErrorCommaAfterList="," Expected After Parameter List.
+PreErrorIdentExpected=Identifier expected.
+PreErrorCommaExpected=Comma expected.
+PreErrorCommaExpected=Definition expected.
+PreErrorParamsExpected=Parameters Expected After
+PreReplaced=...replaced
+PreWith=with
+PreAtLine=at line:
+PreExpects=Expects
+PreParameters=Parameters
+PreErrorUnbalancedParen=Unbalanced Parenthesis in
+PreErrorUnknownParam=Unknown Parameter:
+PreCheckTypes=Checking for TYPE definitions...
+PreError=Error Encountered...See Message Below
+PreReplaceTypes=Replacing TYPE references...
+PreErrorDimensionExpected=Dimension expected.
+PreErrorBlank=Error adding Blank Element
+PreErrorFourDims=Only 4 dimensions allowed in TYPEs.
+PreErrorBadParen=")" encountered without preceding "(".
+PreErrorNoTypeName=No Type Name Encountered.
+PreErrorNoElementsDeclared=No Type Elements Declared.
+PreErrorEndTypeExpected=ENDTYPE Expected
+PreErrorElementExpected=Type Element Expected
+
+RunL1=Waiting for DarkBASIC to Finish...
+RunStopWaiting=Stop Waiting
+
+SetMarkLabel=Bookmark Number:
+SetMarkCaption=Set Bookmark at Cursor
+
+OptionsCaption=DarkEDIT Options
+OptionscbSyntaxHighlight=Use Syntax Highlighting
+OptionscbShowGutter=Show Gutter
+OptionscbShowLineNumbers=Show Line Numbers
+OptionscbPastEOL=Allow Cursor Past End of Line
+OptionscbLeftGoesUp=Left Arrow Moves to Previous Line
+OptionscbHighlightLine=Highlight Current Line
+OptionscbAutoIndent=Auto Indent
+OptionscbAutoSave=Autosave Files Before Compiling
+OptionscbBackup=Save Backups
+OptionscbStructs=TYPE extended syntax
+OptionscbDefines=DEFINE extended syntax
+OptionscbGlobals=GLOBAL extended syntax
+OptionsEditorFont=Editor Font:
+OptionscmSetFont=Set Font
+OptionsDefaultBackground=Default Background Color:
+
+OptionsebReserved=Keywords
+OptionsebRemarks=Rem - Comments
+OptionsebStrings="Strings"
+OptionsebNumbers=Numbers: 1.414
+OptionsTextStyleOptions=Text Style Options
+OptionsTextColor=Text
+OptionsBackgroundColor=Bkgd
+OptionsIdentifier=Identifier
+
+OptionsDarkBasicProgram=DarkBASIC Program:
+OptionsPreferredHTML=Preferred HTML Browser:
+OptionsHelpFile=Help File:
+OptionsDefaultStartupPath=Default Startup Path:
+OptionsCommandLine=Command Line:
+OptionsCompile=Compile:
+OptionsExecute=Execute:
+OptionsMakeEXE=Make EXE:
+OptionsBuildFinal=Build Final:
+
+OptionsMIDIViewer=MIDI Viewer:
+OptionsWAVViewer=WAV Viewer:
+OptionsBMPViewer=BMP Viewer:
+Options3DSViewer=3DS Viewer:
+OptionsXOFViewer=XOF Viewer:
+OptionsAVIViewer=AVI Viewer:
+
+OptionsEditorTab=Editor Options
+OptionsSyntaxTab=Syntax Highlighting
+OptionsDBTab=DarkBASIC Options
+OptionsMediaTab=Media Options
+OptionsInternal=Internal
+OptionsExternal=External:
+
+
+WindowInsert=Insert
+WindowOverwrite=Overwrite
+WindowModified=Modified
+WindowNotFound=not found.
+WindowModifiedQuestion=This file has been modified. Do you want to save your changes?

@@ -1,0 +1,28 @@
+Rem * Title  : SUSPEND Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ===========================================================
+rem This program will show you how to use suspend commands
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+print "PLEASE PRESS A KEY"
+
+rem Wait till you press a key
+suspend for key
+
+print "THANK YOU FOR PRESSING A KEY"
+print "PLEASE PRESS A MOUSE BUTTON"
+
+rem Wait till you press a mouse button
+suspend for mouse
+
+print "THANK YOU FOR PRESSING A MOUSE BUTTON"
+
+rem End of program
+end
+

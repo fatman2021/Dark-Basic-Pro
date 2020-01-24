@@ -1,0 +1,59 @@
+Rem * Title  : Checking Sound Status
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem =======================================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem =======================================================
+rem This program will load and get info about a sound file 
+rem -------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Clear the screen
+cls 
+
+rem Load a wav sound file into number one
+load sound "sound.wav",1
+
+rem Set the sound to middle of your speaker
+set sound pan 1,0
+
+rem This command will check if there is a sound number one
+if sound exist(1)=1:print "there is a sound number one":endif
+
+print "the sound pan is ",get sound pan(1)
+print "the sound speed is ",get sound speed(1)
+print "the sound volume is ",get sound volume(1)
+
+rem This command will check if you loaded the sound has a 3d sound
+if sound type(1)=1
+	print "this sound file has been loaded has a 3d sound"
+else 
+	print "this sound file has not been loaded has a 3d sound"
+endif
+
+rem This command will check if the sound number one is playing
+if sound playing(1)=1
+	print "the sound is playing"
+else
+	print "the sound is not playing"
+endif
+
+rem This command will check if the sound number one is looping
+if sound looping(1)=1
+	print "the sound is looping"
+else
+	print "the sound is not looping"
+endif
+
+rem This command will check if the sound number one is pause
+if sound paused(1)=1
+	print "the sound is paused"
+else
+	print "the sound is not paused"
+endif
+
+rem End the program
+end
+

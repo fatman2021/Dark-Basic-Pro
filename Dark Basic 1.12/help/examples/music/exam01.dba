@@ -1,0 +1,45 @@
+Rem * Title  : Load and Play Music
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem =============================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem =============================================
+rem This program will load and play a music file
+rem ---------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem This command will load a midi music file into number one
+load music "music1.mid",1
+print "music file music1.mid loaded"
+
+rem Play the music that was loaded into number one
+play music 1
+
+rem Check is music number one is playing
+if music playing(1)=1
+	print "The music number one is playing"
+endif
+	
+rem Check is music playing been looped
+if music looping(1)=0
+	print "The music playing is not looping"
+else
+	print "The music playing is looping"
+endif
+
+print
+print "press spacekey to quit"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem Stop the music from playing
+stop music 1
+
+rem Delete music from memory and free the music number used
+delete music 1
+
+rem End the program
+end

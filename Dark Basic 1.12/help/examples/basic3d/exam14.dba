@@ -1,0 +1,100 @@
+Rem * Title  : Simple User Animation
+Rem * Author : Aristides Mytaras
+Rem * Date   : 15th November 1999
+rem ===============================================
+rem DARK BASIC demonstration of limb rotation
+rem ===============================================
+rem A modified example #5 by Aristides Mytaras
+rem -----------------------------------------------
+
+rem Load your object
+load object "idle.x",1
+scale object 1,30,30,30
+
+rem Find out how many limbs the object has
+perform checklist for object limbs 1
+numberoflimbs=checklist quantity()
+
+rem Set manual sync
+draw to front
+sync on
+
+rem Start with the head limb
+lim=15
+
+rem Start loop
+do
+
+rem Select a limb
+lastlim=lim
+if upkey()=1
+	lim=lim+1 : repeat : until upkey()=0
+endif
+if downkey()=1
+	lim=lim-1 : repeat : until downkey()=0
+endif
+if lim<0 or lim>numberoflimbs then lim=lastlim
+if lim<>lastli
+	roy#=limb angle y(1,lim)
+	rox#=limb angle x(1,lim)
+	roz#=limb angle z(1,lim)
+endif
+
+rem Rotate the selected limb
+if leftkey()=1 then roy#=roy#+5
+if rightkey()=1 then roy#=roy#-5
+if shiftkey()=1 then rox#=rox#+5
+if controlkey()=1 then rox#=rox#-5
+if inkey$()="," then roz#=roz#+5
+if inkey$()="." then roz#=roz#-5
+
+rem Do the actual rotation
+roy#=wrapvalue(roy#)
+rox#=wrapvalue(rox#)
+roz#=wrapvalue(roz#)
+rx=curvevalue(rox#,rx,10)
+ry=curvevalue(roy#,ry,10)
+rz=curvevalue(roz#,rz,10)
+rotate limb 1,lim,rox#,roy#,roz#
+
+rem Print information about object
+set cursor 0,0
+print "USE THE LEFT, RIGHT, SHIFT, CONTROL, [,] AND [.] KEYS TO ROTATE THE LIMB"
+print "USE THE UP AND DOWN ARROW KEYS TO SWITCH TO A NEW LIMB"
+print
+print "Limb Number:";lim
+print
+if limb exist(1, lim)=1
+	print "limb offset x = ";limb offset x(1, lim)
+	print "limb offset y = ";limb offset y(1, lim)
+	print "limb offset z = ";limb offset z(1, lim)
+	print "limb angle x = ";limb angle x(1, lim)
+	print "limb angle y = ";limb angle y(1, lim)
+	print "limb angle z = ";limb angle z(1, lim)
+	print "limb position x = ";limb position x(1, lim)
+	print "limb position y = ";limb position y(1, lim)
+	print "limb position z = ";limb position z(1, lim)
+	print "limb texture = ";limb texture(1, lim)
+	print "limb visible = ";limb visible(1, lim)
+endif
+
+rem Display the object
+position object 1,0,0,0
+
+rem Movable camera
+camx=curvevalue((mousex()-320)/2,camx,15)
+camy=curvevalue((mousey()-240)/2+30,camy,15)
+position camera camx,camy,-80
+point camera 0,30,0
+
+rem Update scree
+sync
+
+rem End loop
+loop
+
+rem Delete object
+delete object 1
+
+rem End the program
+end

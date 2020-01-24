@@ -1,0 +1,59 @@
+Rem * Title  : Scaling Textures
+Rem * Author : DBS-LB
+Rem * Date   : 5th October 2000
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 22
+rem ===============================================
+rem This program shows usage of compressed textures
+rem -----------------------------------------------
+
+rem Prompt
+print "Texture Compression Tests"
+print 
+print "Compressed files will take up less memory if HWTC exists..."
+print
+
+rem Load Normal
+total=system dmem available()/1024
+print "Load BMP File ("+str$(file size("brick13.bmp")/1024)+"k) As Texture : ";
+load image "brick13.bmp",1,1
+print total-(system dmem available()/1024);"Kb"
+paste image 1,32,200
+
+rem Load Compressed
+total=system dmem available()/1024
+print "Load BMP File ("+str$(file size("brick13.bmp")/1024)+"k) As Texture (compress if available) : ";
+load image "brick13.bmp",2,2
+print total-(system dmem available()/1024);"Kb"
+paste image 2,32+128,200
+
+rem Load Compressed DDS Picture File
+total=system dmem available()/1024
+print "Load DDS File ("+str$(file size("brick13.dds")/1024)+"k) As Texture  : ";
+load image "brick13.dds",3,1
+print total-(system dmem available()/1024);"Kb"
+paste image 3,32+128+128,200
+
+rem Load Compressed DDS Picture File (and then compress)
+total=system dmem available()/1024
+print "Load DDS File ("+str$(file size("brick13.dds")/1024)+"k) As Texture (compress if available) : ";
+load image "brick13.dds",4,2
+print total-(system dmem available()/1024);"Kb"
+paste image 4,32+128+128+128,200
+
+print
+
+rem Grab Normal
+total=system dmem available()/1024
+print "Get Image Texture Normal : ";
+get image 5,32,200,32+128,200+128,1
+print total-(system dmem available()/1024);"Kb"
+
+rem Grab Compressed
+total=system dmem available()/1024
+print "Get Image Texture Compressed (if available) : ";
+get image 6,32,200,32+128,200+128,2
+print total-(system dmem available()/1024);"Kb"
+print
+
+

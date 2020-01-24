@@ -1,0 +1,73 @@
+Rem * Title  : Additional Formats
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem =============================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ============================================
+rem This program will show additional formats
+rem --------------------------------------------
+
+rem Setup font
+set text size 32
+set text font "Arial"
+
+rem Run through whole directory
+set dir "2DFiles"
+
+rem Load each format
+find first
+while get file type()<>-1
+	if get file type()=0
+		file$=get file name$()
+
+		rem Any file that isn't a DBA program
+		if lower$(right$(file$,3))<>"dba"
+
+			rem User prompt
+			cls 0 : center text 320,20,"BMP DDS DIB JPG PCX PNG PSD RLE TGA TIF"
+			center text 320,200,upper$("About to load "+file$)
+
+			rem Wait for User keypress
+			wait key : while scancode()<>0 : endwhile
+
+			rem Load Bitmap File Type
+			load bitmap file$,1
+			if bitmap exist(1)
+				copy bitmap 1,0,0,bitmap width(1)-1,bitmap height(1)-1,0,0,0,639,479 : delete bitmap 1
+			else
+				print "Failed to Load!"
+			endif
+
+			rem Wait for User keypress
+			wait key : while scancode()<>0 : endwhile
+
+		endif
+
+	endif
+	find next
+endwhile
+
+rem Save each format
+load bitmap "fence01.bmp",1
+make directory "Temp" : set dir "Temp"
+	`
+	for e=1 to 7
+		if e=1 then ext$="bmp"
+		if e=2 then ext$="rle"
+		if e=3 then ext$="dib"
+		if e=4 then ext$="dds"
+		if e=5 then ext$="jpg"
+		if e=6 then ext$="png"
+		if e=7 then ext$="tga"
+		filename$="fence01."+ext$
+		save bitmap filename$,1 : load bitmap filename$
+		center text 320,400,str$(e)+". "+filename$
+		wait key : while scancode()<>0 : endwhile
+		cls 0 : sleep 100
+	next e
+	`
+set dir ".." : delete directory "Temp"
+
+rem End Scan and program
+set dir ".." : end
+

@@ -1,0 +1,39 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">
+SET CAMERA TO FOLLOW
+<BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+This command automatically controls the camera to provide a tracking system. By providing the 3D world coordinate of the entity you wish to track, and some camera data your camera will automatically update its current position each time this command is called. The X, Y, Z and Angle values provide the coordinate to track. The Camdist value specifies the required distance between the coordinate and the camera. The Camheight value specifies the required height of the camera in 3D space. The Camsmooth value specifies the level of smoothing required for the camera, where a value of 1.0 is no smoothing and a value of 100.0 is lots of smoothing. The Colflag value is a special flag that allows the camera to detect whether it is hitting any of the static collision boxes and if set to one will automatically adjust so as not to enter these collidable areas.
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+SET CAMERA TO FOLLOW X, Y, Z, Angle, Camdist, Camheight, Camsmooth, ColFlag
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="camera3d.htm">Camera3D Commands
+</a><br>
+<a href="glossary.htm">Glossary
+</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\basic3d\exam25.dba">Sliding Collision</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,24 @@
+<HTML><BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED"><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">
+MAKE SOUND FROM MEMBLOCK
+
+<BR><FONT COLOR="White"><FONT SIZE="4">
+This command will make a sound from a memblock. The specified values must be integer values and the source resource must exist or the command will fail. The memblock stores the data as described below.<br>
+<br>
+Memblock-Sound  (12 Byte Header)<br>
+-Header<br>
+--4 BYTES (DWORD) Bits per Sample<br>
+--4 BYTES (DWORD) Frequency<br>
+--4 BYTES (DWORD) Number of Samples<br>
+-Data<br>
+--X BYTES - Sample Data (16bit sound data uses a 2 BYTE sample)
+
+
+<BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">SYNTAX<BR><FONT COLOR="White"><FONT SIZE="4">
+MAKE SOUND FROM MEMBLOCK Sound Number, Memblock Number
+
+<BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">RELATED INFO<BR><FONT COLOR="White"><FONT SIZE="4">
+<a href="memblock.htm">Memblock Commands</a>
+
+<BR><a href="glossary.htm">Glossary</a><BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">EXAMPLE<BR><FONT COLOR="White"><FONT SIZE="4">
+<a href="examples\memblock\exam05.dba">Sound Data Access</a><br>
+<BR><BR></FONT></BODY></HTML>

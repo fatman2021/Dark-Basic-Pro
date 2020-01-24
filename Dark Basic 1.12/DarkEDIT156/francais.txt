@@ -1,0 +1,199 @@
+CharSet=0 
+MainCaption=DarkEDIT version 1.56 
+ErrorRunningDefaultBrowser=Erreur du choix du navigateur par défault. 
+ErrorRunningBrowser=Erreur de mise en route du navigateur pour: 
+ErrorRunningCore=Erreur d'ouverture de 3DGC. 
+TooManyWindows=25 fenêtres ouvertes. Veuiller en fermer avant d'en ouvrir d'autres. 
+UntitledWindow=[sans titre] 
+GotoBookMark=Aller au repère 
+SetBookmarkatCursor=positionner le curseur sur le repère 
+BreakLineCommand=rupture "Ln. #  Esc-Step  F12-Edit" 
+Function=FONCTION 
+DeclaredFunctions=Declarer les Fonctions 
+DeclaredLabels=Déclarer les labels 
+
+FileMenu=&Fichier 
+EditMenu=&Editeur 
+SearchMenu=&Rechercher 
+CompileMenu=&Compiler 
+WindowMenu=&Fenêtre 
+HelpMenu=&Aide 
+
+FileNew=&Nouveau 
+FileOpen=&Ouvrir 
+FileClose=&Fermer 
+FileSave=&Enregistrer 
+FileSaveAs=&Enregistrer sous... 
+FilePrint=&Imprimer 
+FileExit=&Quitter DarkEdit 
+
+EditUndo=&Annuler 
+EditRedo=&Rétablir 
+EditCut=&Couper 
+EditCopy=&Copier 
+EditPaste=&Coller 
+EditDelete=&Effacer 
+EditSelectAll=&Sélectionner tout 
+EditOptions=&Préférences... 
+
+SearchFind=&Rechercher 
+SearchReplace=&Remplacer 
+SearchFindAgain=Rechercher &le suivant 
+SearchSetBookmark=&Marquer un repère 
+SearchClearBookmark=&Effacer le repère 
+SearchGotoLineNumber=Aller à la &Ligne N° 
+SearchGotoBookmark=Aller au &repère 
+SearchGotoFunction=Aller à la &Fonction 
+SearchGotoLabel=Aller &au Label 
+
+CompileCheckSyntax=&Verifier la Syntaxe 
+CompileExecute=E&xécuter 
+CompileStepthrough=&Exécuter Pas à Pas 
+CompileMakeEXE=&Créer votre .EXE 
+CompileMakeFinal=Créer votre .EXE f&inal (inclus les médias) 
+
+WindowCascade=&Cascade 
+WindowTileH=Fenêtre &horizontale 
+WindowTileV=Fenêtre &vertical 
+
+HelpAbout=&A propos de... 
+HelpDBHelp=Aide de 3DGC... 
+HelpMediaBrowser=Explorateur de Média 
+
+Functions=Fonctions 
+Labels=Labels 
+
+OKbutton=&OK 
+cancelbutton=Annuler 
+
+AboutCaption=About DarkEDIT... 
+AboutL1=Conçu pour 
+AboutL2=3DGC = The ULTIMATE 3D Games Creator 
+AboutL3= 
+AboutL4=Copyright © 2000 
+AboutL5=Dark Basic Software Limited 
+AboutL6=All Rights Reserved 
+AboutL7= 
+AboutL8=Programming by Guy Savoie 
+AboutL9=guynmisoftware.com - darkedit.nmisoftware.com 
+
+MediaBrowserCaption=Explorateur de média 
+MediaBrowserPreviewButton=&Aperçu 
+MediaBrowserInsertButton=&Insérer le fichier 
+MediaBrowserAbsolute=&Chemin Complet 
+
+MediaViewerCaption=Explorateur de média 
+
+PreCaption=3DGC statut du PreProcessor... 
+PreStatusLabel=Statut: 
+PreErrorLabel=Message d'erreur: 
+PreGotoErrorButton=Afficher la &ligne d'erreur 
+PreReplaceSourceButton=&Remplacer l'erreur 
+PreEditModifiedButton=Modifier &l'erreur 
+PreContinue=&Continuer 
+
+PreNoneFound=...non Trouvé. 
+PreDone=...Terminé: 
+PreAdding=...Ajouter: 
+PreFound=Trouver. 
+
+PreCheckDefines=Controler les ééfinitions DEFINE... 
+PreReplacingDefines=Remplacer les DEFINE danc le code source... 
+PreCheckGlobals=Controler les définitions GLOBAL... 
+PreReplacingGlobals=Remplacer les variables GLOBALE dans le code source... 
+PreGlobalTrue=TRUE 
+PreGlobalFalse=FALSE 
+
+PreErrorRedeclare= Essayer de redéclarer 
+PreErrorVarExpected=Nom de Variable inconnu, 
+PreErrorIllegalChar=Identification du charactère incorrect: 
+PreErrorFoundBeforeEnd=Trouvé avant le END. 
+PreReplacedDefinition=...Définition remplacer par: 
+PreErrorParamCount=Parametre Compté de 1-9 prévu. 
+PreErrorParenExpected=Paramètre attendu. 
+PreErrorCommaAfterList="," attendu après le paramètre list. 
+PreErrorIdentExpected=Identificateur attendu. 
+PreErrorCommaExpected=Virgule attendue. 
+PreErrorCommaExpected=Définition attendue. 
+PreErrorParamsExpected=Paramètres attendu après: 
+PreReplaced=...remplacer 
+PreWith=avec 
+PreAtLine=à la ligne: 
+PreExpects=Attendre 
+PreParameters=Paramètres 
+PreErrorUnbalancedParen=Erreur de parenthèse dans 
+PreErrorUnknownParam=Paramètre inconnu: 
+PreCheckTypes=Vérifier les références de TYPE... 
+PreError=Erreur rencontré...Voir message en dessous 
+PreReplaceTypes=Remplacer les références de TYPE... 
+PreErrorDimensionExpected=Dimension attendue. 
+PreErrorBlank=Elément Vide 
+PreErrorFourDims=Uniquement 4 dimensions autorisé dans TYPEs. 
+PreErrorBadParen=")" vérifier les parenthèses "(". 
+PreErrorNoTypeName=Nom de TYPE manquant. 
+PreErrorNoElementsDeclared=Eléments non déclarés pour le type. 
+PreErrorEndTypeExpected=ENDTYPE attendu 
+PreErrorElementExpected=Type Elément attendu 
+
+RunL1=Patientez le temps que 3DGC termine ... 
+RunStopWaiting=Arrêt 
+
+SetMarkLabel=N° de repère: 
+SetMarkCaption=Repère sous le curseur 
+
+OptionsCaption=Préférences 3DGC 
+OptionscbSyntaxHighlight=Utiliser la Syntaxe colorée 
+OptionscbShowGutter=Afficher les N° de ligne 
+OptionscbShowLineNumbers=Montrer le Nombre de lignes 
+OptionscbPastEOL=Curseur placer en fin de ligne 
+OptionscbLeftGoesUp=Replacer le curseur en début de ligne 
+OptionscbHighlightLine=Accentuer la ligne actuelle. 
+OptionscbAutoIndent=surligner la ligne 
+OptionscbAutoSave=Enregistrer le fichier avant de compiler 
+OptionscbBackup=Sauvegarder 
+OptionscbStructs="TYPE" syntaxe édendue 
+OptionscbDefines="DEFINE" syntaxe édendue 
+OptionscbGlobals="GLOBAL" syntaxe édendue 
+OptionsEditorFont=Police de: 
+OptionscmSetFont=choisir une police 
+OptionsDefaultBackground=Couleur de Fond par Defaut: 
+
+OptionsebReserved=mot-clé 
+OptionsebRemarks=Rem - Commentaire 
+OptionsebStrings="Chaîne" 
+OptionsebNumbers=Nombres: 1.414 
+OptionsTextStyleOptions=Options du style de texte 
+OptionsTextColor=Texte 
+OptionsBackgroundColor=Couleur de fond 
+OptionsIdentifier=Identificateur 
+
+OptionsDarkBasicProgram=3DGC Programme: 
+OptionsPreferredHTML=Choisir un navigateur HTML: 
+OptionsHelpFile=Fichier d'aide: 
+OptionsDefaultStartupPath=Répertoire par Defaut: 
+OptionsCommandLine=Ligne de commande: 
+OptionsCompile=Compiler: 
+OptionsExecute=Executer: 
+OptionsMakeEXE=Créer EXE: 
+OptionsBuildFinal=EXE final: 
+
+OptionsMIDIViewer=Explorateur MIDI: 
+OptionsWAVViewer=Explorateur WAV: 
+OptionsBMPViewer=Explorateur BMP: 
+Options3DSViewer=Explorateur 3DS: 
+OptionsXOFViewer=Explorateur XOF: 
+OptionsAVIViewer=Explorateur AVI: 
+
+OptionsEditorTab=Préférences Editeur 
+OptionsSyntaxTab=Syntax accentuée 
+OptionsDBTab=3DGC Options 
+OptionsMediaTab=Média Options 
+OptionsInternal=Interne 
+OptionsExternal=Externe: 
+
+
+WindowInsert=Insérer 
+WindowOverwrite=Remplacer 
+WindowModified=Modifier 
+WindowNotFound=non trouvé. 
+WindowModifiedQuestion=Ce fichier a été modifier, voulez vous le sauvegarder ? 

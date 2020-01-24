@@ -1,0 +1,53 @@
+<HTML><BODY BACKGROUND="webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="9" FACE="Verdana">DARK BASIC<br></FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">Reserved Words, Remarks and Spacing<br></CENTER>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+RESERVED WORDS<br>
+<br>
+Words that are deemed to be reserved are the commands of the language. You will not be able to name your variables, arrays or user functions if they exist as part of the language as commands. As you become more familiar with the language, you will be able to naturally avoid using reserved words for your variable and array names.<br>
+<br>
+<br>
+REMARKS<br>
+<br>
+You are able to write statements in your program that will be completely ignored when run. This may seem strange at first, but actually provides one of the most important features of your programming armory. Remarks, also known as code commentary or documentation, are the plain english descriptions of what your program does at any point in the code.<br>
+<br>
+Although BASIC is quite concise as a readable language, it's never entirely clear what a piece of code is supposed to do if you read it for the first time. Do not be fooled into thinking the code you write yourself is for your eyes only. Returning to a piece of code you write 3 months previous will dispel any concerns you may have over the importance of remarks.<br>
+<br>
+The trick is to write only a summary of what a piece of code does. Leave out details, data and snippets that may change or be removed. Avoid typing a half-page description as the likelihood is that you'll never find the time to read it. Remarks become a highly powerful part of your program if used correctly.<br>
+<br>
+You can use the REM command to make a comment, as follows:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+REM Print a greeting for the user<br>
+PRINT "Hello World"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+There are other ways to make remarks in a program, such as the open quote symbol:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+` Print a greeting for the user<br>
+PRINT "Hello World"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+If you wish to 'comment out' a number of lines in your program, you can avoid adding a REM command at the start of each line by using the following:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+REMSTART<br>
+PRINT "Hello World"<br>
+PRINT "Hello World"<br>
+PRINT "Hello World"<br>
+REMEND<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Anything between the REMSTART command and the REMEND command will be ignored when the program is run. These commands are especially useful for temporarily removing parts of the program for testing purposes.<br>
+<br>
+<br>
+USE OF SPACING<br>
+<br>
+Unlike other BASIC languages, spaces are very important in your programs. It is important to separate commands and parameters, otherwise your program will not be understood. Take for example the line:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+FOR T=1 TO 10<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+This would not be recognized if written as:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+FORT=1TO10<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Nor would this be easy to read either. Providing you use spaces to separate commands and parameters, you will encounter no problems with spacing.<br>
+<br>
+Click here to go to the <a href="prin7.htm">Next Section</A>.<br>
+</FONT></BODY></HTML>

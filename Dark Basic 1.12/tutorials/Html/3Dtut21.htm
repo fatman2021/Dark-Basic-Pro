@@ -1,0 +1,274 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>10.
+The target shoots back</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to create game play by having the monster shoot back</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+create a fireball for the target and also a method for the target to determine
+where the player is</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Make MonsterBullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+Object Sphere 102,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>texture
+object 102,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Hide
+Object 102</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code is added before
+the main loop, creating the sphere for the Monsters projectile. Notice
+we are using texture 2 for the object texture. This is the same texture
+we used for the player projectile and effects. Re-using textures will economize
+the amount of memory your program uses.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Make Monster Explosion</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+Object Sphere 130,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>texture
+object 130,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>ghost
+object on 130</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Hide
+Object 130</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+Object Sphere 131,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>texture
+object 131,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>ghost
+object on 131</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Hide
+Object 131</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code is also added before
+the main loop. It creates the explosion objects for the monsters projectile.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+load Monsterparticles</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+Image "fire.bmp",2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>For
+x&nbsp; =100 to 110</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Make
+object plain x+10,5,5</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Texture
+object x+10,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Set
+object x+10,1,0,0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Ghost
+object on x+10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Hide
+object x+10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Next
+x</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>MPn=110</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>You may recognize this code
+snippet from the players particle effect. The code is the same only the
+object numbers have been changed. We have initialized the monster particle
+counter, "MPn" to 110, the number of the first object in the particle series.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+3Dsound "fireball2.wav",102</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+3Dsound "Explode.wav",103</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code was added to load
+the sound effects for the monster projectile. Notice, we did not re-use
+the sounds for the player effects. We created new sounds because the player
+sounds and the monster sounds may be playing in the same instance.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+MonsterBulletLife > 0 then Gosub MonsterShootBullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+MonsterExplode > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Gosub MonsterExplodeRocket</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;else</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Gosub MonsterAI</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code is in our main
+loop. Here we check for the monster bullet life and the monster explosion
+life, and run the respective subroutines much like those used by the player.
+The addition is the "MonsterAI" subroutine. We don't want the monster trying
+to shoot a new bullet while the old one is exploding. We are using the
+"If Then Else" comparison to make sure this doesn't happen.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Simple AI for guided monster missile</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>MonsterAI:</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Point object 3,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+PDist=Sqrt((mX# - X#)^2 + (mY#+25 - Y#)^2 + (mZ# - Z#)^2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if PDist&lt;1500</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+if MonsterBulletLife=0 or MonsterBulletLife &lt; 500-PDist/10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Point object 3,X#,Y#-25,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Position object 102,mX#,mY#+25,mZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Set object to object orientation 102,3</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+MonsterBulletLife =500</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+show object 102</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Loop sound 102</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Return</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This is the "MonsterAI" subroutine.
+When this subroutine is called the monster object is pointed directly at
+the players. The distance between the monster and the player is calculated.
+If the distance is less than 1500 then the code continues. If the player
+is out of range, nothing happens and the subroutine returns to the main
+loop. If the player is in range the code checks to see if the bullet is
+still alive or if the bullet has missed the player. The way we check to
+see if the bullet has missed the player is through the use of this piece
+of code "500-PDist/10". The monsters bullet travels 12 world units each
+time it moves. It has a life of 500, so the bullet can tavel a distance
+of 6000 units. If we divide the distance, or the value of the "PDist" variable
+by 12 we get the number of life units the monsters bullet has traveled
+towards the player. If the distance were 1200 the life units from the monster
+would be 100. If we subtract this value from the total number of life units
+we get 400 if this number is greater than the value in the "MonsterBulletLife"
+variable then we know the bullet has missed the target. Instead of 10 we
+use 12 to divide the distance, this allows the bullet to travel a little
+further than it should before another bullet can be shot. It adds more
+to the effect of the bullet missing the player. If the "MonsterBulletLife"
+value passes the test for another shot to be fired we point the monster
+directly at the players position. We position and orient the bullet object
+to the monster. We set the bullet life to 500, show the projectile and
+begin the bullet sound.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Shoot Monster bullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>MonsterShootBullet:</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Dec MonsterBulletLife</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Move object 102,12</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+MbX#=Object position X(102)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+MbY#=Object position Y(102)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+MbZ#=Object position Z(102)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+inc MPn</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if MPn=121 then MPn=110</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Scale object MPn,100,100,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position object MPn,MbX#,MbY#,MbZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position sound 102,MbX#,MbY#,MbZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+point object MPn,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Zrotate object MPn,rnd(180)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Show object MPn</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+for x = 1 to 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+scale object int((Wrapvalue((MPn-9+x)*36))/36)+110,100+x*25,100+x*25,100+x*25</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+next x</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if MbY# &lt; Get Ground height(1,MbX#,MbZ#) then MonsterBulletLife=0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Pdist=Sqrt((X# - MbX#)^2 + (Y#+25 - MbY#)^2 + (Z# - MbZ#)^2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if&nbsp; Pdist&lt;50</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+GoSub PlacePlayer</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+MonsterBulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Rem guided missile</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Pdist &lt;500 and Pdist>250 then Point object 102,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Pdist &lt; 100 then point object 102,X#,Y#,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if MonsterBulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Hide object 102</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+stop sound 102</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+for x=110 to 120</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+hide object x</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+next x</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+MonsterExplode = 20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Return</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "MonsterShootBullet"
+subroutine is much like our "ShootBullet" Subroutine, but we've added a
+few lines to make the monster bullet a guided missile. This creates game
+play and a greater challenge for the player when dodging the monsters projectile.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Rem guided missile</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Pdist &lt;500 and Pdist>250 then Point object 102,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Pdist &lt; 100 then point object 102,X#,Y#,Z#</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This is the code for the
+guided missile. If the bullet gets in a range between 500 and 250 world
+units of the player, the bullet points itself at the player. If the bullet
+is in the range of 100 units the bullet again points itself at the player.
+This gives the player a little time to try and dodge the bullet.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Explode monster bullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>MonsterExplodeRocket:</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+object 130,MbX#,MbY#,MbZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Show
+object 130</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+object 131,MbX#,MbY#,MbZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Show
+object 131</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;EScale=20*(30-MonsterExplode)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Scale
+object 130,EScale,EScale,EScale</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Yrotate
+object 130,WrapValue(MonsterExplode*37)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Scale
+object 131,EScale/1.5,EScale/1.5,EScale/1.5</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Yrotate
+object 131,WrapValue(359-MonsterExplode*37)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Dec
+MonsterExplode</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+MonsterExplode = 0 then hide object 130: Hide object 131</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+MonsterExplode=18</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+position sound 103,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+play sound 103</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+MonsterExplode &lt; 15 then position sound 103,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Return</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This is the "MonsterExplodeRocket"
+subroutine. You may recognize the code, it's the same as the "ExplodeRocket"
+subroutine. The only difference in these two subroutines are the monster
+bullet position variables and the numbers of the objects and sounds.</font></font>
+</body>
+</html>

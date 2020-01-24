@@ -1,0 +1,41 @@
+Rem * Title  : Display Sound Data
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem =======================================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem =======================================================
+rem This program will load and get info about 3D sound data
+rem -------------------------------------------------------
+
+rem Load a wav sound file into number one
+load 3dsound "sound.wav",1
+
+rem Set the 3D sound up
+position sound 1,100,200,300
+position listener 0,0,-500
+rotate listener 10,45,0
+
+rem This command will check if there is a sound number one
+if sound exist(1)=1:print "there is a sound number one":endif
+
+rem This command will check if you loaded the sound has a 3d sound
+if sound type(1)=1
+	print "this sound file has been loaded has a 3d sound"
+else 
+	print "this sound file has not been loaded has a 3d sound"
+endif
+
+rem Display 3D sound data
+print sound position x(1)
+print sound position y(1)
+print sound position z(1)
+print listener position x()
+print listener position y()
+print listener position z()
+print listener angle x()
+print listener angle y()
+print listener angle z()
+
+rem End the program
+end
+

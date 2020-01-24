@@ -1,0 +1,85 @@
+Rem * Title  : DATA Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ===========================================================
+rem This program will show you how to use data command
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+rem Read some data in
+rem you must know what order the data is
+rem if the first data is a number
+rem then don`t read it has a string
+
+print "read data in"
+read name$
+read address$		
+read area$
+read town$
+read age
+read height	
+
+print "NAME    = ",name$
+print "ADDRESS = ",address$
+print "AREA    = ",area$
+print "TOWN    = ",town$
+print "AGE     = ",age
+print "HEIGHT  = ",height," ft"
+
+rem Once the data has been read then to reread the same data
+rem you must use the RESTORE command
+
+rem this set the data pointer to myname
+restore myname
+
+print "reading data in again"
+read name$
+read address$		
+read area$
+read town$
+read age
+read height	
+
+print "NAME    = ",name$
+print "ADDRESS = ",address$
+print "AREA    = ",area$
+print "TOWN    = ",town$
+print "AGE     = ",age
+print "HEIGHT  = ",height," ft"
+
+rem if you do not reset the data pointer then the next read would read
+rem the next set of data or there would be a error
+rem out of data
+
+print "reading the next lot of data"
+read name$
+read address$		
+read area$
+read town$
+read age
+read height	
+print "NAME    = ",name$
+print "ADDRESS = ",address$
+print "AREA    = ",area$
+print "TOWN    = ",town$
+print "AGE     = ",age
+print "HEIGHT  = ",height," ft"
+
+print
+print "press spacekey"
+suspend for key
+end
+
+myname:
+data "malcolm bamber"
+data "124 long lane","leigh","wigan"
+data 34,5
+yourname:
+data "lee bamber"
+data "11 small lane","leigh","wigan on sea"
+data 22,3
+

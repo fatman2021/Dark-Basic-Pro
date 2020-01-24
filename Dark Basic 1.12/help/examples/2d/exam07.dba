@@ -1,0 +1,86 @@
+Rem * Title  : Getting pixel data
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ========================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ========================================
+rem This program will use the point command 
+rem ----------------------------------------
+
+rem Draw some random boxs on screen
+gosub myrandombox
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),0
+
+rem Wait for the right mouse button to be pressed 
+x=0
+y=0
+repeat
+
+	rem Show colour values
+	if x<>mousex() or y<>mousey()
+		gosub drawwhatcolor
+	endif
+
+	rem Record current mouse position
+	x=mousex()
+	y=mousey()		
+
+	rem Get color under mouse pointer
+	color=point(x,y)
+
+until mouseclick()=1
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Print a message on screen
+text 200,240,"press the spacebar to quit"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end
+
+drawwhatcolor:
+rem *************************************************************************
+rem * print a message on screen tell you what color is under mouse pointer *
+rem *************************************************************************
+
+rem Set the ink to black and paper color to black 
+ink 1,1
+
+rem draw a black box on screen which will clear away old message
+box 0,465,639,479
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem draw new message
+text 0,465,"color under mouse is "+" r:"+str$(rgbr(color))+" g:"+str$(rgbg(color))+" b:"+str$(rgbb(color))
+
+return
+
+myrandombox:
+rem ***************************
+rem * Draw 100 boxs on screen *
+rem ***************************
+
+for t=0 to 100 
+	rem Get a random ink color
+	ink rgb(rnd(255),rnd(255),rnd(255)),1
+	
+	rem where on screen to draw box
+
+	rem Start of line
+	left=rnd(640)
+	top=rnd(480)
+	right=left+50
+	bottom=top+50
+	
+	rem Draw a box
+	box left,top,right,bottom
+next t
+return

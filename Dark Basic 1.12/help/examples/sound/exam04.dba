@@ -1,0 +1,26 @@
+Rem * Title  : Sound Volume Change
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ===========================================================
+rem This program will load and change the volume of a sound file 
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a wav sound file into number one
+load sound "sound.wav",1
+
+rem Loop a sound file
+loop sound 1
+
+rem Set the sound to middle of your speaker
+set sound pan 1,0
+
+print "please type SET SOUND VOLUME 1,90 and press return"
+ 
+rem if you do not put a END command here then the program will
+rem quit to the cli
+

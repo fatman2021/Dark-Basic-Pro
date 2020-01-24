@@ -1,0 +1,81 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL NINE<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+TERRA FORM<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to demonstrate how you can create a vast landscape with very few commands. This program also demonstrates fogging and camera control.<br>
+<br>
+This tutorial program can be loaded directly into the editor by clicking
+<a href="tutorial\programs\sample09.dba">SAMPLE09.DBA</a>.<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+rem Load stone floor bitmap into image<br>
+LOAD BITMAP "floor.bmp",1<br>
+GET IMAGE 1,0,0,128,128<br>
+DELETE BITMAP 1<br>
+<br>
+rem Activate manual syncronization and hide mouse<br>
+SYNC ON : HIDE MOUSE<br>
+<br>
+rem Make a 3D landscape<br>
+MAKE MATRIX 1,10000.0,10000.0,25,25<br>
+<br>
+rem Texture landscape<br>
+PREPARE MATRIX TEXTURE 1,1,1,1<br>
+<br>
+rem Randomise landscape<br>
+RANDOMIZE MATRIX 1,300.0<br>
+<br>
+rem Activate and distance fogging<br>
+FOG ON<br>
+FOG COLOR 0<br>
+FOG DISTANCE 5000<br>
+<br>
+rem Begin loop<br>
+DO<br>
+<br>
+rem Control camera turret<br>
+IF LEFTKEY()=1 THEN angle#=angle#-3.0<br>
+IF RIGHTKEY()=1 THEN angle#=angle#+3.0<br>
+<br>
+rem Ensure angle stays within range<br>
+angle#=wrapvalue(angle#)<br>
+<br>
+rem Update camera<br>
+YROTATE CAMERA angle#<br>
+<br>
+rem Refresh screen<br>
+SYNC<br>
+<br>
+rem End loop<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The first part of the program loads a bitmap offscreen and grabs the contents as an image. This image will later be used to texture the landscape. To create the landscape, a matrix is used. A matrix is a collection of grid squares that can be raised, lowered and textured at your command. The program creates a matrix ten thousands square units in size, subdivided into 625 separate squares(25x25). The matrix is then textured and randomized to create the effect of stone hills.<br>
+<br>
+If your graphics card supports such a feature, fogging is activated and the distance is set to the clipping range of the system. Dark blue is applied as the fog color and is later used to clear the screen.<br>
+<br>
+A special real number is used for the camera angle value, indicated by the hash(#) appended to the variable. The left and right arrow keys alter the value of the angle variable and later code ensures the angle variable wraps around when either the maximum or minimum value is exceeded.<br>
+<br>
+The last part of the main loop updates the angle of the camera using the ROTATE CAMERA command. In order to maintain a steady speed, the program uses SYNC to refresh the screen.<br>
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to make the camera rotate faster<br>
+2. Change the program to make the color of the sky turn red<br>
+3. Change the program to Randomize the matrix when a key is pressed<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut10.htm">TUTORIAL TEN</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,171 @@
+Rem * Title  :  DB2DWipes Demo
+Rem * Author : Guy Savoie
+Rem * Date   : October 15, 2001
+
+` This demo showcases the db2dwipes.dll functions
+` Please note that the transition library supports:
+` * Screen resolutions of 640x480, 800x600, and 1024x768
+` * Screen bit depths of 16, 24, or 32 bits.
+`
+` Copyright © 2001
+` Dark Basic Software Limited
+` All Rights Reserved
+`
+` TRANSITIONS BY NUMBER
+`      1 : TransitionProc := BumpDown;
+`      2 : TransitionProc := BumpUp;
+`      3 : TransitionProc := BumpLeft;
+`      4 : TransitionProc := BumpRight;
+`      5 : TransitionProc := TransitionDown;
+`      6 : TransitionProc := TransitionUp;
+`      7 : TransitionProc := TransitionLeft;
+`      8 : TransitionProc := TransitionRight;
+`      9 : TransitionProc := SpiralClockUL;
+`      10 : TransitionProc := SpiralClockBR;
+`      11 : TransitionProc := SpiralCounterClockUL;
+`      12 : TransitionProc := SpiralCounterClockBR;
+`      13 : TransitionPRoc := RandomBlocks;
+`      14 : TransitionProc := HorizontalBlocksDown;
+`      15 : TransitionProc := HorizontalBlocksUp;
+`      16 : TransitionProc := VerticalBlocksLeft;
+`      17 : TransitionProc := VerticalBlocksRight;
+`      18 : TransitionProc := CrossFade;
+`      99 : TransitionProc := CustomBlocks;
+`      100 : TransitionProc := CustomBlocksReverse;
+`
+
+rem You can change the bit depth here, if you like. Be sure your video adapter supports it.
+
+bitdepth = 16
+
+rem this is the transition speed
+
+framecount = 90
+
+set display mode 640,480,bitdepth
+
+sync rate 60:sync on
+
+rem Load Ripple DLL
+load dll "db2dwipes.dll",1
+
+rem these are the two images we will use for the demo. Please note that we need three bitmaps:
+rem image 1, image 2, and the display bitmap, to show the current transition
+
+load bitmap "screen1.jpg",0
+make memblock from bitmap 1,0
+make memblock from bitmap 2,0
+load bitmap "screen2.jpg",0
+make memblock from bitmap 3,0
+
+s1 = get memblock ptr(1)+12
+s2 = get memblock ptr(2)+12
+s3 = get memblock ptr(3)+12
+
+rem we are going to flip-flop the source and final bitmap pointers, so we can have smooth transitions from
+rem one to another.
+
+StartImagePtr=s3
+FinalImagePtr=s2
+
+for TNum = 1 to 18: rem 18
+  ` flip the source and final image pointers, so the transitions won't reset on us - this looks nicer.
+
+   TempPtr=StartImagePtr
+   StartImagePtr=FinalImagePtr
+   FinalImagePtr=TempPtr
+
+   ` When we get to #18, the last in this loop, we are going to speed it up.
+   ` #18 is the crossfade function, and in 16 bit, there is a max number of
+   ` shade transitions of 32, so why waste CPU time? It is also the slowest
+   ` transition because EVERY pixel is averaged against another for EVERY
+   ` frame. BIG Data throughput!!!
+
+   if TNum = 18 then FrameCount = 32
+
+   ` tell the DLL what we want to do, and with what images
+
+   call dll 1, "Init_Transition",TNum,640,480,bitdepth,framecount,StartImagePtr,FinalImagePtr
+
+   ` the transition happens here
+   for i = 1 to framecount
+      call dll 1,"Next_Transition_Frame",s1
+      make bitmap from memblock 0,1
+      sync
+   next i
+Next TNum
+
+` Here, we are going to use the custom block transition - you can create new custom block
+` transitions with the supplied Transition Maker Application.
+
+make memblock 4,768*2
+` The custom data is stored in Data statements in the following function
+setup_custom_block_data
+` send the data to the DLL
+call dll 1, "Set_Custom_Blocks",get memblock ptr(4)
+delete memblock 4
+
+` flip-flop the bitmaps again
+
+TempPtr=StartImagePtr
+StartImagePtr=FinalImagePtr
+FinalImagePtr=TempPtr
+
+` do the transition - nice and slow (770 frames), to enjoy the effect
+
+call dll 1, "Init_Transition",99,640,480,bitdepth,770,StartImagePtr,FinalImagePtr
+for i = 1 to 770
+   call dll 1,"Next_Transition_Frame",s1
+   make bitmap from memblock 0,1
+   sync
+next i
+
+delete memblock 1
+delete memblock 2
+delete memblock 3
+
+call dll 1,"Free_Screens"
+delete dll 1
+
+
+end
+
+` this is a custom block transition effect, created with the transition maker.
+`
+` It is supposed to be a tree blossoming...
+`
+
+function setup_custom_block_data
+   restore cdata
+   for i = 0 to 767
+      read tmp
+      WRITE MEMBLOCK WORD 4,i*2,tmp
+   next i
+cdata:
+data 751, 752, 719, 720, 687, 688, 655, 623, 591, 656, 559, 750, 753, 527, 495, 624, 462, 718, 721, 463, 431, 592, 686, 689, 560, 399, 368, 429, 397, 336, 529, 365
+data 428, 304, 498, 332, 272, 528, 467, 496, 241, 209, 749, 754, 654, 657, 436, 437, 438, 404, 427, 394, 300, 267, 177, 239, 393, 235, 206, 146, 367, 471, 472, 115
+data 113, 173, 266, 202, 424, 360, 373, 497, 466, 435, 342, 473, 504, 311, 442, 537, 279, 312, 337, 265, 464, 306, 423, 421, 326, 231, 137, 108, 47, 52, 276, 215
+data 314, 412, 603, 420, 325, 230, 136, 76, 15, 20, 244, 183, 315, 413, 604, 452, 357, 262, 168, 77, 16, 21, 245, 184, 347, 445, 636, 453, 358, 263, 169, 109
+data 48, 53, 277, 216, 346, 444, 635, 484, 389, 294, 200, 140, 79, 85, 309, 248, 378, 477, 668, 451, 356, 261, 167, 107, 46, 54, 278, 217, 345, 446, 637, 419
+data 324, 229, 135, 75, 14, 22, 246, 185, 313, 414, 605, 388, 293, 198, 104, 44, 213, 152, 282, 381, 572, 485, 454, 422, 390, 391, 359, 327, 295, 296, 264, 232
+data 199, 201, 138, 106, 110, 78, 80, 49, 51, 84, 86, 118, 117, 151, 214, 247, 281, 316, 348, 349, 382, 415, 571, 602, 634, 369, 370, 338, 516, 418, 260, 166
+data 233, 139, 303, 284, 182, 55, 401, 667, 380, 443, 170, 171, 172, 174, 141, 112, 186, 218, 379, 339, 335, 486, 111, 83, 149, 249, 410, 638, 328, 204, 143, 81
+data 119, 250, 283, 376, 570, 114, 42, 237, 329, 355, 455, 334, 305, 150, 116, 280, 411, 530, 392, 205, 180, 121, 219, 317, 409, 476, 601, 297, 302, 271, 82, 120
+data 181, 273, 165, 73, 88, 252, 286, 154, 211, 212, 285, 74, 87, 153, 251, 105, 142, 148, 377, 539, 573, 234, 197, 179, 344, 499, 561, 465, 741, 709, 677, 644
+data 456, 292, 323, 187, 220, 375, 243, 540, 531, 612, 532, 144, 236, 17, 45, 56, 350, 203, 580, 581, 387, 461, 613, 579, 196, 102, 41, 50, 123, 221, 343, 633
+data 582, 549, 744, 747, 757, 762, 765, 736, 767, 704, 738, 712, 743, 715, 725, 730, 733, 735, 764, 760, 672, 706, 680, 683, 693, 728, 698, 701, 703, 758, 755, 745
+data 739, 737, 740, 742, 746, 748, 756, 759, 761, 763, 766, 674, 714, 724, 731, 716, 707, 726, 734, 692, 0, 1, 32, 2, 33, 64, 3, 34, 65, 96, 4, 35
+data 66, 97, 128, 5, 36, 67, 98, 129, 160, 6, 37, 68, 99, 130, 161, 192, 7, 38, 69, 100, 131, 162, 193, 224, 8, 39, 70, 101, 132, 163, 194, 225
+data 256, 9, 40, 71, 133, 164, 195, 226, 257, 288, 10, 72, 103, 134, 227, 258, 289, 320, 11, 228, 259, 290, 321, 352, 12, 43, 291, 322, 353, 384, 13, 354
+data 385, 416, 386, 417, 448, 449, 480, 450, 481, 512, 482, 513, 544, 18, 483, 514, 545, 576, 19, 298, 515, 546, 577, 608, 175, 268, 299, 330, 361, 547, 578, 609
+data 640, 145, 176, 207, 238, 269, 331, 362, 517, 548, 610, 641, 208, 270, 301, 363, 425, 487, 518, 611, 642, 673, 23, 147, 178, 240, 333, 364, 395, 426, 457, 488
+data 519, 550, 643, 705, 24, 210, 396, 458, 489, 520, 551, 675, 25, 242, 366, 459, 490, 521, 552, 583, 614, 645, 676, 26, 57, 274, 398, 460, 491, 522, 553, 584
+data 615, 646, 708, 27, 58, 89, 275, 430, 492, 523, 554, 585, 616, 647, 678, 28, 59, 90, 307, 400, 493, 524, 555, 586, 617, 648, 679, 710, 29, 60, 91, 122
+data 308, 432, 494, 525, 556, 587, 618, 649, 711, 30, 61, 92, 340, 371, 402, 433, 526, 557, 588, 619, 650, 681, 31, 62, 93, 124, 155, 310, 341, 372, 403, 434
+data 558, 589, 620, 651, 682, 713, 63, 94, 125, 156, 590, 621, 652, 95, 126, 157, 188, 374, 405, 622, 653, 684, 127, 158, 189, 406, 468, 685, 159, 190, 407, 469
+data 500, 562, 593, 717, 191, 222, 253, 408, 439, 470, 501, 563, 594, 625, 223, 254, 440, 502, 533, 564, 595, 626, 255, 441, 503, 534, 565, 596, 627, 658, 287, 318
+data 535, 566, 597, 628, 659, 690, 319, 474, 505, 536, 567, 598, 629, 660, 691, 722, 351, 475, 506, 568, 599, 630, 661, 723, 383, 507, 538, 569, 600, 631, 662, 508
+data 632, 663, 694, 447, 478, 509, 664, 695, 479, 510, 541, 665, 696, 727, 511, 542, 666, 697, 543, 574, 729, 575, 606, 699, 607, 669, 700, 639, 670, 732, 671, 702
+
+endfunction
+

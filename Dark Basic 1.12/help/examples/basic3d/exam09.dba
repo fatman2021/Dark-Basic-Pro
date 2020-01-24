@@ -1,0 +1,45 @@
+Rem * Title  : Simple 3D maths
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 9
+rem ==========================================
+rem This program performs simple 3D maths
+rem ------------------------------------------
+
+rem Load and animate your object (backdrop is auto-activated)
+load object "walk.x",1
+yrotate object 1,180
+fix object pivot 1
+
+rem Activate manual sync
+sync on
+
+rem Begin main loop
+while mouseclick()=0
+
+rem Control variables with the cursor keys
+if upkey()=1 then dx#=newxvalue(dx#, angle#, 3.0) : dz#=newzvalue(dz#, angle#, 3.0)
+if downkey()=1 then dx#=newxvalue(dx#, angle#, -3.0) : dz#=newzvalue(dz#, angle#, -3.0)
+if leftkey()=1 then angle#=wrapvalue(angle#-10)
+if rightkey()=1 then angle#=wrapvalue(angle#+10)
+
+rem You can curve values creating a smooth transition of position
+x#=curvevalue(dx#, x#, 10.0)
+z#=curvevalue(dz#, z#, 10.0)
+
+rem You can curve angles creating smooth transition of rotation
+ca#=curveangle(angle#, ca#, 5.0)
+
+rem Update the object with these new values
+position object 1,x#,0,z#
+yrotate object 1,ca#
+
+rem Update Screen
+sync
+
+rem End main loop
+endwhile
+
+rem End the program
+end

@@ -1,0 +1,135 @@
+Rem * Title  : Static Occlusion
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 23
+rem ==========================================
+rem This program shows use of static occlusion
+rem and movement within static collision boxes
+rem ------------------------------------------
+autocam off : sync rate 60
+hide mouse : sync on
+
+rem Set camera
+turn camera right 45
+move camera 50
+
+rem Different types of static object
+type=0
+do
+
+rem Delete static objects (from any last cycle)
+delete static objects
+set static objects wireframe on
+
+rem Make a new scene of objects
+objid=1
+for z=0 to 9
+	for x=0 to 9
+
+		rem Make and position an object
+		if x/2.0=int(x/2.0) or z/2.0=int(z/2.0)
+			make object plain objid,100,100
+			xrotate object objid,90
+			thisisawall=0
+		else
+			make object box objid,100,200,100
+			thisisawall=1
+		endif
+		position object objid,x*100,-10,z*100
+
+		rem Make static object(s) from this object
+		color object objid,rgb(255,255,255)
+		make static object objid
+		if thisisawall=1
+
+			rem Set occlusion to Wall
+  			if type=1 then make static object objid,4
+
+			rem Also make a static collision box for Wall
+			make static collision box (x*100)-50,0,(z*100)-50,(x*100)+50,200,(z*100)+50
+
+		endif
+
+		rem Keep objects visible
+		color object objid,rgb(200,255,200)
+		ghost object on objid,1
+
+		rem Increment object counter
+		inc objid
+
+	next x
+next z
+
+rem Make a normal sphere object and attach temporarily to static world
+make object sphere 1000,50
+position object 1000,200,25,200
+
+rem Begin main loop
+do
+
+rem User prompt
+set cursor 0,0
+print "SHOWS STATIC COLLISION AND INFINITE HEIGHT STATIC OCCLUSION"
+if type=0 then print "Normal Static Mode - Notice Static Wires Not Occluded"
+if type=1 then print "Infinite Height Occlusion - Notice the Static Wires have been Occluded"
+print "Hit Return to Change"
+center text 320,450,"Polygons:"+str$(statistic(1))+"  Framerate:"+str$(screen fps())
+
+rem Store old camera position
+oldcamx#=camera position x()
+oldcamy#=camera position y()
+oldcamz#=camera position z()
+
+rem Move camera around
+if leftkey()=1 then turn camera left 4
+if rightkey()=1 then turn camera right 4
+if upkey()=1 then move camera 2
+if downkey()=1 then move camera -2
+
+rem Store new camera position
+newcamx#=camera position x()
+newcamy#=camera position y()
+newcamz#=camera position z()
+
+rem Set a size for the camera box
+s#=10.0
+
+rem Ensure camera stays out of static collision boxes
+if get static collision hit(oldcamx#-s#,oldcamy#-s#,oldcamz#-s#,oldcamx#+s#,oldcamy#+s#,oldcamz#+s#,newcamx#-s#,newcamy#-s#,newcamz#-s#,newcamx#+s#,newcamy#+s#,newcamz#+s#)=1
+	rem For sliding collision, static collision returns adjustment values
+	dec newcamx#,get static collision x()
+	dec newcamy#,get static collision y()
+	dec newcamz#,get static collision z()
+	position camera newcamx#,newcamy#,newcamz#
+endif
+
+rem Try another type
+if returnkey()=1 then exit
+
+rem Slowly move sphere and show off temporary linkage to static world
+move object 1000,0.1 : clock=clock+1
+if clock>200 then attach object to static 1000
+if clock>400 then detach object from static 1000 : clock=0
+
+rem Update screen
+sync
+
+rem End of loop
+loop
+
+rem Delete objects (if any)
+for t=1 to 1000
+	if object exist(t)=1 then delete object t
+next t
+
+rem Next tpe
+inc type : if type=2 then type=0
+
+rem Type loop
+loop
+
+rem Deactivate wireframe for static objects
+set static objects wireframe off
+
+

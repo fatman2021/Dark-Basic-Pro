@@ -1,0 +1,56 @@
+Rem * Title  : FOR NEXT Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ===========================================================
+rem This program will show you how to use the FOR NEXT commands
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem there is two ways to use the FOR NEXT commands
+rem the first way is to use the FOR NEXT command is like this
+	
+rem will count upto 20
+print "COUNTING UP TO 20"  
+for t=0 to 20
+	print " ",t;
+next t
+print
+
+rem will count down to 0
+print "COUNTING DOWN TO 0" 
+for t=20 to 0 step -1
+	print " ",t;
+next t
+print
+
+rem to break out of a loop at any time use the EXIT command
+rem will count upto 20 
+print "BREAKING OUT OF A LOOP WHEN T = 15"
+for t=0 to 20
+	print " ",t;
+	if t=15 then print : print "I AM OUT OF HERE" : exit
+next t
+print
+
+rem the second way to use the FOR NEXT command is like this
+
+rem will count upto 20 in steps of 2
+print "COUNTING UP TO 20 IN STEP OF 2"
+for t=0 to 20 step 2
+	print " ",t;
+next t
+print 
+
+rem will count down from 20 steps of 2
+print "COUNTING DOWN TO 20 IN STEP OF 2"
+for t=20 to 0 step -2
+	print " ",t;
+next t
+print 
+
+rem End the program
+end

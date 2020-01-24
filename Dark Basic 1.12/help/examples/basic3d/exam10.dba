@@ -1,0 +1,59 @@
+Rem * Title  : Picking An Item
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 10
+rem ============================================
+rem This program demonstrates picking up an item
+rem --------------------------------------------
+
+rem Load your object
+load object "walk.x",1
+yrotate object 1,180
+fix object pivot 1
+loop object 1,5,25
+position object 1,0,0,500
+yrotate object 1,180
+set object collision to polygons 1
+
+rem Make a cone in the distance
+make object cone 2,25.0
+position object 2,10,0,250
+scale object 2,100,10,100
+
+rem Point character towards cone
+point object 1,object position x(2),0,object position y(2)
+
+rem Activate manual sync
+sync on
+
+rem Camera position
+position camera 0,100,0
+
+rem Begin main loop
+while mouseclick()=0
+
+rem Move character
+move object 1,1
+
+rem If chartacter collides with cone
+if object collision(1,2)=1
+	rem pick up sphere and make sure cannot detect it any more
+	glue object to limb 2,1,4
+	position object 2,0,0,0
+	set object collision off 2
+endif
+
+rem When spacebar is hit, drop the cone
+if spacekey()=1
+	unglue object 2
+endif
+
+rem Update Screen
+sync
+
+rem End main loop
+endwhile
+
+rem End the program
+end

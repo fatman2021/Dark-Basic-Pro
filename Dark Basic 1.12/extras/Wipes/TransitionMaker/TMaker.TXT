@@ -1,0 +1,23 @@
+DarkBASIC Transition Designer v1.00
+
+Copyright © 2001
+Dark Basic Software Limited
+All Rights Reserved
+
+Written by Guy Savoie <guy@nmisoftware.com>
+
+
+This program is designed to create custom block transitions for use with the DB2DWipes.DLL sceen transition library. Source code is provided (in Delphi 6 format) should you want to extend the functionality of TMaker.
+
+See the demo program written in DarkBASIC for use of the custom block data exported from TMaker.
+
+Notes:
+
+A complete screen transition uses all 768 blocks (32 wide by 24 tall) - although you can load and save incomplete transitions with TMaker, you will not be able to export DarkBASIC data files for use with the DLL unless all blocks are assigned.
+
+You may use the SpaceBar when editing to toggle the block layer mode - Adding blocks, removing blocks, and skipping blocks. 
+
+There are utility buttons that allow you to fill, clear, or fill in a single line to the border in all 8 standard linear directions.
+
+You may also use the Play button to see how your transition looks over time.
+

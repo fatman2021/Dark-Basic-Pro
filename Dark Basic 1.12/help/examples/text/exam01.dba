@@ -1,0 +1,57 @@
+Rem * Title  : Using Print
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ========================================
+rem This program will show how to use print 
+rem ----------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem The command cls will clear the screen and reset the cursor
+rem so that any text printed on screen will start from the top left
+cls
+
+rem You can set were on screen your text
+rem will be printed by using the set cursor command
+
+rem Text will be printed top left of screen 
+set cursor 0,0
+
+rem The print command can print strings 
+print "MY FIRST STRING "
+
+rem The print command can print a string variable
+rem first make stirng variable
+a$="FIRST STRING "
+
+rem Then print it
+print a$
+
+rem The print command can print string and string variable together
+print "SECOND STRING ",a$
+
+rem the print command can print string and string variable in any order
+print a$,"SECOND STRING "
+
+rem Numbers and strings can be printed together
+
+rem A intiger number
+a=100
+
+rem A real number
+a#=1.1
+
+rem A string
+a$="SEE SOME NUMBERS"
+
+rem Print them all
+print a$," ",a," ",a#," THAT WAS GOOD"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

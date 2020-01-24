@@ -1,0 +1,39 @@
+Rem * Title  : Backbuffer Access
+Rem * Author : GuyS
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 02
+rem ===============================================
+rem This program handles Backbuffer Access
+rem -----------------------------------------------
+
+rem Reading 3D Video memory is extremely slow
+rem so we emulate and render in system memory 
+set emulation on : set display mode 640,480,16
+
+rem Set sync, rate and hide mouse
+sync rate 0 : sync on : hide mouse
+
+rem Make a 3D Object
+make object cube 1,60 : rotate object 1,60,0,0 : color object 1,rgb(255,0,0)
+
+rem Load DLL
+load dll "wavebackb.dll",1
+
+rem Main loop
+while mouseclick()=0
+
+	rem Show FPS and Spin Cube
+	center text 320,10,str$(screen fps())
+	yrotate object 1,wrapvalue(object angle y(1)+1)
+
+	rem Call the DLL function that writes to the backbuffer
+	lock backbuffer
+	ptr=get backbuffer ptr()
+	call dll 1,"wave",ptr
+	unlock backbuffer
+
+	rem Update screen
+	sync
+
+endwhile

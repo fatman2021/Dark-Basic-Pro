@@ -1,0 +1,74 @@
+Rem * Title  : 3D Sound Placement
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ==============================================
+rem This program demonstrates 3D sound placement
+rem ----------------------------------------------
+
+rem Load a 3d sound
+load 3dsound "drum.wav",1
+for t=2 to 10 : clone sound t,1 : next t
+snd=1 : loop sound snd
+
+rem Load some music
+load sound "music.mp3",100
+set sound volume 100,25
+loop sound 100
+
+rem Create characters to see
+make object cone 1,100.0 : xrotate object 1,90 : fix object pivot 1
+make object cube 2,100.0
+
+rem Position camera
+position camera 0,1000,0
+point camera 0,0,0
+
+rem Activate manual sync
+sync on
+
+rem Begin loop
+z#=100
+do
+
+rem Prompt
+set text size 24
+set text font "Arial"
+center text 320,10,"Use MOUSE to move Object"
+center text 320,30,"Press SPACE to reposition Listener"
+center text 320,50,"Press RETURN to point Listener at Object"
+
+rem Control object
+x#=(750.0/320.0)*((mousex()-320))
+z#=(570.0/240.0)*((240-mousey()))
+
+rem Control which sound
+k$=inkey$()
+if asc(k$)>=asc("0") and asc(k$)<=asc("9")
+	if snd<>0 then stop sound snd
+	snd=(asc(k$)-asc("0"))
+	if snd<>0 then loop sound snd
+endif
+
+rem Update character
+position object 2,x#,0,z#
+
+rem Position sound at object 2
+position sound 1,x#,0,z#
+
+rem Position our listener at camera
+if inkey$()=" "
+	position object 1,x#,0,z#
+	position listener x#,0,z#
+endif
+if returnkey()=1
+	point object 1,x#,0,z#
+	rotate listener object angle x(1),object angle y(1),object angle z(1)
+endif
+
+rem Syncronise
+sync
+
+rem End loop
+loop

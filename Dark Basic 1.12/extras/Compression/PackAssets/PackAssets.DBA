@@ -1,0 +1,84 @@
+Rem * Title  :  Asset Compression Demo
+Rem * Author : Guy Savoie
+Rem * Date   : October 15, 2001
+
+rem You can combine, compress, and protect your game assets using MemBlocks
+Rem We are using a VERY simple packed format
+Rem first 4 bytes is a DWORD, number of assets
+Rem for each asset, we store a 4 byte dword, the SIZE of the compressed asset,
+Rem then the asset in DBLZH format.
+
+Rem In theory, a complex header could be stored, and you could write routines
+Rem to decompress assets by filename, and to any memblock requested, etc.
+Rem
+Rem You can develop almost any custom format, based on your needs.
+
+#include "memblockLZH.dba"
+
+filename$ = "assets.dbLZH"
+
+enable_block_compression
+
+Print "Asset Packing/Compressing Demonstration"
+
+Rem Here, we are counting the number of images to pack together
+
+acount = 0
+while file exist("Images\Image"+str$(acount+1)+".bmp") <> 0
+   acount = acount+1
+endwhile
+
+rem Load each image and compress it in a separate memblock
+for i = 1 to acount
+   Print "Loading "+"Image"+str$(i)+".bmp"
+   load bitmap "Images\Image"+str$(i)+".bmp",1
+   Set Current Bitmap 0
+   make memblock from bitmap 1,1
+   Print "Compressing..."
+   sync
+   result = compress_Block(1,I+1)
+   delete bitmap 1
+next i
+
+Rem We don't need these objects, so free up their memory here
+delete memblock 1
+
+Print
+Print "Combining Compressed Images into One MemBank"
+
+Rem We need to figure out how much space the packed block will take up
+
+neededsize = 4
+for i = 1 to acount
+   neededsize = neededsize+4+get memblock size(i+1)
+next i
+
+Rem Make the block, and write the asset count variable to the first DWord
+make memblock 1,neededsize
+write memblock dword 1,0,acount
+
+offset = 4
+for i = 1 to acount
+   Rem Save the Size DWORD first
+   size = get memblock size(i+1)
+   write memblock dword 1,offset,size
+   offset = offset + 4
+   Rem Now Copy the compressed asset to the pack
+   copy memblock i+1,1,0,offset,size
+   offset = offset + size
+   Rem we don't need the old copy of it anymore, so it gets deleted.
+   delete memblock i+1
+next i
+
+Print "Saving to File: "+Filename$
+
+if file exist(filename$) then delete file filename$
+
+open to write 1,filename$
+write memblock 1,1
+close file 1
+
+rem free the DLL
+
+disable_block_compression
+end

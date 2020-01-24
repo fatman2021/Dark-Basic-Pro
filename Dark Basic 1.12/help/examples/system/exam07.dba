@@ -1,0 +1,31 @@
+Rem * Title  : System Key Control
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ==========================================
+rem This program will control the system keys
+rem ------------------------------------------
+
+rem Disable system keys
+disable systemkeys
+
+rem User prompt
+print "Try to leave application with ALT+TAB or ALT+F4"
+print "Or SPACEBAR to Quit normally."
+
+rem Simple loop
+do
+
+rem Manual escape key exit
+if spacekey()=1 then exit
+
+rem End of loop
+loop
+
+rem Enable system keys
+enable systemkeys
+
+rem End program
+end
+

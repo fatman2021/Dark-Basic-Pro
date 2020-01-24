@@ -1,0 +1,219 @@
+Rem * Title  : 3D Draw With Meshes
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem  3D Draw - Dynamic Mesh Creation
+sync on : sync rate 0 : always active on
+
+rem Array for 3D Draw header max values
+dim max(0)
+dim vnum(0)
+dim nnum(0)
+dim fnum(0)
+dim fsize(0)
+dim list#(2500,2)
+
+rem Make a 1000K memblock
+max(0)=32+(2503*12)+(2503*12)+(2500*7*4)+(2503*8)
+make memblock 1,max(0)
+make memblock 2,(2503*12)
+make memblock 3,(2503*12)
+make memblock 4,(2500*7*4)
+make memblock 5,(2503*8)
+
+rem Make a polygon to activate 3D
+make object triangle 1,0,0,0,0,0,0,0,0,0
+ghost object on 1
+
+rem Setup light
+set ambient light 10 : color backdrop rgb(0,8,32)
+set point light 0,0,0,0 : color light 0,255,255,0 : set light range 0,200
+
+rem Position camera
+position camera 0,0,-400
+point camera 0,0,0
+
+rem Create first triangle
+3ddraw_init()
+
+rem A Nice font
+set text font "Arial"
+set text size 18
+
+rem Main loop
+do
+
+rem Show stats
+center text 320,20,"3D DRAW - DYNAMICALLY CREATED MESH"
+center text 320,40,"LEFT BUTTON - Draw    RIGHT BUTTON - Rotate    RETURN KEY - Auto Demo!"
+center text 320,60,"Polygons Created Dynamically : "+str$(statistic(1))
+
+rem Autotest Button
+if returnkey()=1 then autotest=1
+if autotest=0
+   `
+   rem 3D Mouse Position
+   mcc=mouseclick()
+   mx#=(mousex()-320)
+   my#=(240-mousey())
+   position light 0,mx#,my#,mz#+25
+   `
+`   if mz#>0
+`      rem Restore Camera
+`      mz#=mz#-5.0
+`   endif
+   mz#=0.0
+   cx#=curvevalue(0,camera position x(),50)
+   cy#=curvevalue(0,camera position y(),50)
+   cz#=curvevalue(-400,camera position z(),250)
+   position camera cx#,cy#,cz#
+   rotate camera 0,0,curveangle(0,camera angle z(),150)
+   `
+else
+   `
+   rem Curve creation
+   mcc=1
+   rx#=wrapvalue(rx#+0.1)
+   mx#=cos(rrr#)*(cos(rx#)*120.0) : my#=sin(rrr#)*120.0
+   rrr#=wrapvalue(rrr#+1.0+(rnd(20)/10.0))
+   mz#=mz#+0.5
+   `
+   rem Cool Camera Track
+   cx#=curvevalue(mx#,camera position x(),50)
+   cy#=curvevalue(my#,camera position y(),50)
+   cz#=curvevalue(mz#,camera position z()+400,50)
+   position camera cx#,cy#,cz#-400
+   rotate camera 0,0,wrapvalue(camera angle z()+0.1)
+   position light 0,mx#,my#,mz#+50
+   rotate object 1,0,0,0
+   hide mouse : hm=1
+   `
+endif
+
+rem Add a new line to the 3D draw memblock
+if mouseclick()=2 then yrotate object 1,wrapvalue(object angle y(1)+1)
+if mcc=1
+   if click=0
+      if add_to_list(mx#-5,my#-5,mz#)=-1 then autotest=0
+      if add_to_list(mx#+5,my#+5,mz#)=-1 then autotest=0
+      if vnum(0)>2000 then autotest=0
+      if hm=1 and autotest=0 then hm=0 : show mouse
+      click=2
+   endif
+else
+   click=0
+endif
+if click>0 then dec click
+
+rem Update screen
+sync
+
+loop
+
+rem 3D Draw Functions
+
+function add_to_list(mx#,my#,mz#)
+   li=0
+   if vnum(0)<2499+2
+      list#(vnum(0),0)=mx# : list#(vnum(0),1)=my# : list#(vnum(0),2)=mz#
+      3ddraw_add()
+   else
+      li=-1
+   endif
+endfunction li
+
+function 3ddraw_init()
+
+rem Set initial vars
+vnum(0)=3 : nnum(0)=3 : fnum(0)=1 : fsize(0)=7
+
+rem Init Vertice Data
+p=0 : x#=0.0 : y#=0.0 : z#=0.0 : wmf(2,p+0,x#) : wmf(2,p+4,y#) : wmf(2,p+8,z#) : p=p+12
+x#=10.0 : y#=0.0 : z#=0.0 : wmf(2,p+0,x#) : wmf(2,p+4,y#) : wmf(2,p+8,z#) : p=p+12
+x#=10.0 : y#=10.0 : z#=0.0 : wmf(2,p+0,x#) : wmf(2,p+4,y#) : wmf(2,p+8,z#) : p=p+12
+
+rem Init Normal Data
+p=0 : x#=0.0 : y#=0.0 : z#=-1.0 : wmf(3,p+0,x#) : wmf(3,p+4,y#) : wmf(3,p+8,z#) : p=p+12
+x#=0.0 : y#=0.0 : z#=-1.0 : wmf(3,p+0,x#) : wmf(3,p+4,y#) : wmf(3,p+8,z#) : p=p+12
+x#=0.0 : y#=0.0 : z#=-1.0 : wmf(3,p+0,x#) : wmf(3,p+4,y#) : wmf(3,p+8,z#) : p=p+12
+
+rem Init Face Data
+p=0 : f=0 : wmd(4,p+0,3)
+wmd(4,p+4,f+0) : wmd(4,p+8,f+0)
+wmd(4,p+12,f+1) : wmd(4,p+16,f+1)
+wmd(4,p+20,f+2) : wmd(4,p+24,f+2)
+
+rem Init Texture Data
+p=0 : u#=0.0 : v#=0.0 : wmf(5,p+0,u#) : wmf(5,p+4,v#) : p=p+8
+u#=0.0 : v#=0.0 : wmf(5,p+0,u#) : wmf(5,p+4,v#) : p=p+8
+u#=0.0 : v#=0.0 : wmf(5,p+0,u#) : wmf(5,p+4,v#) : p=p+8
+
+rem Make mesh and apply to object
+3ddraw_update()
+
+endfunction
+
+function 3ddraw_add()
+
+rem Add to vertex memblock
+i=vnum(0) : x#=list#(i,0) : y#=list#(i,1) : z#=list#(i,2)
+p=vnum(0)*12 : wmf(2,p+0,x#) : wmf(2,p+4,y#) : wmf(2,p+8,z#)
+
+rem Add to normal memblock
+i=nnum(0) : x#=0.0 : y#=0.0 : z#=1.0
+p=nnum(0)*12 : wmf(3,p+0,x#) : wmf(3,p+4,y#) : wmf(3,p+8,z#)
+
+rem Add to face memblock
+p=fnum(0)*28 : f=vnum(0)-2
+wmd(4,p+0,3)
+wmd(4,p+4,f+0) : wmd(4,p+8,f+0)
+wmd(4,p+12,f+1) : wmd(4,p+16,f+1)
+wmd(4,p+20,f+2) : wmd(4,p+24,f+2)
+
+rem Add to texture memblock
+u#=0.0 : v#=0.0
+p=vnum(0)*8 : wmf(5,p+0,u#) : wmf(5,p+4,v#)
+
+rem Calculate new sizes
+vnum(0)=vnum(0)+1
+nnum(0)=nnum(0)+1
+fnum(0)=fnum(0)+1
+fsize(0)=fnum(0)*7
+
+rem Make mesh and apply to object
+3ddraw_update()
+
+endfunction
+
+function 3ddraw_update()
+
+rem Write Header
+wmd(1,0,vnum(0))
+wmd(1,8,nnum(0))
+wmd(1,16,fnum(0))
+wmd(1,24,fsize(0))
+
+rem Calculate data sizes
+vsize=vnum(0)*12
+nsize=nnum(0)*12
+fsize=fnum(0)*7*4
+tsize=vnum(0)*8
+
+rem Construct main memblock
+copy memblock 2,1,0,32,vsize
+copy memblock 3,1,0,32+vsize,nsize
+copy memblock 4,1,0,32+vsize+nsize,fsize
+copy memblock 5,1,0,32+vsize+nsize+fsize,tsize
+
+rem Make mesh and apply to object
+make mesh from memblock 1,1
+change mesh 1,0,1
+
+endfunction
+
+rem Memblock macros
+function wmd(m,p,d)
+   write memblock dword m,p,d
+endfunction
+function wmf(m,p,f#)
+   write memblock float m,p,f#
+endfunction

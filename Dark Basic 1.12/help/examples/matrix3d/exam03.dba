@@ -1,0 +1,46 @@
+Rem * Title  : Matrix Texturing
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem ===========================================
+rem This program will texture and tile a matrix
+rem -------------------------------------------
+
+load bitmap "floor1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+
+rem Make a matrix
+make matrix 1,1000,1000,11,11
+
+rem Prepare matrix with a texture cut into a 2x2 texture grid 
+prepare matrix texture 1,1,2,2
+
+rem Fill matrix with first texture tile
+fill matrix 1,0.0,1
+for x=0 to 10
+	for y=0 to 10
+		if rnd(2)=0 then set matrix tile 1,x,y,2
+		set matrix tile 1,0,y,3
+		set matrix tile 1,10,y,3
+		set matrix tile 1,x,0,3
+		set matrix tile 1,x,10,3
+		set matrix tile 1,x,5,4
+		set matrix tile 1,x,5,4
+	next y
+next x
+update matrix 1
+
+rem Place and point camera to see matrix properly
+position camera 500,500,-200
+point camera 500,0,500
+
+rem Wait for key press
+suspend for key
+
+rem Delete the matrix
+delete matrix 1
+
+rem End the program
+end

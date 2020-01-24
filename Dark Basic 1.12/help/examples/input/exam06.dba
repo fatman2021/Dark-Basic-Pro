@@ -1,0 +1,49 @@
+Rem * Title  : Simple Keyboard
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem =============================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem =============================================
+rem This program provides simple keyboard control
+rem ---------------------------------------------
+
+rem Set a coordinate in the middle of the screen
+x=320
+y=240
+
+rem Actuvate manual sync
+sync on
+
+rem Begin main loop
+do
+
+rem Clear the screen each cycle
+cls
+
+rem Show the current inkey$ and scancode value
+set cursor 0,10
+print "Try using ARROW KEYS, CONTROL, SPACEBAR, SHIFT and RETURN"
+print "Try pressing the RIGHT CONTROL KEY to flag Keystate 157"
+print "Inkey$()=";inkey$();"  Scancode=";scancode();"  Keystate(157)=";keystate(157)
+
+rem Move the coordinate based on the keyboard input
+if upkey()=1 then y=y-1
+if downkey()=1 then y=y+1
+if leftkey()=1 then x=x-1
+if rightkey()=1 then x=x+1
+
+rem Set the ink color based on the keyboard control keys
+if controlkey()=1 then ink rgb(255,0,0),0
+if shiftkey()=1 then ink rgb(0,255,0),0
+if spacekey()=1 then ink rgb(0,0,255),0
+if returnkey()=1 then ink rgb(64,0,64),0
+if escapekey()=1 then end
+
+rem Draw a circle at the coordinate
+circle x,y,20
+
+rem Update screen
+sync
+
+rem End the loop
+loop

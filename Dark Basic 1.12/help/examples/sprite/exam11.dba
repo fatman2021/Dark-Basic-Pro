@@ -1,0 +1,65 @@
+Rem * Title  : Sprite Visibility
+Rem * Author : DBS-LB
+Rem * Date   : 1st April 2000
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 11
+rem ===================================================
+rem This program will hide and show a sprite
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a bitmap on to the screen
+load bitmap "face.bmp"
+
+rem Grab image 1 from bitmap
+get image 1,18,17,156,196
+
+rem Clear the Screen
+cls
+
+rem Now we will make 2 sprites
+sprite 1,100,100,1
+sprite 2,420,100,1
+
+repeat
+
+	rem Hide one sprite
+	hide sprite 1
+
+	rem Delay
+	sleep 100
+
+	rem Show one sprite
+	show sprite 1
+
+	rem Delay
+	sleep 100
+
+	rem Hide all sprites
+	hide all sprites
+
+	rem Delay
+	sleep 100
+
+	rem Show all sprites
+	show all sprites
+
+	rem Delay
+	sleep 100
+
+until mouseclick()=1
+
+rem clear the screen
+cls 
+
+rem remove the sprites
+delete sprite 1
+delete sprite 2
+
+rem remove image 1 from memory
+delete image 1
+
+rem End the program
+end

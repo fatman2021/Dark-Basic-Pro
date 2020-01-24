@@ -1,0 +1,61 @@
+<HTML><BODY BACKGROUND="webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="9" FACE="Verdana">DARK BASIC<br></FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">Common and User Functions<br></CENTER>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+COMMON FUNCTIONS<br>
+<br>
+Functions can be described as commands that return a value. DARK BASIC uses arithmetic functions, string functions, command specific functions and user-defined functions. They all share commonalties that will help you recognize what they look like and how they are used.<br>
+<br>
+A simple arithmetic function is the ABS command, which takes a negative value and converts it to positive:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+PRINT ABS(-100) will print 100 as the result of the function<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The same function can be used in a calculation:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+A = B + ABS(-100)<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Or used with a variable:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+A = ABS( B )<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Or used as part of a conditional expression:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+IF ABS( A ) > 180 THEN PRINT "ok"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Just as you have become accustomed to using variables in place of standard numbers and strings, you can use functions in the same way. As shown, functions can take data but they don't have to. Some functions merely return a value, such as:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+DO<br>
+PRINT TIMER()<br>
+LOOP<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+You will notice that even though no parameter data is required, you still need to add the brackets. The brackets instruct DARK BASIC it is a function and is a handy way of quickly determining whether it's a variable or function. Unlike variable and array names, functions only require a dollar symbol ($) if a string is to be returned. You do not need to specify a hash symbol (#) if the function is to return a real number, as the individual commands help will reveal.<br>
+<br>
+<br>
+USER DEFINED FUNCTIONS<br>
+<br>
+There will come a time when the ability to create your own functions will be priceless. Experienced programmers would not be able to write effective code without them. Although GOSUB commands and subroutines have been provided for compatibility and learning, it is expected that you will progress to use functions as soon as possible.<br>
+<br>
+Functions are blocks of commands that usually perform a recursive or isolated task that is frequently used by your program. Variables and arrays used within the function are isolated from the rest of the program. If you use a variable name of FRED in your function, it will not affect another variable called FRED in your main program, nor any other function that happens to use a similar variable name. This may seem to be a restriction, but forces you to think about cutting up your program into exclusive tasks which is a very important lesson.<br>
+<br>
+You can pass up to 255 parameters into your function, and have the option of returning a value when the function returns. Functions that do not return a value can also be used as normal commands in your main program.<br>
+<br>
+Declaring a function couldn't be simpler. Using the FUNCTION command, simply provide it with a name and a list of parameters in brackets and your declaration is half-complete. Enter the commands you want on the following lines and then end the function declaration with the command ENDFUNCTION. The following example declares a function that returns half of a value passed in:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+FUNCTION halfvalue(value)<br>
+value=value/2<br>
+ENDFUNCTION value<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+This declaration creates a function that can be used as a better print command:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+REM Start of program<br>
+BetterPrint(10, 10, "Hello world")<br>
+END<br>
+<br>
+FUNCTION BetterPrint(x, y, t$)<br>
+SET CURSOR x,y<br>
+PRINT t$<br>
+ENDFUNCTION<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Click here to go to the <a href="prin6.htm">Next Section</A>.<br>
+</FONT></BODY></HTML>

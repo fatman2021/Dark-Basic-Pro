@@ -1,0 +1,146 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. Matrix</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>3.
+Walking on a matrix</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To explain how to position the camera on a matrix</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+Rate 30</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+make matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+matrix 1,10000,10000,20,20</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+texture matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+image "grass09.bmp",1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Prepare
+matrix texture 1,1,1,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Fill
+matrix 1,0,1</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Randomize the matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>randomize
+matrix 1,125</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Do</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>set
+cursor 0,0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>print
+X#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>print
+Y#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>print
+Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Store Object angle</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraAngleY#
+= Camera angle Y()</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Upkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+XTest# = Newxvalue(X#,CameraAngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+ZTest# = Newzvalue(Z#,CameraAngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If XTest#>0 and XTest#&lt;10000 and ZTest#>0 and ZTest#&lt;10000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Move camera 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Leftkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#-5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Rightkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#+5)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;X#
+= Camera position X()</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Z# = Camera position Z()</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Y#
+= Get ground height(1,X#,Z#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+Camera X#,Y#+35,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This program demonstrates how to position the camera so it follows the terrain of a matrix.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>set
+cursor 0,0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>print
+X#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>print
+Y#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>print
+Z#</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>We'll begin this tutorial
+by introducing two helpful commands. The "Set Cursor" and "Print" commands
+are text commands. The "Set Cursor" command sets the cursor where we wish
+to begin printing text. The two parameters after the command are the X
+and Y coordinates on the screen where we wish to place the cursor. The
+"Print" command prints text to the screen. We are using the X#, Y# and
+Z#&nbsp; variables here. The values of each of these will be printed to
+the screen. If you wish to print a text string to the screen you must enclose
+the character string in quotation marks.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+If Upkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+XTest# = Newxvalue(X#,CameraAngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+ZTest# = Newzvalue(Z#,CameraAngleY#,20)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If XTest#>0 and XTest#&lt;10000 and ZTest#>0 and ZTest#&lt;10000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Move camera 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code adds
+some restrictions to our camera movement to keep the player from walking
+off the matrix. The XTest# and ZTest# variables store the values of the
+position we wish to place the camera. Notice, the value "20" is actually
+double the distance we wish to move the camera. This keeps the player away
+from the absolute edge of the matrix. The "If" comparison tests to see
+if the new values are at or over the edge of the matrix. The matrix occupies
+an area between 0 and 10,000 units in each direction. We use &quot;and&quot; to do
+more than one comparison in our "If" comparison. If we are inside the bounds
+then the camera is moved to its new location.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+X# = Camera position X()</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Z# = Camera position Z()</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Y#
+= Get ground height(1,X#,Z#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+Camera X#,Y#+35,Z#</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>After the camera is moved,
+we then store the X# and Z# values of the camera. We next get the height
+of the matrix where the camera is located and store it in the Y# variable.
+To do this we use the "Get Ground Height" command. The first parameters
+in the parenthesis after the command is the number of the matrix on which
+we wish to know the height. The second two parameters are the X and Z coordinates
+where we wish to get the height of the matrix. After retrieving the height
+value we then position the camera 35 units above the height of the matrix.
+This allows you to follow the terrain 35 units above the matrix as you
+move across its surface.</font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1></font></font></font>&nbsp;
+</body>
+</html>

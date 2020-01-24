@@ -1,0 +1,51 @@
+
+ Sync On 
+Sync Rate 30 
+  
+
+Rem make matrix 
+Make matrix 1,10000,10000,20,20 
+
+Rem texture matrix 
+Load image "grass09.bmp",1 
+Prepare matrix texture 1,1,2,2 
+
+rem Randomize the matrix 
+randomize matrix 1,250 
+
+rem Place random texture on each matrix tile 
+For x = 0 to 19 
+ For z = 0 to 19 
+  t= rnd(3)+1 
+  Set Matrix Tile 1,x,z,t 
+ Next z 
+Next x 
+
+Rem Update the changes to the matrix 
+update matrix 1 
+
+Rem Main loop 
+Do 
+ Rem  Store Object angle 
+ CameraAngleY# = Camera angle Y() 
+  
+
+ Rem  Control input for camera 
+ If Upkey()=1 then Move camera 10 
+ If Leftkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#-5) 
+ If Rightkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#+5) 
+    If Spacekey()=1 
+        Fill matrix 1,Rnd(50),Rnd(3)+1 
+          randomize matrix 1,250 
+    endif 
+
+X# = Camera position X() 
+   Z# = Camera position Z() 
+ Position Camera X#,250,Z# 
+  
+
+ Rem Refresh Screen 
+ Sync 
+Loop 
+  
+  

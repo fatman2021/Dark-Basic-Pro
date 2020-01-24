@@ -1,0 +1,91 @@
+Rem * Title  : Mesh Data Access
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 03
+rem ===============================================
+rem This program handles Mesh Data Access
+rem -----------------------------------------------
+
+rem Set screen
+sync on : sync rate 0 : hide mouse
+
+rem Make a simple texture
+cls rgb(255,0,0) : ink rgb(255,255,0),0 : print "hello"
+get image 1,0,0,32,16
+`
+rem Make and place a 3D sphere object
+make object sphere 1,100
+
+rem Make a mesh from the object
+make mesh from object 5,1
+
+rem Make a new memblock from the mesh
+make memblock from mesh 1,5
+
+rem Position and paint the original object
+move camera -500 : point camera 0,0,0 : texture object 1,1
+
+rem Make a new mesh from the new memblock
+make mesh from memblock 2,1
+
+rem Main loop
+do
+
+rem Show fps
+set cursor 0,0
+print screen fps()
+
+rem Randomly mutate Vertice Data
+vnum=memblock dword(1,0)
+vpos=memblock dword(1,4)
+for v=0 to (vnum*3)-1
+	rr#=wrapvalue(rr#+0.002)
+	r#=cos(rr#)*2
+	if rnd(2)=0
+		pos=vpos+(v*4)
+		val#=memblock float(1,pos)+r#
+		write memblock float 1,pos,val#
+	endif
+next v
+
+rem Randomly mutate Normals Data
+nnum=memblock dword(1,8)
+npos=memblock dword(1,12)
+for n=0 to (nnum*3)-1
+	rr#=wrapvalue(rr#+0.002)
+	r#=cos(rr#)*2
+	if rnd(2)=0
+		pos=npos+(n*4)
+		val#=memblock float(1,pos)+r#
+		write memblock float 1,pos,val#
+	endif
+next n
+
+rem Randomly mutate Texture Data
+tptr=memblock dword(1,28)
+for t=0 to (vnum*2)-1
+	rr#=wrapvalue(rr#+0.002)
+	r#=cos(rr#)*2
+	if rnd(2)=0
+		pos=tptr+(t*4)
+		val#=memblock float(1,pos)+r#
+		write memblock float 1,pos,val#
+	endif
+next t
+
+rem Update mesh with new memblock data
+change mesh from memblock 2,1
+
+rem Copy the mesh to the original object
+change mesh 1,0,2
+
+rem Rotate the object
+yrotate object 1,wrapvalue(object angle y(1)+0.2)
+
+rem Update screen
+sync
+
+rem End loop
+loop
+

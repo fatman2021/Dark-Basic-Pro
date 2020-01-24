@@ -1,0 +1,48 @@
+Rem * Title  : Force Feedback A
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 10
+rem ============================================
+rem This program uses simple force feedback
+rem --------------------------------------------
+
+rem Performs a checklist for all contol devices
+perform checklist for control devices
+
+rem Check for FF flag
+ffok=0
+for t=1 to checklist quantity()
+	if checklist value a(t)=1 then ffok=t
+next t
+
+rem Assume the first one is a force feedback device
+if ffok=0
+	print "You have no force feedback control devices available!"
+	print "Cannot continue with example"
+	end
+else
+	print "Found ";checklist string$(ffok)
+	print "Use Arrow Keys and Spacebar"
+	set control device checklist string$(ffok)
+endif
+
+rem Begin main loop
+do
+
+rem Use cursor keys to control simple force
+if upkey()=1 then force up 100 : sleep 300
+if downkey()=1 then force down 100 : sleep 300
+if leftkey()=1 then force left 100 : sleep 300
+if rightkey()=1 then force right 100 : sleep 300
+
+rem Press the spacebar to roll the force around 360 degrees
+if spacekey()=1
+	for r=1 to 360 step 32
+		force angle 100,r,100 : sleep 10
+	next r
+endif
+
+rem End the loop
+loop
+

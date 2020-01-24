@@ -1,0 +1,154 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+LESSON THREE<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+CREATING YOUR MUCH BETTER SECOND PROGRAM<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+It has taken you just a few minutes to write your first program. You are now a real programmer. You may be a programmer who only knows three commands, but a programmer nonetheless. Now you want to do something a little bit more impressive!<br>
+<br>
+We are going to create something that will impress your friends. Instead of spending the next 30 minutes writing out a lengthy program, here is one we prepared earlier. Simply click
+<a href="fast\caverun\caverun.dba">CAVERUN.DBA</a> to automatically load the program:<br>
+<br>
+</FONT>
+<FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+rem ----------------<br>
+rem Cave Runner Demo<br>
+rem ----------------<br>
+rem Author: DBS-LB99<br>
+hide mouse<br>
+<br>
+rem Load bitmaps<br>
+load bitmap "tiles.bmp",1<br>
+get image 1,0,0,256,256<br>
+delete bitmap 1<br>
+<br>
+rem Load sound<br>
+load sound "hum.wav",1<br>
+load sound "explode.wav",2<br>
+set sound speed 1,6000<br>
+loop sound 1<br>
+<br>
+rem Load music track<br>
+load music "caverun.mid",1<br>
+loop music 1<br>
+<br>
+rem Activate manual sync<br>
+sync on<br>
+<br>
+rem Make landscape and ceiling matrix<br>
+make matrix 1,2000,5000,10,25<br>
+prepare matrix texture 1,1,2,2<br>
+make matrix 2,2000,5000,10,25<br>
+prepare matrix texture 2,1,2,2<br>
+fill matrix 2,0,2<br>
+randomize matrix 2,350.0<br>
+for t=0 to 25<br>
+	set matrix height 2,0,t,-100<br>
+	set matrix height 2,10,t,-100<br>
+next t<br>
+update matrix 2<br>
+<br>
+rem Bagin game loop<br>
+do<br>
+<br>
+rem Set seed for same random numbers<br>
+randomize 1<br>
+<br>
+rem Clear cave floor<br>
+fill matrix 1,0,1<br>
+<br>
+rem Set lighting, fog and setupset ambient light 20<br>
+fog distance 3000<br>
+color backdrop 0<br>
+fog color 0<br>
+fog on<br>
+<br>
+rem Reset speed<br>
+x=0<br>
+z=0<br>
+speed#=0.0<br>
+<br>
+rem Begin main loop<br>
+repeat<br>
+<br>
+rem Record old variables<br>
+oldx=x<br>
+oldgy#=gy#<br>
+<br>
+rem Control key movements<br>
+if upkey()=1 then speed#=speed#+1.0 else speed#=speed#-1.0<br>
+if leftkey()=1 then rz#=rz#+1.0<br>
+if rightkey()=1 then rz#=rz#-1.0<br>
+<br>
+rem Control variables<br>
+if speed#>40.0 then speed#=40.0<br>
+rz#=rz#/1.1<br>
+x=x-(2*rz#)<br>
+<br>
+rem Scroll landscape<br>
+z=z+speed#<br>
+if z>200<br>
+	z=z-200<br>
+	if rnd(3)=0<br>
+		mp=mp-1<br>
+		mp=mp+rnd(3)<br>
+		if mp>4 then mp=4<br>
+	endif<br>
+	for t=0 to 0 : set matrix height 1,t,24,450 : set matrix tile 1,t,24,2 : next t<br>
+	for t=1 to mp : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,2 : next t<br>
+	for t=mp+1 to mp+1 : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,3 : next t<br>
+	for t=mp+2 to mp+3 : set matrix height 1,t,24,rnd(20) : set matrix tile 1,t,24,1 : next t<br>
+	for t=mp+4 to mp+4 : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,4 : next t<br>
+	for t=mp+5 to 9 : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,2 : next t<br>
+	for t=10 to 10 : set matrix height 1,t,24,450 : next t<br>
+	update matrix 1<br>
+	shift matrix up 1<br>
+	shift matrix up 2<br>
+endif<br>
+<br>
+rem Position matrix	<br>
+position matrix 1,0,0,2500-z<br>
+position matrix 2,0,100,2500-z<br>
+<br>
+rem Position camera<br>
+gy#=curvevalue(50+get ground height(1,500+x,z),gy#,3)<br>
+position camera 500+x,gy#,2500<br>
+zrotate camera wrapvalue(rz#)<br>
+<br>
+rem Control sound frequency<br>
+set sound speed 1,6000+(speed#*100)<br>
+<br>
+rem Update screen<br>
+sync<br>
+<br>
+rem End main loop when collision with ceiling<br>
+until get ground height(2,500+x,z)=gy#-75.0<br>
+<br>
+rem Return camera to point before collision<br>
+position camera 500+oldx,oldgy#,2500<br>
+<br>
+rem Game Over<br>
+play sound 2<br>
+for c=0 to 255 step 20<br>
+	cls rgb(c,0,0)<br>
+	fog distance (c*5)<br>
+	fog color (c*256*256)<br>
+	sync<br>
+next c<br>
+<br>
+rem End game loop<br>
+loop<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+When you have created and run your program, break out using F11 to resume your lesson. Select <a href="flesson4.htm">LESSON FOUR</a> to continue.
+<br>
+</FONT>
+</BODY>
+</HTML>

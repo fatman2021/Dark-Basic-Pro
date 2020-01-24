@@ -1,0 +1,76 @@
+Rem * Title  : Recording Sounds
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ================================================
+rem DARK BASIC EXAMPLE PROGRAM 10
+rem ================================================
+rem This program will record, save and play a sound
+rem ------------------------------------------------
+sync on : sync rate 0
+
+rem Clear screen
+set text font "Arial"
+cls rgb(8,16,8)
+
+rem Main loop
+do
+
+	rem User prompt buttons
+	ink rgb(255,255,0),0 : set text size 50
+	center text 320,80,"DarkBASIC Sound Maker"
+
+	rem Status prompt
+	ink rgb(8,16,8),0 : box 0,300,639,479 
+	ink rgb(55,55,0),0 : set text size 40
+	select recordflag
+		case 0 : center text 320,350,"NO SOUND IN MEMORY" : endcase
+		case 1 : center text 320,350,"RECORDING SOUND" : endcase
+		case 2 : center text 320,350,"STOPPED AND SAVED TO FILE" : endcase
+		case 3 : center text 320,350,"SOUND PLAYING" : endcase
+		case 4 : center text 320,350,"SOUND READY" : endcase
+		case default : center text 320,350,"NOUT" : endcase
+	endselect
+
+	rem Show and operate buttons
+	buttonselected=0
+	if makebutton(110,240,"RECORD SOUND")>0 then buttonselected=1
+	if makebutton(320,240,"STOP AND SAVE")>0 then buttonselected=2
+	if makebutton(530,240,"PLAYBACK SOUND")>0 then buttonselected=3
+
+	rem Detect button selection
+	if buttonselected=1 and (recordflag=0 or recordflag=4)
+		recordflag=1 : record sound 1,10
+	endif
+	if buttonselected=2 and recordflag=1
+		recordflag=2 : stop recording sound
+		save sound "sample.wav",1
+	endif
+	if buttonselected=3 and (recordflag=2 or recordflag=4)
+		recordflag=3 : play sound 1
+	endif
+	if recordflag=3
+		if sound playing(1)=0 then recordflag=4
+	endif
+
+	rem Update screen
+	sync
+
+rem End loop
+loop
+
+function makebutton(x,y,desc$)
+	buttonpressed=0
+	ink rgb(0,255,0),0 : box x-102,y-34,x+102,y+34
+	ink rgb(0,128,0),0 : box x-100,y-32,x+100,y+32
+	ink rgb(55,55,0),0
+	myx=mousex() : myy=mousey()
+	if myx>x-100 and myx<x+100
+		if myy>y-32 and myy<y+32
+			buttonpressed=1
+		endif
+	endif
+	if buttonpressed=1 then ink rgb(255,255,0),0
+	set text size 18 : center text x,y-8,desc$
+	if mouseclick()=0 then buttonpressed=0
+endfunction buttonpressed
+

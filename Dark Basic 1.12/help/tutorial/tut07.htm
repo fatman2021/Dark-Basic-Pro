@@ -1,0 +1,60 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL SEVEN<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+SOUND AND MUSIC<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to demonstrate how to load sound and music files and play them. Additionally, the program shows you how to detect for physical keyboard strikes using the SCANCODE command and provides some audio insight into how Dark Basic handles multi-channel sound.<br>
+<br>
+This tutorial program can be loaded directly into the editor by clicking
+<a href="tutorial\programs\sample07.dba">SAMPLE07.DBA</a>.<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+rem Load music file<br>
+LOAD MUSIC "sample.mid",1<br>
+<br>
+rem Load sound file<br>
+LOAD SOUND "sample.wav",1<br>
+LOAD SOUND "sample.wav",2<br>
+LOAD SOUND "sample.wav",3<br>
+<br>
+rem Start Music<br>
+LOOP MUSIC 1<br>
+<br>
+rem Begin loop<br>
+DO<br>
+<br>
+rem Pressing key '1' will play sound 1<br>
+IF SCANCODE()=2 AND SOUND PLAYING(1)=0 THEN PLAY SOUND 1<br>
+<br>
+rem Pressing key '2' will play sound 2<br>
+IF SCANCODE()=3 AND SOUND PLAYING(2)=0 THEN PLAY SOUND 2<br>
+<br>
+rem Pressing key '3' will play sound 3<br>
+IF SCANCODE()=4 AND SOUND PLAYING(3)=0 THEN PLAY SOUND 3<br>
+<br>
+rem End loop<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The LOAD MUSIC command takes a file in the MIDI format, and loads it into music number 1. Many music files can be loaded, but only one score of music can be played at any one time. The LOAD SOUND commands load the same WAV format sound file into sound numbers 1, 2 and 3. The reason for this is to provide multi-channel sound in the program, which allows the sounds to overlap each other for best effect. The LOOP MUSIC command plays the music and instructs it to repeat continuously. The SCANCODE() command returns the value of the key currently being pressed. The SOUND PLAYING() command returns a 1 when the sound is playing, and zero at all other times.<br>
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to stop the music if a sound is played<br>
+2. Change the program to play the music if the 'm' key is pressed<br>
+3. Change the program to increase the number of explosions from 3 to 5<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut08.htm">TUTORIAL EIGHT</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

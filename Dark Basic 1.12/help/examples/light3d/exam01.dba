@@ -1,0 +1,86 @@
+Rem * Title  : Lighting Effect
+Rem * Author : DBS-LB
+Rem * Date   : 17th July 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 01
+rem ==========================================
+rem This program shows use of lighting
+rem ------------------------------------------
+hide mouse
+sync on
+
+rem Reset default light to spot light
+set spot light 0,45,90
+color light 0,rgb(255,255,0)
+point light 0,0,0,0
+
+rem Create second light
+make light 1
+set point light 1,10,10,-30
+color light 1,rgb(255,0,0)
+
+rem Setup grid cube
+load object "gridcube.x",1
+scale object 1,1000,1000,1000
+position object 1,0,0,5
+yrotate object 1,330
+
+rem As the cube is scaled, also scale normals by same factor (Brighten)
+fade object 1,1000
+
+rem Create sphere
+make object cone 2,1
+xrotate object 2,90
+fix object pivot 2
+
+rem Lee showing off :)
+for t=0 to 9
+	make object plain 3+t,1,10
+	yrotate object 3+t,180
+	ghost object on 3+t
+	position object 3+t,-5+t,10,-25
+	fade object 3+t,50
+next t
+
+rem Place camera
+position camera 0,10,-30
+point camera 0,10,0
+set ambient light 5
+color backdrop 0
+
+rem Starting position of light
+x#=-6 : y#=10 : z#=-17.0
+
+rem Set text font
+set text font "Arial"
+ink rgb(255,255,0),0
+set text size 30
+
+rem Begin loop
+do
+
+rem User prompt
+center text 320,5,"LIGHTING DEMO"
+center text 320,35,"Use MOUSE to move Spotlight"
+center text 320,60,"LMB to zoom in / RMB to zoom out"
+
+rem Move sphere
+inc x#,mousemovex()/15.0
+dec y#,mousemovey()/15.0
+if mouseclick()=1 then z#=z#+0.25
+if mouseclick()=2 then z#=z#-0.25
+position object 2,x#,y#,z#
+
+rem Put light where object is
+turn object left 2,2
+set light to object position 0,2
+set light to object orientation 0,2
+
+rem Slowly rotate cube
+yrotate object 1,wrapvalue(object angle y(1)+0.5)
+
+rem Update screen
+sync
+
+rem End loop
+loop

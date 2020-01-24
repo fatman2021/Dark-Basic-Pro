@@ -1,0 +1,144 @@
+Rem * Title  : Checking for Fonts
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem ===================================================
+rem This program will perform checklist for fonts
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Set a new font
+rem the new font will work with all text command but not the print command
+set text font "arial"
+set text size 12
+
+rem This command will check you system for any fonts
+perform checklist for fonts
+
+text 0,10,"NUMBER OF FONTS FOUND WERE "+upper$(str$(checklist quantity()))
+text 0,(10+text size())+2,"PRESS SPACEKEY" 
+suspend for key
+
+rem This command will clear the screen
+cls 
+
+rem This part will print all fonts on your system
+rem CHECKLIST QUANTITY() is how many fonts you have on your computer
+rem CHECKLIST STRING$() is what the font name is
+
+rem Were on screen to print text name
+textacross=0
+textdown=0
+message$=""
+
+for t=1 to checklist quantity()
+
+	rem get font name		
+	message$=checklist string$(t)
+
+	if textacross+text width(message$) >=640
+		rem if some of the message will be printed of screen
+		rem then move to the next line
+
+		rem move to the next line on screen
+		textdown=(textdown+text size())+2
+		rem move to the start of the line
+		textacross=0
+
+		rem draw font name on screen
+		text textacross,textdown,message$
+
+		rem move to end of the message that has been printed plus 10 pixel
+		textacross=(textacross+text width(message$))+10
+	else
+		rem if message can be printed on the line then do so
+		rem draw font name on screen
+		text textacross,textdown,message$
+			
+		rem move to end of the message that has been printed plus 10 pixel
+		textacross=(textacross+text width(message$))+10
+	endif
+
+next t
+
+rem Move down to next line
+textdown=(textdown+text size())+2
+center text 320,textdown,"PRESS SPACEKEY" 
+suspend for key
+cls
+
+message$=""
+for t=1 to checklist quantity()
+
+	rem clear the screen
+	cls 
+
+	set text font checklist string$(t)
+	set text size 24
+
+	rem get font name		
+	message$=checklist string$(t)
+		 
+	rem draw font name on screen
+	text 0,30,"THIS FONT IS CALLED"
+	text 0,50,message$
+	text 0,70,"A B C D E F G H I J K L M N O P Q R T S U V W X Y Z"
+	text 0,90,"a b c d e f g h i j k l m n o p q r s t u v w x y z"
+	text 0,110,"0 1 2 3 4 5 6 7 8 9"
+	text 0,130,"PRESS LEFT MOUSE BUTTON TO SEE NEXT FONT"
+
+	rem wait for left mouse button pressed
+	repeat:until mouseclick()=1	
+
+	rem wait till you let go of left mouse button
+	repeat:until mouseclick()<>1
+
+next t
+
+center text 320,150,"PRESS SPACEKEY" 
+suspend for key
+cls
+
+rem This part will show you how to check for a font
+rem CHECKLIST QUANTITY() is how many fonts you have on your computer
+rem CHECKLIST STRING$() is what the font name is
+rem THE COMMAND LOWER$() WILL TURN ALL OF A STRING INTO LOWER CASE
+
+rem were on screen to print text name
+textacross=0
+textdown=0
+found=0
+message$=""
+
+rem put the font name your are look for here
+fonttolookfor$="times new roman"
+
+rem check for font
+for t= 1 to checklist quantity()
+
+	rem get font name
+	message$=checklist string$(t)
+
+	rem make both string lower case and check them
+	if lower$(fonttolookfor$)=lower$(message$)
+		found=1
+	endif
+
+next t
+
+if found=0
+	rem if found=0 then print this message
+	text 0,0,"NO THERE WAS NO FOUNT CALLED "+fonttolookfor$
+else
+	rem if found = any number but 0 then print this message 
+	text 0,0,"YES THERE IS A FONT CALLED "+fonttolookfor$
+endif
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

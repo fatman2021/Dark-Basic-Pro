@@ -1,0 +1,62 @@
+Sync On 
+Sync Rate 30 
+Hide Mouse 
+autocam off 
+  
+
+Backdrop on 
+Set camera range 1,5000 
+
+Fog on 
+Fog distance 4000 
+Fog color RGB(128,128,128) 
+Color Backdrop RGB(128,128,128) 
+
+Rem make matrix 
+Make matrix 1,10000,10000,20,20 
+
+Rem texture matrix 
+Load image "grass09.bmp",1 
+Prepare matrix texture 1,1,1,1 
+Fill matrix 1,0,1 
+
+rem Randomize the matrix 
+randomize matrix 1,125 
+
+rem Load object 
+Load object "idle.x",2 
+Loop object 2
+
+position object 2,5000,Get Ground Height(1,5000,5500),5500 
+
+Rem Main loop 
+Do 
+set cursor 0,0 
+print X# 
+print Y# 
+print Z# 
+ Rem  Store Object angle 
+ CameraAngleY# = Camera angle Y() 
+
+ Rem  Control input for camera 
+ If Upkey()=1 
+  XTest# = Newxvalue(X#,CameraAngleY#,20) 
+  ZTest# = Newzvalue(Z#,CameraAngleY#,20) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   Move camera 10 
+  Endif 
+ Endif 
+
+ If Leftkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#-5) 
+ If Rightkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#+5) 
+
+ X# = Camera position X() 
+   Z# = Camera position Z() 
+
+ Y# = Get ground height(1,X#,Z#) 
+ Position Camera X#,Y#+35,Z# 
+
+ Rem Refresh Screen 
+ Sync 
+Loop 
+  

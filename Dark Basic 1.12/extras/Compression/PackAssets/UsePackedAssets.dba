@@ -1,0 +1,73 @@
+Rem * Title  :  Use Packed Assets Demo
+Rem * Author : Guy Savoie
+Rem * Date   : October 15, 2001
+rem You can combine, compress, and protect your game assets using MemBlocks
+
+#include "memblockLZH.dba"
+
+Print "Asset Packing/Compressing Demonstration"
+
+filename$ = "assets.dbLZH"
+
+if file exist(Filename$) = 0
+   Print
+   Print "Sorry, You need to create "+filename$+" first."
+   Print "Press Any Key"
+   Suspend for key
+   End
+endif
+
+enable_block_compression
+
+print "Reading Asset Package From "+filename$
+open to read 1,filename$
+read memblock 1,99
+close file 1
+
+Rem Get the number of assets packed
+acount = memblock dword(99,0)
+print "Number of Assets Found: "+Str$(acount)
+
+Rem The clearest way to get the assets back in from the package is to store their positions and sizes in arrays, and
+Rem Read them back in after we have their positions and sizes.
+
+dim apos(acount)
+dim asize(acount)
+
+offset = 4
+for i = 1 to acount
+   asize(i) = memblock dword(99,offset)
+   offset = offset + 4
+   apos(i) = offset
+   offset = offset + asize(i)
+next i
+
+Rem we are now going to decompress them back into separate MemBlocks
+for i = 1 to acount
+   print "Decompressing Asset Number: "+Str$(i)
+   sync
+   make memblock 1,asize(i)
+   copy memblock 99,1,apos(i),0,asize(i)
+   result = expand_Block(1,I+1)
+   delete memblock 1
+next i
+
+Rem We are done with the memory copy of the asset package, so delete it.
+delete memblock 99
+
+Rem We will now display them, and delete the memblocks along the way.
+
+for i = 1 to acount
+   make bitmap from memblock 1,i+1
+   delete memblock i+1
+   cls
+   Center Text 320,400,"Asset Number: "+Str$(i)
+   Center Text 320,440,"Press Any Key"
+   copy bitmap 1,0
+   delete bitmap 1
+   suspend for key
+next i
+
+
+disable_block_compression
+end

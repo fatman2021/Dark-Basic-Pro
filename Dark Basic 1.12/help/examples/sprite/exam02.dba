@@ -1,0 +1,102 @@
+Rem * Title  : Making a Sprite
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ===================================================
+rem This program will make a sprite
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a bitmap on to the screen
+load bitmap "face.bmp"
+
+rem Load back ground to bitmap 1
+load bitmap "back.bmp",1
+
+rem When you load a bitmap that bitmap becomes the current bitmap
+rem where all drawing is done 
+
+rem Use this command to set drawing to the screen
+set current bitmap 0 
+
+rem Grab image 1 from bitmap
+get image 1,18,17,156,196
+
+rem Now we will make a sprite
+sprite 1,100,100,1
+
+rem Copy background to screen
+copy bitmap 1,0
+
+rem The is were on screen sprite will apear
+acrossscreen=100
+downscreen=100
+
+rem This is were sprite will move to
+targetacross=0
+targetdown=0
+
+get image 2,0,0,150,150
+
+rem Reset current bitmap to visible bitmap zero
+set current bitmap 0
+
+do	
+
+	rem Check for return key being pressed
+	if returnkey()=1
+
+		rem Set the text printing to top of the screen
+		set cursor 0,0
+
+		rem Print sprite info
+		print "making a sprite"
+		print "sprite x pos ",sprite x(1)
+		print "sprite y pos ",sprite y(1)
+		print "sprite offset x ",sprite offset x(1)
+		print "sprite offset y ",sprite offset y(1) 
+		print "sprite width is ",sprite width(1)
+		print "sprite height is ",sprite height(1)
+		print "sprite image number ",sprite image(1)
+
+		rem Wait till you relese the return key
+		repeat :until returnkey()<>1
+
+		rem Clear any text from the screen
+		paste image 2,0,0
+
+	endif
+
+	rem Have we pressed the left mouse button	
+	if mouseclick()=1
+		rem Get were mouse is across the screen
+		targetacross=mousex()
+		rem Get were mouse is down the screen	
+		targetdown=mousey()
+	endif
+
+	rem This next part home the sprite on the target x and target y position
+	if acrossscreen<targetacross:acrossscreen=acrossscreen+1:endif
+	if acrossscreen>targetacross:acrossscreen=acrossscreen-1:endif
+	if downscreen<targetdown:downscreen=downscreen+1:endif
+	if downscreen>targetdown:downscreen=downscreen-1:endif
+	
+	rem Draw the sprite at the new position
+	sprite 1,acrossscreen,downscreen,1
+
+loop
+
+rem Clear the screen
+cls 
+
+rem Remove the sprite from memory
+delete sprite 1
+
+rem Remove image 1 from memory
+delete image 1
+
+rem End the program
+end

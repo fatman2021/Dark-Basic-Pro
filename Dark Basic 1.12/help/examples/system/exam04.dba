@@ -1,0 +1,23 @@
+Rem * Title  : Escape Key Control
+Rem * Author : DBS-LB
+Rem * Date   : 1st April 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ==========================================
+rem This program will control the escape key
+rem ------------------------------------------
+
+rem Disable Escape Key
+disable escapekey
+
+rem Simple loop
+do
+
+rem Manual escape key exit
+if escapekey()=1 then exit
+
+rem End of loop
+loop
+
+rem Enable escape key
+enable escapekey

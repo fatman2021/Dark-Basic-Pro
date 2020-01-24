@@ -1,0 +1,71 @@
+Rem * Title  : Free Flight Example
+Rem * Author : DBS-LB
+Rem * Date   : 25th June 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 18
+rem ==========================================
+rem This program shows free flight movement
+rem ------------------------------------------
+autocam off
+hide mouse
+sync on
+
+rem Make wire sky sphere
+make object sphere 1,5000
+set object 1,0,0,0
+
+rem Make flying object
+make object box 2,150,5,20
+make mesh from object 2,2
+delete object 2
+make object box 2,25,15,100
+add limb 2,1,2
+position object 2,0,0,500
+
+rem Make drone to mark a back position
+make object sphere 3,10
+
+rem Set camera range 
+set camera range 1,10000
+
+rem Set text font
+set text font "Arial"
+ink rgb(255,255,0),0
+set text size 30
+
+rem Main loop
+do
+
+	rem User prompt
+	center text 320,5,"FREE FLIGHT ORIENTATION"
+	center text 320,35,"Use ARROW KEYS to Turn and Pitch"
+	center text 320,60,"Use [<] and [>] to Roll"
+	center text 320,85,"Use LMB to Move"
+	center text 320,110,"Use SPACE to Reset"
+
+	rem Control free flight object
+	if downkey()=1 then pitch object up 2,5
+	if upkey()=1 then pitch object down 2,5
+	if leftkey()=1 then turn object left 2,5
+	if rightkey()=1 then turn object right 2,5
+	if inkey$()="," then roll object left 2,5
+	if inkey$()="." then roll object right 2,5
+	if mouseclick()=1 then move camera 20 : move object 2,20
+	if spacekey()=1 then rotate object 2,0,0,0
+
+	rem Get back position of object for camera 
+	pitch object down 2,11
+	move object 2,-150
+	position object 3,object position x(2),object position y(2),object position z(2)
+	move object 2,150
+	pitch object up 2,11
+
+	rem Place camera and set orientation to object
+	position camera object position x(3),object position y(3),object position z(3)
+	set camera to object orientation 2
+
+	rem Update screen
+	sync
+
+loop
+

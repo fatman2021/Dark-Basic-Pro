@@ -1,0 +1,108 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Staton Richardson">
+   <meta name="Description" content="To show how to impliment third-person perspective">
+   <title>Third person perspective</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. The Matrix</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>1.
+Creating a matrix</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:&nbsp;
+To Introduce the matrix commands</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Setup sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync Rate 30</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Create matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Make Matrix 1,2000,2000,50,50</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem mY is the variable for random matrix height</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+mY=100</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Position Camera above the matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Position Camera 0,1000,0</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem&nbsp; Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Upkey()=1 then Move camera 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Downkey()=1 then Move camera -10</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem input for radomizing the matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Spacekey()=1 then randomize matrix 1,mY</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Leftkey()=1 then mY=mY+1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Rightkey()=1 then mY=mY-1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If mY &lt; 1 then mY =1</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem Point camera at matrix center</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Point Camera 1000,0,1000</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<br>&nbsp;
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>In this example we will introduce
+the matrix commands. A matrix finds its most popular use as a terrain object.
+You can easily create mountains, rolling hills, caves and oceans with a
+few lines of code. As with all of the tutorials, if you see a command that
+is unfamiliar and not explained, review earlier tutorials or consult the
+help files. This simple program creates a matrix and allows you to zoom
+in and out in isometric view using the up and down keys. The up, down and spacebar keys allow you to control the height and radomization of the
+matrix.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Make Matrix 1,2000,2000,50,50</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The first new command we
+will discuss is the "Make Matrix" command. This command creates a matrix
+object in your 3D world. The first number after the command is the number
+of the matrix you wish to create. This number like the object and image
+commands is a unique identifier for the matrix you wish to create. It allows
+you to create and manipulate multiple matrices in the 3D world. The second
+two numbers are the dimensions in world units of the matrix you wish to
+create. They represent an "X" and "Z" value in world coordinates. In most
+cases these two will be the same but we're sure you can find uses for odd
+sized matrices. The second two numbers are the number of divisions you
+wish to have in the matrix. In this example 50 divisions of 40 world units
+are made in each directions to create a 2000x2000 world unit matrix.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+If Spacekey()=1 then Randomize Matrix 1,mY</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This line of code introduces
+the "Randomize Matrix" command". When the space key is pressed this command
+is called to set the height value of each of the matrix vertices to a random
+height between 0 and the number represented by the variable "mY". The first
+number after the command is the number of the matrix we wish to affect.
+The second number is the range of the random value we wish to set the matrix
+to. In the program you can change the value of the "mY" variable by pressing
+the up and down keys. When you press the space key the matrix is changed.
+This allows you to create sharp peaks or rolling hills.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Try changing the values in
+the "Make Matrix" command to see how they effect the size and dimensions
+of the matrix.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

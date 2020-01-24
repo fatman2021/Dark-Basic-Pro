@@ -1,0 +1,29 @@
+Rem * Title  : Load and Play Sounds
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ================================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ================================================
+rem This program will load and play a wav sound file 
+rem ------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a wav sound file into number one
+load sound "sound.wav",1
+
+rem Play sound number
+play sound 1
+
+rem Will wait for you to press any key
+suspend for key
+
+rem Stop sound
+stop sound 1
+
+rem Delete sound
+delete sound 1
+
+rem End the program
+end

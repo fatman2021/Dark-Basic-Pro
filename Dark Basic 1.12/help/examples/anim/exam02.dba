@@ -1,0 +1,26 @@
+Rem * Title  : Load and Loop AVI
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC AVI ANIMATION EXAMPLE PROGRAM 2
+rem ==========================================
+rem This program will load and loop a AVI file
+rem ------------------------------------------
+
+rem Specify your AVI filename and an animation number
+load animation "avi\demo1.avi",1
+
+rem Place your AVI in the top left corner of the screen
+place animation 1,0,0,animation width(1),animation height(1)
+ 
+rem Will play your AVI animation
+loop animation 1
+
+rem Will wait for you to press any key
+suspend for key
+
+rem Delete the animation
+delete animation 1
+
+rem End the program
+end

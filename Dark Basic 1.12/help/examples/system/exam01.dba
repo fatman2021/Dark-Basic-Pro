@@ -1,0 +1,46 @@
+Rem * Title  : Check Graphics Cards
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program will check for graphics cards
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+rem Has the computer what graphics card it has
+perform checklist for graphics cards
+
+for t=1 to checklist quantity()
+	rem find out what the graphics card are called
+	print t," ",checklist string$(t)
+next t
+print
+ 
+rem What graphic card is dark baisc using 
+print current graphics card$()
+
+if emulation mode()=0
+	print "USING HARDWARE ACCELERATION"
+else
+	print "USING SOFTWARE EMULATION"
+endif
+print 
+
+print "HOW MUCH VIDEO MEMORY IS FREE ON THIS COMPUTER ",system dmem available() 
+print 
+print "HOW MUCH SYSTEM MEMORY IS FREE ON YOU COMPUTER ",system smem available() 
+print 
+print "HOW MUCH TOTAL MEMORY IS FREE ON YOU COMPUTER ",system tmem available() 
+print
+
+rem Will wait for you to press any key
+suspend for key
+
+rem Delete from memory the checklist string$
+empty checklist
+
+rem End the program
+end

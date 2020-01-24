@@ -1,0 +1,36 @@
+Rem * Title  : Draw A Dot
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ==========================================
+rem This program will draw a dot on screen
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),0
+
+rem We will draw 1000 dot on screen
+for t=1 to 1000
+	rem Get a random ink color
+	ink rgb(rnd(255),rnd(255),rnd(255)),1
+	
+	rem where on screen to draw dot
+	left=rnd(640)
+	top=rnd(480)
+
+	rem Draw a dot
+	dot left,top
+next t
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Print a message on screen
+text 200,240,"press the spacebar to quit"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

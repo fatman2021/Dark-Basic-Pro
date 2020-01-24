@@ -1,0 +1,38 @@
+Rem * Title  : DLL Access
+Rem * Author : GuyS
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 08
+rem ===============================================
+rem This program handles DLL Access
+rem -----------------------------------------------
+
+rem Set sync rate
+sync on:sync rate 60
+
+rem Load DLL
+load dll "dbImageAccess.dll",1
+
+rem Display prompt on screen
+center text 320,240,"IMAGE ACCESS DLL DEMO" : sync
+
+rem We do it by copying the screen to a memblock, then passing
+rem the pointer+12 to the DLL - the first 12 bytes contain
+rem width, height, and depth information, but our DLL
+rem only uses 640x480x16, so we don't need to send that.
+make memblock from bitmap 1,0
+
+rem Start of actual screen bitmap data
+MemPtr = get memblock ptr(1)+12
+
+rem Main loop
+while mouseclick()=0
+   call dll 1,"alter_bitmap",MemPtr
+   rem Copy the altered memblock back to the bitmap
+   make bitmap from memblock 0,1
+   sync
+endwhile
+
+rem Delete memblock and DLL
+delete memblock 1
+delete dll 1

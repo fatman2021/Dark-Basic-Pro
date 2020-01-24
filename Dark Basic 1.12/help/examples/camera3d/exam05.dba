@@ -1,0 +1,49 @@
+Rem * Title  : Camera Display Data
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ==========================================
+rem This program reads all camera data
+rem ------------------------------------------
+
+rem Make a simple scene for the camera to look at
+make matrix 1,10000.0,10000.0,25,25
+load bitmap "floor1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+prepare matrix texture 1,1,2,2
+randomize matrix 1,50.0
+
+rem Activate manual sync
+sync on
+
+rem Begin loop
+do
+
+rem Control camera with arrow keys
+if upkey()=1 then x#=newxvalue(x#,a#,10) : z#=newzvalue(z#,a#,10)
+if downkey()=1 then x#=newxvalue(x#,a#,-10) : z#=newzvalue(z#,a#,-10)
+if leftkey()=1 then a#=wrapvalue(a#-10.0)
+if rightkey()=1 then a#=wrapvalue(a#+10.0)
+
+rem Update camera
+position camera x#,50,z#
+yrotate camera a#
+
+rem Output camera data to screen
+set cursor 0,0
+print "Camera Data"
+print "-----------"
+print "camera pos x=";camera position x()
+print "camera pos y=";camera position y()
+print "camera pos z=";camera position z()
+print "camera rot x=";camera angle x()
+print "camera rot y=";camera angle y()
+print "camera rot z=";camera angle z()
+
+rem Syncronise
+sync
+
+rem End loop
+loop

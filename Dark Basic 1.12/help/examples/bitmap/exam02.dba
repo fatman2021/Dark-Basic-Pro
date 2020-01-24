@@ -1,0 +1,36 @@
+Rem * Title  : Load Bitmap Hidden
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ========================================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ========================================================
+rem This program will load a BMP file into bitmap 1
+rem --------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(255,255,255),0
+
+rem This command will load a windows bmp file into bitmap 0
+load bitmap "pics\bitmap0.bmp"
+
+rem This command will load a windows bmp file into bitmap 1
+rem and make this bitmap the current bitmap you can see
+load bitmap "pics\bitmap1.bmp",1
+
+rem This command will set the bitmap you can see to bitmap 0
+set current bitmap 0
+
+rem Print a message on screen
+text 150,240,"PRESS A KEY TO COPY BITMAP 1 TO THIS SCREEN"
+suspend for key
+
+rem Now we will copy the picture from bitmap 1 to bitmap 0
+copy bitmap 1,0
+
+text 150,240,"PRESS A KEY TO QUIT"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

@@ -1,0 +1,37 @@
+Rem * Title  : Load and Pan Sounds
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ================================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ================================================
+rem This program will load and pan a sound file 
+rem ------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a wav sound file into number one
+load sound "sound.wav",1
+
+rem Loop a sound file
+loop sound 1
+
+rem Set the sound to middle of your speaker
+set sound pan 1,0
+
+print "press left mouse button to pan sound left"
+print "press right mouse button to pan sound right"
+print "press F12 to quit to editor"
+ 
+repeat
+
+	if mouseclick()=1:set sound pan 1,-10000:endif
+	if mouseclick()=2:set sound pan 1, 10000:endif
+
+until mouseclick()=1 and mouseclick()=2
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

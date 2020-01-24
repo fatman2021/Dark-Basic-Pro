@@ -1,0 +1,19 @@
+Rem * Title  : 3D Availability
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 12
+rem ============================================
+rem This program demonstrates detecting 3D f/x
+rem --------------------------------------------
+
+rem Check for 3D Special Effects Availability
+print "Listing capabilities..."
+if alphablending available()=1 then print "GHOST OBJECT will work!"
+if filtering available()=1 then print "Textures will look better!"
+if fog available()=1 then print "FOG ON will work!"
+if 3dblit available()=1 then print "2D commands will run fast during 3D rendering!"
+print "End Of List."
+
+rem End the program
+end

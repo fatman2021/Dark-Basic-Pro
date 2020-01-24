@@ -1,0 +1,103 @@
+Rem * Title  : Managing Models
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ==========================================
+rem This program manages your models features
+rem ------------------------------------------
+
+rem Load a bitmap and grab image
+load bitmap "floor1.bmp",1
+get image 1,0,0,128,128
+delete bitmap 1
+
+rem Load your object
+load object "walk.x",1
+
+rem Rotate and fix data so character faces right way
+xrotate object 1,0
+yrotate object 1,180
+zrotate object 1,0
+fix object pivot 1
+
+rem Immediately hide the object
+hide object 1
+
+rem Position your object 100 units into the distance
+position object 1,0,0,100
+
+rem Rotate your object to face an angle of 45 degrees
+rotate object 1,0,45,0
+
+rem Scale your object to double its width and depth, but not height
+scale object 1,200,100,200
+
+rem Texture your entire object using the cloth image grabbed and stored in image 1
+texture object 1,1
+
+rem Color the object
+color object 1,rgb(0,255,0)
+
+rem Ghost your object to make it semi-transparent
+ghost object on 1
+
+rem Fade object to 25 percent intensity
+fade object 1,25
+
+rem Animate your object (loop to frame 25 and back to 5)
+loop object 1,5,25
+
+rem Show the object
+show object 1
+
+rem Lock and unlock the object
+lock object on 1
+lock object off 1
+
+rem Reverse rotation
+set object rotation xyz 1
+
+rem Begin main loop
+sync on
+draw to front
+while mouseclick()=0
+
+rem Show FPS
+set cursor 0,0
+print screen fps()
+
+rem Control the object movement with the cursor keys
+if upkey()=1 then move object 1,1.0
+if downkey()=1 then move object 1,-1.0
+
+rem Control the object rotation with the cursor keys
+angle#=object angle y(1)
+if leftkey()=1 then angle#=wrapvalue(angle#-2)
+if rightkey()=1 then angle#=wrapvalue(angle#+2)
+yrotate object 1,angle#
+
+rem Use the spacebar to point your object to the center of the world
+if spacekey()=1 then point object 1,0,0,0
+
+rem Syncronise
+sync
+
+rem Set rotation order back to normal
+set object rotation zyx 1
+
+rem End main loop
+endwhile
+draw to back
+
+rem Stop your object from animatng
+stop object 1
+
+rem Switch off ghosting
+ghost object off 1
+
+rem Free your obejct from memory
+delete object 1
+
+rem End the program
+end

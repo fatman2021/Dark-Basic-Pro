@@ -1,0 +1,126 @@
+Rem * Title  : FTP Access
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 19
+rem ==============================================
+rem This program shows how to access an FTP site
+rem ----------------------------------------------
+hide mouse
+
+rem Set screen colour
+ink rgb(100,255,100),rgb(32,64,32) : cls 
+
+rem Connect
+url$="www.darkbasic.com" : user$="anonymous" : password$="me@mail.com"
+print "Connecting to ";url$
+ftp connect url$, user$, password$
+if get ftp failure()=1 then goto failure
+print : sleep 100
+
+rem Scan root directory
+gosub _simple_ftp_scan
+
+rem Enter a directory
+dirname$="docs"
+print "Entering FTP Directory...";dirname$
+ftp set dir dirname$
+if get ftp failure()=1 then goto failure
+print : sleep 100
+
+rem Ask User
+print "d : Download a file"
+print "u : Upload a file"
+input "Enter D or U to perform an FTP action>";a$
+user$=lower$(a$) : cls
+
+if user$="d"
+
+	rem Scan new directory
+	gosub _simple_ftp_scan
+	
+	rem Download
+	print "Downloading file in one go (please wait)...";filename$; : sync
+	if file exist(filename$)=1 then delete file filename$ 
+	ftp get file filename$,filename$
+	if get ftp failure()=1 then goto failure
+	print "...SUCCESS!"
+	print : sleep 100
+	
+	rem Now delete it and download another way
+	filesize=file size(filename$)
+	if file exist(filename$)=1 then delete file filename$ 
+	
+	rem Download with progress
+	print "Downloading with progress...";
+	if file exist(filename$)=1 then delete file filename$ 
+	ftp get file filename$,filename$,filesize
+	if get ftp failure()=1 then goto failure
+	while get ftp progress()<>-1 and get ftp status()=1
+		print get ftp progress();"...";
+		if spacekey()=1 then ftp terminate
+		ftp proceed
+	endwhile
+	print : print : sleep 100
+
+endif
+
+if user$="u"
+
+	rem Upload (fails silently if FTP does not have write access)
+	localfile$="text.txt"
+	print "BE AWARE RUNTIME WARNING STILL ALLOWS CONTINUANCE - JUST HIT ESCAPE!"
+	print "Uploading...";localfile$
+	ftp put file localfile$
+	if get ftp failure()=1 then goto failure
+	print : sleep 100
+	
+endif
+
+rem Success
+goto success
+
+rem Show error if user does not have write access
+failure:
+ln=1
+dim line$(10)
+error$=get ftp error$()
+for n=1 to len(error$)
+	n$=mid$(error$,n)
+	if asc(n$)=13
+		print line$(ln)
+		inc ln : n=n+1
+		if ln=9 then exit
+	else
+		line$(ln)=line$(ln)+n$
+	endif
+next n	
+undim line$(0)
+print
+
+rem Jump here if ok
+success:
+
+rem Disconnect
+print "Disconnecting from ";url$
+ftp disconnect
+print : sleep 100
+
+rem End program
+print "Program End"
+end
+
+
+rem Scan current ftp directory and print out contents
+_simple_ftp_scan:
+	ftp find first
+	while get ftp file type()<>-1
+		print get ftp file name$();" (";
+		print get ftp file size();" bytes)"
+		if get ftp file type()=0 then filename$=get ftp file name$()
+		if get ftp file type()=1 then dirname$=get ftp file name$()
+		ftp find next
+	endwhile
+	print : sleep 100
+return
+

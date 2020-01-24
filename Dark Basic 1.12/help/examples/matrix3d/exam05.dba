@@ -1,0 +1,48 @@
+Rem * Title  : Matrix Scrolling
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ===========================================
+rem This program will tile shift a matrix
+rem -------------------------------------------
+
+load bitmap "floor1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+
+rem Make a matrix
+make matrix 1,5000,5000,25,25
+
+rem Prepare matrix with a texture cut into a 2x2 texture grid 
+prepare matrix texture 1,1,2,2
+fill matrix 1,0,3
+
+rem Randomize the matrix
+randomize matrix 1,300.0
+
+rem Position camera
+position camera 2500,800,-200
+point camera 2500,0,2500
+
+rem Activate manual sync
+sync on
+
+rem Begin main loop
+while mouseclick()=0
+
+rem Scroll the matrix up
+shift matrix up 1
+
+rem Syncronise
+sync
+
+rem End main loop
+endwhile
+
+rem Delete the matrix
+delete matrix 1
+
+rem End the program
+end
+

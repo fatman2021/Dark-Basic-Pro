@@ -1,0 +1,42 @@
+Rem * Title  : Using the RGB value
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ==========================================
+rem This program will use a rgb to draw lines
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),0
+
+rem Draw 100 lines to the screen
+for t=0 to 1000 
+	rem Get a random ink color
+	ink rgb(rnd(255),rnd(255),rnd(255)),1
+	
+	rem where on screen to draw line
+
+	rem Start of line
+	left=rnd(640)
+	top=rnd(480)
+
+	rem End of line 
+	right=rnd(640)
+	bottom=rnd(480)
+
+	rem Draw a line
+	line left,top,right,bottom
+next t
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Print a message on screen
+text 200,240,"press the spacebar to quit"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

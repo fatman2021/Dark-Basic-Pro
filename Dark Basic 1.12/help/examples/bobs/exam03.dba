@@ -1,0 +1,95 @@
+Rem * Title  : Draw Bob to Screen
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem ===================================================
+rem This program will draw a bob on screen 
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a bitmap on to the screen
+load bitmap "face.bmp"
+
+rem Load back ground to bitmap 1
+load bitmap "back.bmp",1
+
+rem When you load a bitmap that bitmap becomes the current bitmap
+rem where all drawing is done 
+
+rem Use this command to set drawing to the screen
+set current bitmap 0 
+
+rem Grab image 1 from bitmap
+get image 1,18,17,156,196
+
+rem Now we will make a bob
+bob 1,100,100,1
+
+rem Copy background to screen
+copy bitmap 1,0
+
+rem The is were on screen bob will appear
+acrossscreen=100
+downscreen=100
+
+rem This is were bob will move to
+targetacross=0
+targetdown=0
+
+rem When you run the program the image will move to the position
+rem the mouse was when you pressed the left mouse button
+rem has you can see the bob is position on screen from the top left
+rem of the image 
+rem if you wish the bob to be drawn on screen from another part of the image
+rem then use the OFFSET BOB command
+
+
+remstart **** please remove this line ****
+
+rem Get bob width and find the middle of it going across
+bobwidth=(bob width(1)/2)
+
+rem Get bob height and find the middle of it going down
+bobheight=(bob height(1)/2)
+
+rem New offset for bob 1 
+offset bob 1,bobwidth,bobheight
+
+remend   **** please remove this line ****
+
+
+print "using the offset bob command"
+do
+	rem Have we pressed the left mouse button	
+	if mouseclick()=1
+		rem get were mouse is across the screen
+		targetacross=mousex()
+		rem get were mouse is down the screen	
+		targetdown=mousey()
+	endif
+
+	rem This next part home the bob on the target x and target y position
+	if acrossscreen<targetacross:acrossscreen=acrossscreen+1:endif
+	if acrossscreen>targetacross:acrossscreen=acrossscreen-1:endif
+	if downscreen<targetdown:downscreen=downscreen+1:endif
+	if downscreen>targetdown:downscreen=downscreen-1:endif
+	
+	rem Draw the bob at the new position
+	bob 1,acrossscreen,downscreen,1
+
+loop
+
+rem Clear the screen
+cls 
+
+rem Remove the bob from memory
+delete bob 1
+
+rem Remove image 1 from memory
+delete image 1
+
+rem End the program
+end

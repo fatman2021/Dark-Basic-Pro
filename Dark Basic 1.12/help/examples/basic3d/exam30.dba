@@ -1,0 +1,109 @@
+Rem * Title  : Line Of Sight
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 30
+rem ==========================================
+rem This program shows use of line of sight
+rem ------------------------------------------
+autocam off : sync rate 60
+hide mouse : sync on
+
+rem Make a block wall
+make object box 1,200,200,200 : position object 1,0,100,0
+color object 1,rgb(155,40,20)
+make static collision box -100,0,-100,100,200,100
+
+rem Make a block roof
+make object box 2,200,50,400 : position object 2,0,100,-200
+color object 2,rgb(155,40,20)
+make static collision box -100,75,-400,100,125,0
+
+rem Make a floor and create texture for it
+make object box 5,1000,10,1000 : position object 5,0,-5,0 : color object 5,rgb(0,255,0)
+create bitmap 1,32,32 : cls rgb(0,155,0) : ink rgb(0,145,0),0 : box 4,4,12,12
+get image 1,0,0,32,32 : delete bitmap 1 : texture object 5,1
+scale object texture 5,200,200
+
+rem Make a player object (and a non-rotated collision box for it)
+make object cylinder 11,50
+position object 11,0,25,-300
+color object 11,rgb(20,100,255)
+make object collision box 11,-25,-25,-25,25,25,25,0
+
+rem Make some shapes
+make object cone 12,50 : position object 12,-100,25,300
+make object sphere 13,50 : position object 13,100,25,300
+
+rem Make a simple marker
+make object sphere 21,10 : hide object 21
+
+rem Make sky black
+color backdrop 0
+
+rem Main loop
+do
+
+rem User prompts
+ink rgb(255,255,255),0
+center text 320,2,"SHOWS LINE OF SIGHT"
+ink rgb(255,255,0),0
+center text 320,2+16,"AUTOMATIC LINE OF SIGHT WITH SET CAMERA TO FOLLOW"
+center text 320,2+32,"MANUAL LINE OF SIGHT USING STATIC LINE OF SIGHT"
+
+rem Control player object
+oldposx#=object position x(11)
+oldposy#=object position y(11)
+oldposz#=object position z(11)
+
+rem Control keys
+if upkey()=1 then move object 11,2
+if downkey()=1 then move object 11,-2
+if leftkey()=1 then yrotate object 11,wrapvalue(object angle y(11)-3)
+if rightkey()=1 then yrotate object 11,wrapvalue(object angle y(11)+3)
+
+rem Get latest object position
+posx#=object position x(11)
+posy#=object position y(11)
+posz#=object position z(11)
+angle#=object angle y(11)
+
+rem Ensure stay out of static collision boxes
+s#=object size y(11)/2.0
+if get static collision hit(oldposx#-s#,oldposy#-s#,oldposz#-s#,oldposx#+s#,oldposy#+s#,oldposz#+s#,posx#-s#,posy#-s#,posz#-s#,posx#+s#,posy#+s#,posz#+s#)=1
+	dec posx#,get static collision x()
+	dec posy#,get static collision y()
+	dec posz#,get static collision z()	
+endif
+
+rem Update with new object position
+position object 11,posx#,posy#,posz#
+
+rem Use camera tracker to follow player object
+camdist#=200.0 : camhigh#=posy#+75 : camfade#=1.0
+set camera to follow posx#,posy#+25,posz#,angle#,camdist#,camhigh#,camfade#,1
+
+rem Line of sight informations
+ink rgb(64,255,128),0
+if static line of sight(posx#,posy#,posz#,-100,25,300,5,1)=1
+	hx=static line of sight x()
+	hy=static line of sight y()
+	hz=static line of sight z()
+	position object 21,hx,hy,hz : show object 21
+	center text 320,2+48,"CYLINDER CANNOT SEE CONE ("+str$(hx)+","+str$(hy)+","+str$(hz)+")"
+else
+	center text 320,2+48,"CYLINDER CAN SEE CONE"
+	hide object 21
+endif
+if static line of sight(posx#,posy#,posz#,100,25,300,5,1)=1
+	center text 320,2+64,"CYLINDER CANNOT SEE SPHERE"
+else
+	center text 320,2+64,"CYLINDER CAN SEE SPHERE"
+endif
+
+rem Update screen
+sync
+
+rem End loop
+loop
+

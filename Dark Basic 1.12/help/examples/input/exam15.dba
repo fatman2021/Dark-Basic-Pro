@@ -1,0 +1,28 @@
+Rem * Title  : Directory Handling
+Rem * Author : DBS-LB
+Rem * Date   : 1st April 2000
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 15
+rem ============================================
+rem This program handles directory creation
+rem --------------------------------------------
+
+rem Create a directory if not exist
+if path exist("mydir")=0
+	make directory "mydir"
+	print "Directory created.."
+endif
+
+rem Wait for keypress
+print "Press Any Key"
+suspend for key
+
+rem Remove directory if it exists
+if path exist("mydir")=1
+	delete directory "mydir"
+	print "Directory destroyed.."
+endif
+
+rem End of program
+end
+

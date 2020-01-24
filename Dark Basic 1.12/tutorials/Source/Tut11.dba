@@ -1,0 +1,61 @@
+Sync On 
+Sync Rate 30 
+
+Backdrop on 
+Set camera range 1,5000 
+
+Fog on 
+Fog distance 4000 
+Fog color RGB(128,128,128) 
+Color Backdrop RGB(128,128,128) 
+
+Rem make matrix 
+Make matrix 1,10000,10000,20,20 
+
+Rem texture matrix 
+Load image "grass09.bmp",1 
+Prepare matrix texture 1,1,1,1 
+Fill matrix 1,0,1 
+
+Rem Make player pawn 
+Load image "barry.bmp",2 
+Make object sphere 10,25 
+Texture object 10,2 
+position object 10,100,0,100 
+
+rem Randomize the matrix 
+randomize matrix 1,125 
+
+Rem Main loop 
+Do 
+
+ Rem  Store Object angle 
+ AngleY# = object angle Y(10) 
+
+ Rem  Control input for camera 
+ If Upkey()=1 
+  XTest# = Newxvalue(X#,AngleY#,20) 
+  ZTest# = Newzvalue(Z#,AngleY#,20) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   Move object 10,10 
+  Endif 
+ Endif 
+
+ If Leftkey()=1 then Yrotate object 10,Wrapvalue(AngleY#-5) 
+ If Rightkey()=1 then Yrotate object 10,Wrapvalue(AngleY#+5) 
+
+ X# = Object position x(10) 
+ Z# = Object position z(10) 
+ Y# = Get Ground Height(1,X#,Z#) 
+
+ Position object 10,X#,Y#+12.5,Z# 
+
+ CameraZ# = Newzvalue(Z#,AngleY#-180,100) 
+ CameraX# = Newxvalue(X#,AngleY#-180,100) 
+
+ Position camera CameraX#,Y#+50,CameraZ# 
+
+ Point camera X#,Y#+25,Z# 
+ Rem Refresh Screen 
+ Sync 
+Loop 

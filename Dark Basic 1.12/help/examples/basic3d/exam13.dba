@@ -1,0 +1,749 @@
+Rem * Title  : 3D Model Viewer
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 13
+rem ============================================
+rem This program demonstrates viewing 3D models
+rem --------------------------------------------
+backdrop off
+draw to back
+sync on
+
+rem Main Browser Arrays
+dim browsefile$(1000)
+dim browsetype(1000)
+dim browsedata(5) : rem 1=Max
+dim pagedata(5) : rem 1=Pos / 2=Icon / 3=OldIcon / 4=SecondPage
+
+rem Grab all images
+prepare_images()
+
+rem Blank browser screen
+blank_browser()
+
+rem Initialize global variables
+gosub _setup_browser
+
+rem Main Loop
+do
+
+rem If in second-page mode
+if pagedata(4)>0
+	if mouseclick()=0 and spflag=2 then spflag=3
+	if mouseclick()=1 and spflag=3
+		stop_secondview()
+		spflag=1
+	endif
+else
+	if mouseclick()=0 then spflag=0
+	if spflag=0 then gosub _handle_buttons
+endif
+
+rem Handle sustained scroll
+if scroll<>0
+	if scroll>0
+		scroll=scroll-25
+		pagedata(1)=pagedata(1)-25
+	else
+		scroll=scroll+25
+		pagedata(1)=pagedata(1)+25
+	endif
+	updateflag=1
+endif
+
+rem Update central view
+if pagedata(4)=0
+	if updateflag>0 then gosub _update_screen : updateflag=0
+else
+	view_updatesecondpage()
+endif
+
+rem Update potential message bar
+if messagedelay>0
+	messagedelay=messagedelay-1
+	if messagedelay>0
+		draw_projectfolder(messagebar$)
+	else
+		draw_projectfolder(projectfolder$)
+	endif
+endif
+
+rem Terminate countdown
+if termcount>0
+	termcount=termcount-1
+	if termcount=0 then exit
+endif
+
+rem Update screen
+sync
+
+rem End Main Loop
+loop
+end
+
+rem ** Subroutines
+
+_handle_buttons:
+
+rem Handle icon selection
+if mouseclick()=1
+	if isbuttondown=0
+		isbuttondown=1
+		updateflag=detect_iconselect()
+	endif
+else
+	isbuttondown=0
+endif
+
+rem View / Stop
+if detect_button(111)=1 then spflag=view_selection()
+if detect_button(112)=1 then stop_selection()
+
+rem Up / Down
+if detect_button(113)=1 and scroll=0
+	if pagedata(1)>0 then scroll=100
+endif
+if detect_button(114)=1 and scroll=0
+	if pagedata(1)<(((browsedata(1)-14)/5)*100) then scroll=-100
+endif
+
+rem Add
+if detect_button(115)=1
+	if mouseclick()=1 and ambuttondown=0
+		ambuttondown=1
+		if projectexists=1
+			if pagedata(2)>0
+				destfile$=projectfolder$
+				if right$(destfile$,1)<>"\" then destfile$=destfile$+"\"
+				destfile$=destfile$+browsefile$(pagedata(2))
+				if file exist(destfile$)=0
+	
+					rem Copy Media File to Dest File
+					mediafile$=mediafolder$
+					if right$(mediafile$,1)<>"\" then mediafile$=mediafile$+"\"
+					mediafile$=mediafile$+browsefile$(pagedata(2))
+					copy file mediafile$,destfile$
+					messagebar$="MEDIA FILE "+browsefile$(pagedata(2))+" COPIED TO PROJECT FOLDER!"
+					messagedelay=200
+	
+				else
+					messagebar$="FILE ALREADY EXISTS IN PROJECT FOLDER!"
+					messagedelay=100
+				endif
+			else
+				messagebar$="YOU MUST SELECT AN ICON TO ADD!"
+				messagedelay=150
+			endif
+		else
+			messagebar$="YOU MUST SELECT A PROJECT FROM THE EDITOR FIRST!"
+			messagedelay=200
+		endif
+	endif
+else
+	ambuttondown=0
+endif
+
+rem OK
+if mouseclick()=1 and termcount=0
+	if detect_button(116)=1 then termflag=1
+else
+	detect_button(116)
+	if termflag=1 and mousex()>=12+(5*104) and mousex()<12+(5*104)+94 and mousey()>=399 and mousey()<446
+		termcount=5
+	endif
+	termflag=0
+endif
+
+rem Parent Folder
+if detect_button(117)=1
+	if mouseclick()=1 and pfbuttondown=0
+		pfbuttondown=1
+		goto_parentdir()
+		updateflag=1
+	endif
+else
+	pfbuttondown=0
+endif
+
+return
+
+_update_screen:
+
+	rem Update browse view area
+	update_view(updateflag)
+
+	rem Update string prompts
+	mediafolder$=get dir$()
+	draw_browsefolder(mediafolder$)
+	draw_projectfolder(projectfolder$)
+
+return
+
+_setup_browser:
+
+	rem Field strings
+	projectexists=0
+	mediafolder$=get dir$()
+	if mid$(cl$(),2)<>":"
+		projectfolder$="NO PROJECT SELECTED."
+	else
+		projectfolder$=cl$()
+		projectexists=1
+	endif
+
+	rem States
+	pagedata(1)=0
+	pagedata(2)=0
+	pagedata(3)=0
+	pagedata(4)=0
+
+	rem Temp variables
+	scroll=0
+	updateflag=1
+	spflag=0
+
+	rem Scan initial directory
+	scan_directory()
+
+return
+
+rem ** Functions
+
+function view_selection()
+
+	rem If icon selected
+	if pagedata(2)>0
+
+		rem Determine icon type number
+		file$=browsefile$(pagedata(2))
+		typeid=find_filetype(file$)
+
+		if typeid=1 then view_anim(file$)
+		if typeid=2 then view_bitmap(file$)
+		if typeid=3 then load sound file$,1 : loop sound 1
+		if typeid=4 then load music file$,1 : loop music 1
+		if typeid=5 then view_object(file$)
+
+	endif
+
+endfunction 2
+
+function view_bitmap(file$)
+
+	rem Original bitmap
+	load bitmap file$,5
+	set current bitmap 0
+	pagedata(4)=1
+
+endfunction
+
+function view_anim(file$)
+
+	rem Original animation
+	load animation file$,1
+	width=animation width(1)
+	height=animation height(1)
+	if height>320
+		aspect#=height/320.0
+		height=320
+		width=width/aspect#
+	endif
+	x1=(640-width)/2
+	x2=x1+width-1
+	y1=64+((320-height)/2)
+	y2=y1+height-1
+	play animation 1,0,x1,y1,x2,y2
+	pagedata(4)=2
+
+endfunction
+
+function view_object(file$)
+
+	rem Original object model
+	load object file$,1
+	if total object frames(1)>1 then loop object 1
+
+	rem Grab top and bottom panels
+	get image 11,0,0,640,64
+	get image 12,0,64+320,640,479
+	
+	pagedata(4)=3
+
+endfunction
+
+function view_updatesecondpage()
+
+	rem Text setting
+	set text size 20
+	set text to bold
+	set text transparent
+	set text font "Arial"
+
+	if pagedata(4)=1
+		rem Original bitmap
+		width=bitmap width(5)
+		height=bitmap height(5)
+		if height>320
+			aspect#=height/320.0
+			height=320
+			width=width/aspect#
+		endif
+	
+		rem Region to place bitmap
+		x1=(640-width)/2
+		x2=x1+width-1
+		y1=64+((320-height)/2)
+		y2=y1+height-1
+	
+		rem Paste bitmap to visual
+		ink rgb(0,0,128),0 : box 0,64,639,64+319
+		copy bitmap 5,0,0,bitmap width(5)-1,bitmap height(5)-1,0,x1,y1,x2,y2
+	
+		rem Print Additional information
+		text$=browsefile$(pagedata(2))+" ("
+		text$=text$+str$(bitmap width(5))+"x"
+		text$=text$+str$(bitmap height(5))+"x"
+		text$=text$+str$(bitmap depth(5))+"bit)"
+		ink rgb(255,255,255),0
+		center text 320,360,text$
+	endif
+	if pagedata(4)>=2
+		ink rgb(0,0,128),0 : box 0,64,639,64+319
+		text$=browsefile$(pagedata(2))
+		ink rgb(255,255,255),0
+		center text 320,360,text$
+	endif
+	if pagedata(4)=3
+		yrotate object 1,wrapvalue(object angle y(1)+2)
+		paste image 11,0,0
+		paste image 12,0,64+320
+		text$=browsefile$(pagedata(2))
+		ink rgb(255,255,255),0
+		center text 320,360,text$
+	endif
+
+endfunction
+
+function stop_selection()
+
+	rem Deactivate everything...
+	stop_secondview()
+	if sound exist(1)=1 then delete sound 1
+	if music exist(1)=1 then delete music 1
+
+endfunction
+
+function stop_secondview()
+
+	rem Deactivate second page view
+	if pagedata(4)>0
+		if animation exist(1)=1 then delete animation 1
+		if bitmap exist(5)=1 then delete bitmap 5
+		if object exist(1)=1 then delete object 1
+	endif
+	pagedata(4)=0
+
+endfunction
+
+function scan_directory()
+
+	rem Scan directory to get files
+	bi=0 : find first : find next : find next
+	do
+		rem gather directory list
+		bi=bi+1
+		browsetype(bi)=get file type()
+		if browsetype(bi)=-1 or bi>=999 then exit
+		browsefile$(bi)=get file name$()
+		find next
+		draw_projectfolder("Scanning "+browsefile$(bi)+"...")
+		sync
+	loop
+	total=bi-1
+	browsedata(1)=total
+
+	rem Bubble sort files so folders at the top
+	for a=1 to total
+		for b=1 to total
+			if a<>b and browsetype(a)>browsetype(b)
+				ct=browsetype(a)
+				cf$=browsefile$(a)
+				browsetype(a)=browsetype(b)
+				browsefile$(a)=browsefile$(b)
+				browsetype(b)=ct
+				browsefile$(b)=cf$
+				draw_projectfolder("Sorting "+cf$+"...")
+				sync
+			endif
+		next b
+	next a
+
+endfunction
+
+function goto_parentdir()
+
+	currentdir$=get dir$()
+	c=len(currentdir$)
+	if mid$(currentdir$,c)="\" then c=c-1
+	while mid$(currentdir$,c)<>"\" and c>0 : c=c-1 : endwhile
+	if c>0 then currentdir$=left$(currentdir$,c)
+	set dir currentdir$
+	scan_directory()
+	pagedata(1)=0
+	pagedata(2)=0
+
+endfunction
+
+function goto_folder(foldername$)
+
+	currentdir$=get dir$()
+	if len(currentdir$)>3 then currentdir$=currentdir$+"\"
+	currentdir$=currentdir$+foldername$
+	set dir currentdir$
+	scan_directory()
+	pagedata(1)=0
+	pagedata(2)=0
+
+endfunction
+
+function update_view(updatelevel)
+
+	rem Either full update or update icon only
+	if updatelevel=1
+
+		rem Fill view with backdrop
+		view_fillbackdrop()
+	
+		rem Put contents
+		view_fillcontents(0)
+	
+	else
+
+		rem Overwrite selected icon only
+		view_fillcontents(1)
+
+	endif
+
+	rem Copy to visible bitmap
+	set current bitmap 2
+	get image 1,0,0,640,320
+	set current bitmap 0
+	paste image 1,0,64
+
+endfunction
+
+function view_fillcontents(updateselecticononly)
+
+	rem Work out how far down page we are
+	pagestartline=pagedata(1)/100
+
+	rem Point to first file in current directory list
+	fileindex=1+(pagestartline*5)
+	
+	rem Draw forth row if scrolling
+	if pagedata(1)=(pagestartline*100) then rows=2 else rows=3
+
+	rem Reduce pointer by advancement step
+	pointer=pagedata(1)-(pagestartline*100)
+
+	rem Set text style
+	set text size 15
+	set text font "Arial"
+	set text transparent
+	ink rgb(0,0,0),rgb(255,255,255)
+
+	rem Draw contents from page-pointer
+	set current bitmap 2
+	for y=0 to rows
+		for x=0 to 4
+
+			rem If icon is to be displayed
+			update=0
+			if updateselecticononly=0 then update=1
+			if updateselecticononly=1 and (fileindex=pagedata(2) or fileindex=pagedata(3)) then update=1
+			if update=1
+				if fileindex<=browsedata(1)
+	
+					rem Icon Details
+					type=1-browsetype(fileindex)
+					if fileindex=pagedata(2) then light=1 else light=0
+					bx=38+(x*116)
+					by=11+(y*100)-pointer
+	
+					rem Display Icon
+					paste sprite 1+(type*2)+light,bx,by
+
+					rem Determine media type
+					if type=1
+
+						rem Discover extension of filename
+						file$=browsefile$(fileindex)
+						typegfx=find_filetype(file$)
+						if typegfx>0
+							paste image 140+typegfx,bx+6,by+5
+						endif
+
+						rem Place text under icon
+						set current bitmap 3
+						set text to normal
+						ink rgb(32,32,32),rgb(255,255,255)
+						cls : center text 46,0,browsefile$(fileindex)
+						get image 1,0,0,92,16
+						set current bitmap 2
+						paste image 1,bx+4,by+76
+
+					else
+
+						rem Place text inside icon
+						set current bitmap 3
+						set text to bold
+						ink rgb(32,32,32),15126048
+						cls : center text 46,0,browsefile$(fileindex)
+						get image 1,0,0,92,16
+						set current bitmap 2
+						paste image 1,bx+4,by+32
+
+					endif
+
+				endif
+			endif
+
+			fileindex=fileindex+1
+	
+		next x
+	next y
+	set current bitmap 0
+
+endfunction
+
+function find_filetype(file$)
+
+	ext$="_"
+	t=len(file$)
+	while t>1
+		if mid$(file$,t)="." then exit
+		t=t-1
+	endwhile
+	if t>1 and t<len(file$)
+		t=t+1
+		for n=t to len(file$)
+			ext$=ext$+mid$(file$,n)
+		next n
+	endif
+	ext$=lower$(ext$)
+
+	typegfx=0
+	if ext$="_avi" then typegfx=1
+	if ext$="_bmp" then typegfx=2
+	if ext$="_wav" then typegfx=3
+	if ext$="_mid" then typegfx=4
+	if ext$="_3ds" then typegfx=5
+	if ext$="_x" then typegfx=5
+
+endfunction typegfx
+
+function view_fillbackdrop()
+
+	rem Work out scroll position of backdrop
+	fullpage=(pagedata(1)/320)
+	scrolly=pagedata(1)-(fullpage*320)
+
+	rem use second bitmap for CONSTRUCTION
+	set current bitmap 2
+	paste image 131,0,0-scrolly
+	paste image 131,0,320-scrolly
+	set current bitmap 0
+
+endfunction
+
+function detect_iconselect()
+
+	if mouseclick()=1
+
+		rem Find overlap with an icon
+		action=0
+		for y=0 to 2
+			for x=0 to 4
+				bx=38+(x*116)
+				by=11+(y*100)
+				if mousex()>=bx and mousex()<=bx+96
+					if mousey()>=64+by and mousey()<=64+by+96
+						pagestartline=pagedata(1)/100
+						fileindex=1+(pagestartline*5)+(y*5)+x
+						if fileindex<=browsedata(1)
+							if browsetype(fileindex)=1
+								action=1
+							else
+								action=2
+							endif
+						endif
+					endif
+				endif
+			next x
+		next y
+
+		rem perform action if overlap occuring
+		if action>0
+			if action=1
+				goto_folder(browsefile$(fileindex))
+				updatelevel=1
+			endif
+			if action=2
+				pagedata(3)=pagedata(2)
+				pagedata(2)=fileindex
+				updatelevel=2
+			endif
+		endif
+
+	endif
+
+endfunction updatelevel
+
+function detect_button(id)
+
+	rem Calculate coordinate for button
+	if id>=111 and id<=116
+		t=id-111 : x1=12+(t*104) : x2=x1+94 : y1=399 : y2=446
+	endif
+	if id=117 then x1=453 : y1=43 : x2=635 : y2=62
+
+	rem Show depressed clicking it
+	depressed=0
+	if mousex()>=x1 and mousex()<x2 and mousey()>=y1 and mousey()<y2
+		if mouseclick()=1
+			depressed=1
+		endif
+	endif
+
+	rem Show 'indented' if depressed
+	if depressed=1
+		paste image id,x1+1,y1+1
+	else
+		paste image id+10,x1,y1
+	endif
+
+endfunction depressed
+
+function blank_browser()
+
+	rem Copy browser to screen
+	copy bitmap 1,0
+
+	rem Clear fields
+	clear_browsefolder()
+	clear_projectfolder()
+
+endfunction
+
+function clear_browsefolder()
+	ink rgb(255,255,255),0 : box 5,44,449,60
+endfunction
+
+function draw_browsefolder(string$)
+
+	clear_browsefolder()
+	ink rgb(128,128,128),0
+	set text size 15
+	set text font "System"
+	set text transparent
+
+	rem Ensure size remains within box
+	prompt$=string$
+	while text width(prompt$)>440
+		newa$=""
+		for t=2 to len(prompt$)
+			newa$=newa$+mid$(prompt$,t)
+		next t
+		prompt$=newa$
+	endwhile
+	text 8,44,prompt$
+
+endfunction
+
+function clear_projectfolder()
+	ink 0,0 : box 0,463,639,479
+endfunction
+
+function draw_projectfolder(string$)
+
+	clear_projectfolder()
+	ink rgb(255,255,0),0
+	set text size 15
+	set text font "System"
+	set text transparent
+	text 0,463,string$
+
+endfunction
+
+function prepare_images()
+
+	rem Load images bitmap
+	load bitmap "browser.bmp",1
+
+	rem Grab folder icons 101,102
+	i=101
+	for y=0 to 1
+		get image i+y,0,64+(y*96),100,64+96+(y*96)
+	next y
+
+	rem Grab file icons 103,104
+	i=103
+	for y=0 to 1
+		get image i+y,100,64+(y*96),200,64+96+(y*96)
+	next y
+
+	rem Create transparent sprites for icons
+	for t=1 to 4
+		set sprite t,1,1
+		sprite t,-200,-200,100+t
+	next t
+
+	rem Grab dimmed control button
+	get image 105,200,64,294,111
+
+	rem Grab backdrop filler
+	get image 106,294,64,294+160,64+160
+
+	rem Grab control buttons
+	i=111
+	for x=0 to 5
+		get image i+x,12+(x*104),399,106+(x*104),446
+		get image i+x+10,12+(x*104),399,106+(x*104)+1,446+1
+	next x		
+
+	rem Grab parent button
+	get image 117,453,43,635,62
+	get image 117+10,453,43,635+1,62+1
+
+	rem Grab icon-type gfx 141-145
+	i=141
+	for y=0 to 4
+		get image i+y,454,64+(y*62),454+89,64+62+(y*62)
+	next y
+
+	rem Clear icons using backdrop
+	for y=0 to 1
+		for x=0 to 3
+			paste image 106,x*160,64+(y*160)
+		next x
+	next y
+	get image 131,0,64,639,64+320
+
+	rem Create second bitmap for view work
+	create bitmap 2,640,320
+
+	rem Create third bitmap to truncate text
+	create bitmap 3,92,16
+
+	rem Return to visual bitmap 
+	set current bitmap 0
+
+endfunction
+
+
+
+
+
+
+

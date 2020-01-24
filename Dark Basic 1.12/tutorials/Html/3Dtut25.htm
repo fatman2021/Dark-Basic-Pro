@@ -1,0 +1,306 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>14.
+The monster hunts</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to make the monster hunt the player.</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+add to the monster AI to enable the monster to hunt the player. We've also
+added some AI to improve the monster's shooting ability by detecting if
+the player is hiding behind an obstacle or the terrain.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Load Target</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+object "idle.x",3</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Append
+Object "Walk.x",3,21</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>We've added this line of
+code before the main loop. The "Append Object" command loads the animation
+data from a different file than the first file you loaded. With this command
+there is no need to load another object when you can just append the animation
+data. The objects in each of the files you wish to append, must be identical
+or the command will fail. The command uses 3 parameters. The first parameter
+is the name of the file you wish to append. The second parameter is the
+number of the object you wish to append the animation data to. The third
+parameter is the number of the frame where you wish to append the animation.
+If the frame number is greater than the total number of frames in the first
+animation, the command will fail.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if DecoCollide(MbX#,MbY#,MbZ#) = 1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+MonsterBulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+BulletAvoidDeco = BulletAvoidDeco + 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if MbY# &lt; Get Ground height(1,MbX#,MbZ#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+MonsterBulletLife=0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+ShootUp=3</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "ShootUp" and "BulletAvoidDeco"
+variables are added to the "MonsterShootBullet" subroutine. The "ShootUp"
+variable is given the value 3 if the monster's projectile hits the terrain.
+This variable will be used to change the angle the monster shoots to allow
+the bullet to be shot over the terrain. The "BulletAvoidDeco" variable
+has a value of 2 added to it each time the projectile hits one of the columns.
+This variable is used to change the angle the monster shoots to give the
+monster the opportunity to shoot around obstacles. Even though the monster
+isn't shooting directly at the player when the angles are changed, the
+projectile has our original guided missile attributes to re-aim the projectile.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Rem Simple AI for guided monster missile</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>MonsterAI:</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Point object 3,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+If AvoidDeco >0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+mA# = Object Angle Y(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Dec AvoidDeco</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Yrotate object 3,WrapValue(mA#+AvoidDeco*60)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Rem Position Monster at new location</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Position Object 3,mX#,mY#,mZ#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Rem check distance from player</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+PDist=Sqrt((mX# - X#)^2 + (mY#+25 - Y#)^2 + (mZ# - Z#)^2)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Rem If the player is within range shoot bullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if PDist&lt;1500</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+if MonsterBulletLife=0 or MonsterBulletLife &lt; 500-Pdist/10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Point object 3,X#,Y#-25,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+If BulletAvoidDeco > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CornerAim = Rnd(1)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mA# = object angle Y(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if CornerAim = 0 then Yrotate Object 3,WrapValue(mA#+BulletAvoidDeco*10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if CornerAim = 1 then Yrotate Object 3,WrapValue(mA#+BulletAvoidDeco*-16)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dec BulletAvoidDeco</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+If ShootUp > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mA# = object angle X(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+XRotate Object 3,WrapValue(mA#+ShootUp*-8)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dec ShootUp</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Position object 102,mX#,mY#+25,mZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Set object to object orientation 102,3</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+MonsterBulletLife =500</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+show object 102</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Loop sound 102</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Rem Play idle animation</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Loop Object 3,0,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if PDist>1000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Store old location</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+OldmX# = mX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+OldmZ# = mZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+OldmY# = mY#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Play walking animation</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Loop Object 3,21,46</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Move monster</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Move Object 3,7</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Get new position</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mX# = Object Position X(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mZ# = Object Position Z(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+mY# = Get Ground Height(1,mX#,mZ#)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Check for Decoration collision</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+If DecoCollide(mX#,mY#,mZ#) = 1 and AvoidDeco = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mX# = OldmX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mZ# = OldmZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mY# = OldmY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+AvoidDeco = 3</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Return</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In the "MonsterAI" subroutine
+we have added the code needed to allow the monster to walk around obstacles
+as well as the code to change the angle the monster shoots when the two
+variables discussed previously are set to values other than 0.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+If AvoidDeco >0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+mA# = Object Angle Y(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Dec AvoidDeco</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Yrotate object 3,WrapValue(mA#+AvoidDeco*60)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "AvoidDeco" comparison
+decreases the value by 1 and rotates the monster's directions by adding
+the "AvoidDeco" value multiplied by 60 to the monster's angle. When the
+monster hits a decoration object, the "AvoidDeco" variable is set to 3.
+In each iteration the monster is moved first 180 degrees then 120 degrees
+then 60 degrees. This causes the monster to walk in a half circle backwards
+from where it hit the&nbsp; obstacle. This section of code is how the monster
+navigates around obstacles.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+If BulletAvoidDeco > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CornerAim = Rnd(1)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mA# = object angle Y(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if CornerAim = 0 then Yrotate Object 3,WrapValue(mA#+BulletAvoidDeco*10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if CornerAim = 1 then Yrotate Object 3,WrapValue(mA#+BulletAvoidDeco*-10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dec BulletAvoidDeco</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "BulletAvoidDeco" comparison
+is similar to the monster avoid deco comparison except the angle change
+isn't as drastic. When the projectile first hits a decoration object, the
+"BulletAvoidDeco" variable is set to a value of 2. If the projectile hits
+an obstacle again a value of 2 is added again. This is done until the projectile
+is able to go around the obstacle. The projectile will be shot right or
+left depending on a random value, this increases the chance the bullet
+will make it around the obstacle.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if PDist>1000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Store old location</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+OldmX# = mX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+OldmZ# = mZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+OldmY# = mY#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Play walking animation</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Loop Object 3,21,46</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Move monster</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Move Object 3,7</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Get new position</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mX# = Object Position X(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mZ# = Object Position Z(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+mY# = Get Ground Height(1,mX#,mZ#)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Check for Decoration collision</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+If DecoCollide(mX#,mY#,mZ#) = 1 and AvoidDeco = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mX# = OldmX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mZ# = OldmZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mY# = OldmY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+AvoidDeco = 3</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code is where
+we move the monster. First, we store the monster's position before we move
+it. Next, we play the walking animation with the "Loop Object" Command.
+This command has two more parameters than the first time we introduced
+its use. The two parameters after the object number are the range of frames
+we wish to loop. These are the frames we appended to the object earlier.
+This animation causes the object to loop a walking animation while we move
+the object. Next, we store the new position we wish to move the monster
+to. We check to see if the position collides with any decorations. If the
+monster collides we change the variables back to their original values
+and set the "AvoidDeco" command to a value of 3, causing the monster to
+walk a half circle around the object.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+If ShootUp > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mA# = object angle X(3)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+XRotate Object 3,WrapValue(mA#+ShootUp*-8)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dec ShootUp</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "ShootUp" comparison
+is also added to the "MonsterAI" subroutine. If the monster's projectile
+hits the terrain the "ShootUp" variable is set to a value of 3. The monster's
+shooting direction is rotated to 24 degrees above it's current angle. The
+angle is decreased by 8 degrees in each iteration. This lofts the monster's
+projectile giving it a better line of site to the player.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>You'll notice we did not
+check for the monster falling off the matrix. This is unnecessary since
+the monster will always move towards the player and the player is never
+allowed ot move off the matrix. These few lines of code should make the
+game more exciting and give the monster more personality as it hunts the
+player.</font></font>
+</body>
+</html>

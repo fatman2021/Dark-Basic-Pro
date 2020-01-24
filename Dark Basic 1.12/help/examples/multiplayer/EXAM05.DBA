@@ -1,0 +1,91 @@
+Rem * Title  : Sending Bitmaps
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 05
+rem ===============================================
+rem This program handles Sending Bitmaps
+rem -----------------------------------------------
+
+rem Make Net Game
+gosub _join_or_host
+
+rem Nice font
+set text font "arial"
+set text size 18
+set text opaque
+set text to bold
+
+rem Main game loop
+cls rgb(255,255,255)
+if iam$="host" then rcol=rgb(255,255,0)
+if iam$="joiner" then rcol=rgb(0,128,255)
+do
+	
+	rem Label text
+	ink rgb(0,0,0),rgb(255,255,255)
+	center text 160,8,"MULTIPLAYER BITMAP EXCHANGE"
+	text 16,32+10,"Source:"
+
+	rem Make a Bitmap
+	bmpnum=10
+	if bitmap exist(bmpnum)=0 then create bitmap bmpnum,32,32
+	set current bitmap bmpnum
+	if rnd(50)=0 then cls 0
+	ink rcol,0
+	circle rnd(31),rnd(31),3
+	ink rgb(255,255,255),0
+	set text size 14
+	set text to normal
+	center text 16,8,str$(num)
+	inc num
+	`
+	rem Revert to visible screen
+	set current bitmap 0
+	copy bitmap bmpnum,0,0,31,31,0,100,32,100+31,32+31
+	set text to bold
+	set text size 18
+
+	rem Send bitmap to all net players
+	send net message bitmap 0,bmpnum,1
+
+	rem Receive any bitmaps from other players
+	repeat
+		if net message type()=6
+			net message bitmap 1 : pn=net message player from()
+			if bitmap exist(1)=1
+				ink rgb(0,0,0),rgb(255,255,255)
+				text 16,32+(pn*32)+10,"From "+str$(pn)+":"
+				copy bitmap 1,0,0,31,31,0,100,32+(pn*32),100+31,32+(pn*32)+31
+			endif
+		endif
+		get net message
+	until net message exists()=0
+
+	rem Update screen
+	sync
+
+loop
+
+rem Join or Host Subroutine
+_join_or_host:
+
+	rem Set sync, display mode and an always active window
+	sync on : set display mode 320,240,16 : always active on
+	set window on : set window title "JOINER"
+
+	rem Join First, Else Host (for best results run as EXECUTABLES)
+	center text 160,100,"...ATTEMPTING TO JOIN..."
+	center text 160,120,"[IN DB...HIT ESCAPE TO BYPASS WARNING]" : sync : sync
+	join net game 1,"Bill"
+	if net game exists()=0
+		cls 0 : center text 160,110,"...HOSTING NEW NET GAME..." : sync : sync
+		create net game "mygamename","Fred",4,0
+		set window position 330,23 : set window title "HOST"
+		iam$="host"
+	else
+		iam$="joiner"
+	endif
+
+return
+

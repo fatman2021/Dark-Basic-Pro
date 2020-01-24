@@ -1,0 +1,26 @@
+Rem * Title  : Tutorial Sample 6
+Rem * Author : DBS-LB
+Rem * Date   : 1/8/99
+rem Load a bitmap onto the screen
+LOAD BITMAP "picture.bmp"
+
+rem Begin loop
+DO
+
+rem Grab all four quarters of the screen
+GET IMAGE 1,0,0,320,240
+GET IMAGE 2,320,0,640,240
+GET IMAGE 3,320,240,640,480
+GET IMAGE 4,0,240,320,480
+
+rem Paste in their neighbors quarter
+PASTE IMAGE 1,320,0
+PASTE IMAGE 2,320,240
+PASTE IMAGE 3,0,240
+PASTE IMAGE 4,0,0
+
+rem Small delay
+SLEEP 100
+
+rem End loop
+LOOP

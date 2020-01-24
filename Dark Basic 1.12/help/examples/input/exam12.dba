@@ -1,0 +1,51 @@
+Rem * Title  : Mouselook
+Rem * Author : DBS-LB
+Rem * Date   : 20th Nov 1999
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 12
+rem ============================================
+rem This program creates a mouselook effect
+rem --------------------------------------------
+
+rem Manual sync
+sync on
+
+rem Use a 3D plain object to create your target
+make object plain 2,20,20
+position object 2,0,0,200
+lock object on 2
+ink rgb(255,255,255),0
+circle 16,16,13 : circle 16,16,4
+get image 1,0,0,32,32
+texture object 2,1
+set object 2,1,0,0
+
+rem Make simple 3D scene
+set camera range 1,5500
+make matrix 1,6000,6000,25,25
+position matrix 1,-3000,0,-3000
+make object sphere 1,5000
+set object 1,1,0,0
+position camera 0,100,0
+
+rem Begin loop
+do
+
+rem Crude way to fix mouse pointer (hide this and run again)
+position mouse 320,240
+
+rem Use MOUSEMOVE to alter camera angles
+cx#=wrapvalue(cx#+mousemovey())
+cy#=wrapvalue(cy#+mousemovex())
+cz#=wrapvalue(cz#+mousemovez())
+rotate camera cx#,cy#,cz#
+
+rem Simple movement
+if upkey()=1 then move camera 25
+if downkey()=1 then move camera -25
+
+rem Update screen
+sync
+
+rem End loop
+loop

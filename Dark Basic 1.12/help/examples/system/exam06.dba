@@ -1,0 +1,94 @@
+Rem * Title  : Windows Control
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ==========================================
+rem This program will use the Windows Controls
+rem ------------------------------------------
+sync on
+
+rem User Prompt
+cls : center text 320,240,"Automatic Control of the Application Window"
+sleep 2000
+
+rem Activate windows mode
+set window on
+
+rem User Prompt
+cls : center text 320,240,"Welcome to Windows Mode"
+sleep 2000
+
+rem Set window size in a loop
+cls : center text 320,240,"Resizing Window"
+for s=640 to 320 step -32
+	set window size s,480
+	sleep 100
+next s
+
+rem Set window position in a loop
+cls : center text 320,240,"Repositioning Window"
+for s=0 to 320 step 20
+	set window position s,s/5
+	sleep 100
+next s
+
+rem User Prompt
+cls : center text 320,240,"Use Application Icons"
+set window layout 1,1,1
+sleep 2000
+
+rem User Prompt
+cls : center text 320,240,"Remove Title Bar"
+set window layout 0,0,1
+sleep 2000
+
+rem User Prompt
+cls : center text 320,240,"Restore Layout"
+set window layout 1,1,1
+sleep 2000
+
+rem User Prompt
+cls : center text 320,240,"Maximize Window"
+maximize window
+sleep 2000
+
+rem User Prompt
+cls : center text 320,240,"Minimize Window"
+sleep 2000
+minimize window
+sleep 2000
+
+rem User Prompt
+cls : center text 320,240,"Restore Window"
+restore window
+sleep 2000
+
+rem User Prompt
+cls : center text 320,240,"Hide Window"
+sleep 2000
+hide window
+sleep 500
+
+rem User Prompt
+cls : center text 320,240,"Show Window"
+show window
+sleep 2000
+
+rem User Prompt
+cls : center text 320,240,"Alter Window Title"
+str$="This Is A Windows Title String"
+for t=1 to len(str$)
+	set window title left$(str$,t)
+	sleep 50
+next t
+sleep 2000
+
+rem Deactivate windows mode
+set window off
+cls : center text 320,240,"Back to Full Screen Mode"
+sleep 2000
+
+rem End
+end
+

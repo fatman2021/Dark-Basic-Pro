@@ -1,0 +1,75 @@
+Rem * Title  : Demonstrate 3D Sound
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 8
+rem ==============================================
+rem This program demonstrates a simple 3D sound
+rem ----------------------------------------------
+
+rem SOUND COMMAND : Load a 3d sound
+load 3dsound "sound.wav",1
+loop sound 1
+pause sound 1
+
+rem Make a simple scene for the camera to look at
+make matrix 1,10000.0,10000.0,25,25
+load bitmap "rock1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+prepare matrix texture 1,1,1,1
+randomize matrix 1,20.0
+
+rem Create characters to see
+make object sphere 1,100.0
+make object cylinder 2,100.0
+
+rem Set variables for character position
+x#=5000
+z#=5000
+
+rem Resume sound
+resume sound 1
+
+rem Activate manual sync
+sync on
+
+rem Begin loop
+do
+
+rem Control camera with arrow keys
+if upkey()=1 then x#=newxvalue(x#,a#,10) : z#=newzvalue(z#,a#,10)
+if downkey()=1 then x#=newxvalue(x#,a#,-10) : z#=newzvalue(z#,a#,-10)
+if leftkey()=1 then a#=wrapvalue(a#-10.0)
+if rightkey()=1 then a#=wrapvalue(a#+10.0)
+
+rem Update character
+y#=get ground height(1,x#,z#)+50.0
+position object 1,x#,y#,z#
+yrotate object 1,a#
+
+rem Position camera to the back of the character
+ca#=wrapvalue(curveangle(a#,ca#,12.0))
+cx#=newxvalue(x#,wrapvalue(ca#+180),300)
+cz#=newzvalue(z#,wrapvalue(ca#+180),300)
+cy#=get ground height(1,cx#,cz#)+100.0
+position camera cx#,cy#,cz#
+yrotate camera wrapvalue(ca#)
+
+rem Make object 2 look like a generator
+rr#=wrapvalue(rr#+3.0)
+position object 2,4000,25+(cos(rr#)*20),4000
+
+rem SOUND COMMANDS
+rem Position sound at object 2
+position sound 1,object position x(2),0,object position z(2)
+
+rem Position our listener at camera
+position listener cx#,cy#,cz#
+rotate listener 0,wrapvalue(360.0-ca#),0
+
+rem Syncronise
+sync
+
+rem End loop
+loop

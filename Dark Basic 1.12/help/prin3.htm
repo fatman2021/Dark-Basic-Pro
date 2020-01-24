@@ -1,0 +1,83 @@
+<HTML><BODY BACKGROUND="webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="9" FACE="Verdana">DARK BASIC<br></FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">Arithmetic, Relational and Boolean Operators<br></CENTER>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+We have already used one type of well-known operator in the preceding examples. Operators are the term given to a mathematical symbol used in all calculations. The most common operators are arithmetic operators and are quickly identified. All operators require two operands of data that are placed either side of the operator.<br>
+<br>
+ARITHMETIC OPERATORS<br>
+<br>
+An arithmetic operator can represent an Addition, Subtraction, Multiplication or Division. These operators are represented symbolically as (+) (-) (*) (/) respectively.<br>
+<br>
+The Plus(+) sign specifies that the data on the right of the plus sign must be added to the data on the left. Examples of which you have already seen are:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+3 + 4 equals 7<br>
+A + B equals the value of B added to the value of A<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The minus(-) sign specifies that the data to the right of the minus sign must be subtracted from the data to the left of the minus sign:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+3 - 4 equals -1<br>
+A - B equals the value of B subtracted from the value of A<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+An aster(*) specifies that the data on the right side of the aster is multiplied by the data on the left side if the aster:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+3 * 4 equals 12<br>
+A * B equals the value of B multiplied by the value of A<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The slash(/) specifies that the data on the right side of the slash is to be divided by the data on the left side of the slash:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+10 / 2 equals 5<br> 
+A / B equals the value of B divided by the value of A<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+<br>
+RELATIONAL OPERATORS<br>
+<br>
+These operators are less common, unless you have programming experience. These operators represent conditions that are applied to data. The conditions handled are Equal To, Greater Than, Less Than, Greater or Equal To, Less or Equal To and Not Equal To. The purposes of these conditions are to determine the result of a comparison between two data values. A condition result can only be of two possible values. If the condition is false, the resulting value is zero. If the condition is true, the resulting value is one. Take the following examples:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+10 = 9 results in 0 because 10 is not the same as 9<br>
+10 = 10 results in 1 because 10 is the same as 10<br>
+10 > 9 results in 1 because 10 is greater than 9<br>
+100 >= 100 results in 1 because 100 is greater or equal to 100<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The same relational operators can be applied to real numbers, integer and real variables and in some case strings and string variables. You can compare whether two strings are the same or not the same, and even test whether one string is greater or less than another.<br>
+<br>
+<br>
+BOOLEAN OPERATORS<br>
+<br>
+Simple Boolean operators provide the last type of operator. Although traditionally there are four types of Boolean operators, DARK BASIC only provides the AND and OR operators. These operators allow your program to perform logical operations on your data.<br>
+<br>
+The AND operator works with any integer value, but for demonstration purposes the general rule applies when using this operator:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+0 AND 0 = 0<br>
+0 AND 1 = 0<br>
+1 AND 0 = 0<br>
+1 AND 1 = 1<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+What you see is the decision tree of the AND operator. It shows that only if both data operands of the AND operator are 1 will the result be a 1 also. All other cases a zero is returned. To see how this logic works in reality, take the following example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+A=5<br>
+B=25<br>
+(A > 10) AND (B > 20) so what is the resulting value?<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+We can determine the result of the parts enclosed in brackets first. We can see the relational operators provide us with the following results:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+(A > 10) results in 0 because 5 is not greater than 10<br>
+(B > 20) results in 1 because 25 is greater than 20<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Our updated calculation looks something like this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+(0) AND (1) results in 0 as our table shows 0 AND 1 = 0<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The logic of the table is that only when both sides of the AND operand are 1 will the result of the calculation be 1 also. What would happen if you change the value of A to 15?<br>
+<br>
+The OR operator works in a similar fashion, but using the following table. If either the left side or right has a value of 1, the result will be 1:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+0 OR 0 = 0<br>
+0 OR 1 = 1<br>
+1 OR 0 = 1<br>
+1 OR 1 = 1<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+You will discover how useful these operators become when writing conditions for your programs. Being able to write conditions with multiple parts will become increasingly important as you begin to write more complex programs.<br>
+<br>
+Click here to go to the <a href="prin4.htm">Next Section</A>.<br>
+</FONT></BODY></HTML>

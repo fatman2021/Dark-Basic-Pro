@@ -1,0 +1,42 @@
+Rem * Title  : First Person Camera
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ===========================================
+rem This program operates a first person camera
+rem -------------------------------------------
+
+rem Make a simple scene for the camera to look at
+make matrix 1,10000.0,10000.0,25,25
+load bitmap "floor1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+prepare matrix texture 1,1,2,2
+randomize matrix 1,50.0
+
+rem Position camera
+position camera 5000,200,5000
+
+rem Activate manual sync
+sync on
+
+rem Begin loop
+do
+
+rem Control camera with arrow keys
+if upkey()=1 then move camera 10.0
+if downkey()=1 then move camera -10.0
+if leftkey()=1 then angley#=wrapvalue(angley#-2.0)
+if rightkey()=1 then angley#=wrapvalue(angley#+2.0)
+
+rem Update camera
+xrotate camera 0.0
+yrotate camera angley#
+zrotate camera 0.0
+
+rem Syncronise
+sync
+
+rem End loop
+loop

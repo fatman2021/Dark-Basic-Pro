@@ -1,0 +1,33 @@
+Rem * Title  : Mouse Draw
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ==========================================
+rem This program will make the mouse draw
+rem ------------------------------------------
+
+rem User prompt
+print "Use the mouse to draw connecting lines"
+
+rem Begin main loop
+do
+
+rem Store old values
+oldx=x
+oldy=y
+
+rem Draw line to cursor if mouse button pressed
+if mouseclick()=1
+	x=mousex()
+	y=mousey()
+	c=mousez()
+	ink rgb(100+c,100+c,100+c),0
+	line oldx, oldy, x, y
+	hide mouse
+else
+	show mouse
+endif
+
+rem End main loop
+loop

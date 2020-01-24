@@ -1,0 +1,19 @@
+Rem * Title  : Load a Bitmap
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program will load a BMP file
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+load bitmap "pics\bitmap0.bmp"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

@@ -1,0 +1,220 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Staton Richardson">
+   <meta name="Description" content="To explain how to impliment collision.">
+   <title>Collision Detection</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 1. The Basics</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>6.
+Texturing objects</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:&nbsp;
+To explain how to apply textures to objects.</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Setup sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync Rate 30</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Load Textures</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Load image "cottag02.bmp",1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Load image "barry.bmp",2</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Make Cubes and place randomly</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For x = 1 to 5</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Make object cube x,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position object x,Rnd(2000),0,Rnd(2000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set object collision to boxes x</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Texture object x,1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Next x</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Make sphere</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Make object sphere 10,50</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position object 10,-100,0,-100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set object collision to spheres 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Texture object 10,2</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<br><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem&nbsp; Store Object angle Y in aY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+aY# = Object angle Y(10)</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem&nbsp; Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Upkey()=1 then Move object 10,10</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Leftkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Yrotate object 10,Wrapvalue(aY#-5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Rightkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Yrotate object 10,Wrapvalue(aY#+5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Detect collision</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Object collision(10,0)>0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position object 10,X#,0,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Endif</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem get player object position and store
+in X# and Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+X# = Object position x(10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Z# = Object position z(10)</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem get new camera position and store in
+cZ# and cX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cZ# = Newzvalue(Z#,aY#-180,100)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cX# = Newxvalue(X#,aY#-180,100)</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem position camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position Camera cX#,75,cZ#</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem point the camera at the player object</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Point camera X#,25,Z#</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Scroll textures on cubes</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scroll object texture 1,0.005,0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scroll object texture 2,0,0.005</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Scale textures on cubes</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scale object texture 3,0.998,0.998</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scale object texture 4,1.001,1.001</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font color="#FFFF99">Rem Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+show you how to apply textures to your objects. Textures used in DarkBASIC
+are loaded from bit map image files with the ".bmp" extension. It's a good
+idea to create your textures with the dimensions divisible by two. Some
+video cards can't handle odd numbered dimensions or dimensions not of base
+two. This means the dimensions of your image can be 256x256, 32x128, 256x16
+or any other size with a similar base. You can load images larger than
+256x256 but check your hardware specifications to be sure your video card
+can handle huge textures.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Load image "cottag02.bmp",1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Load image "barry.bmp",2</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Load Image" command
+instructs DarkBASIC to load an image from a bit map. The first parameter
+of the command is the file name of the bit map you wish to load. You must
+punctuate the file name with quotation marks or an error will occur. In
+this parameter, You can use directory names such as, "C:\Darkbasic\Images\mybitmap.bmp".
+If you are storing your images in a subdirectory of your project directory,
+you will have to specify the directory name when loading images. You only
+need to specify the subdirectory where the texture is located and not the
+full path to the image. This is usually a good idea if your program is
+using many media files. The second parameter is the number of the image.
+The number is like the number used when you create an object. It is a unique
+identifier for the image. No two images can have the same number.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Texture object x,1</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Texture object 10,2</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>These two lines occur in
+separate places before your main loop. The first line is in the "For Next"
+loop we use to create our cube objects. The second line is after we create
+our player object. The "Texture Object" command is used to apply an image
+to an object. The first parameter is the number of the object we wish to
+apply the texture to. The second number is the number of the image we wish
+to apply to the object.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scroll object texture 1,0.005,0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scroll object texture 2,0,0.005</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Scroll Object Texture"
+command moves a texture, that is applied to an object or polygon, across
+its surface up and down and left to right. The first parameter is the number
+of the object whose texture will be scrolled. The next two parameters are
+the U and V coordinates. You can think of these coordinates as the X and
+Y coordinates of the texture as you are viewing it in two dimensions. Placing
+a value other than zero in these parameters will scroll the texture on
+the object each time the command is called. You can use both positive and
+negative values depending on which direction you wish to move the texture
+on the object. We are using a very small floating point value in this example.
+The U and V scroll values can be thought of as a percentage of the dimensions
+of the textures. If we set the value to "0.5", which represents 50 percent,
+the texture would move half way accross the cube face, which is too fast.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scale object texture 3,0.998,0.998</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scale object texture 4,1.001,1.001</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Scale Object Texture"
+command is similar to the previously described command, except this command
+scales the texture on the object. The first parameter is the number of
+the object whose texture we wish to affect. The next two parameters are
+again, the U and V coordinates of the texture. Changing these two values
+to something other than zero will expand or shrink the size of the texture
+as it is tiled on the object. By setting the U and V values to a value
+of 1, no scaling will occur. Setting the values less than 1 will cause
+the texture to shrink on the object. Setting the value greater than 1 will
+cause the texture to expand on the object.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>You should now know how to
+load an image from a file and apply it to an object as well as scale and
+scroll the texture on an object. Try some of the following changes to see
+how they affect the textured cubes.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Try changing the U and V
+values for the "Scroll Object Texture" command to see how they affect the
+scrolling speed of the textures on the objects.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Try changing the U and V
+values for the "Scale Object Texture" command to see how they affect the
+scale of the texture on the objects.</font></font>
+</body>
+</html>

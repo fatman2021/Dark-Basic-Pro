@@ -1,0 +1,30 @@
+Rem * Title  : Random Numbers
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ===========================================
+rem This program will use the randomize command
+rem -------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem This command will reseed the random command 
+randomize 100
+
+for t=0 to 100
+
+	rem Pick a random ink color
+	ink rnd(32000),1
+
+	rem Draw a dot on screen
+	dot rnd(640),rnd(480)
+
+next t
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

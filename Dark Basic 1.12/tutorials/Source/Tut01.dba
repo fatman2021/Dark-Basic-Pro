@@ -1,0 +1,7 @@
+    Sync On 
+    Make Object Sphere 1,100 
+
+    Do 
+       Sync 
+    Loop 
+  

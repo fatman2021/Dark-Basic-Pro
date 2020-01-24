@@ -1,0 +1,61 @@
+Rem * Title  : Memblock Files
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 25
+rem ===============================================
+rem This program handles Memblock Files
+rem -----------------------------------------------
+
+rem Create a bitmap with a circle drawn on it
+create bitmap 1,32,32 : cls rgb(255,0,0) : circle 16,16,14 : sync
+
+rem Create memblock from bitmap
+make memblock from bitmap 1,1
+
+rem Delete file if exists
+filename$="myownfile.dat"
+if file exist(filename$)=1 then delete file filename$ 
+
+rem Save memblock in a file
+open to write 1,filename$
+
+rem Write string and a memblock to the file
+write string 1,"My Bitmap File"
+write memblock 1,1
+
+rem Close file
+close file 1
+
+rem Delete bitmap 
+delete bitmap 1
+
+rem Reopen file
+open to read 1,filename$
+
+rem Load string and memblock from open file
+read string 1,label$
+read memblock 1,2
+
+rem Recreate bitmap from memblock
+make bitmap from memblock 2,2
+copy bitmap 2,0,0,31,31,0,0,0,639,479
+
+rem Close file
+close file 1
+
+rem View the entire file in a memblock
+open to read 1,filename$
+make memblock from file 5,1
+close file 1
+
+rem Dump memblock data to show bytes
+for b=0 to get memblock size(5)
+	ink rgb(128,128,128),0
+	print memblock byte(5,b);"(";
+	ink rgb(255,255,0),0
+	print chr$(memblock byte(5,b));
+	ink rgb(128,128,128),0
+	print "), ";
+next b
+

@@ -1,0 +1,93 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL TWO<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+RANDOM PRINTER<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to scatter the printed text all over the screen in a random order, using a string entered by the user.<br>
+<br>
+Step 1 : Printing string variables<br>
+<br>
+If you read the PRINT command help page you will notice that many types of things can be printed to the screen, including string variables. You can use string variables to store letters, words and whole sentences in  a single variable.  Try typing the following and running the program:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+a$="Hello World"<br>
+PRINT a$<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+You will notice the contents of the variable is printed. The principle would be the same for numbers too.<br>
+<br>
+Step 2 : Positioning the output<br>
+<br>
+It will often be the case that you wish to print the text at a certain point on the screen. This point would be called the coordinate and you would need to specify how far across and how far down the screen you would like the text to be placed.<br>
+<br>
+The PRINT command always outputs at the current cursor position, and starts in the top left corner. You can set the position of the cursor using the SET CURSOR command. The command requires two parameters that indicate where you would like the new cursor position to be. The first value indicates the X coordinate that moves from left to right and the second value indicates the Y coordinate that moves from top to bottom:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+SET CURSOR 10,10<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+When you place this line at the top of your program and run, you will see the text printed slightly offset from the top left corner of the screen. This is because you have specified 10 pixels across and 10  pixels down the screen for the cursor. It is worth noting that the cursor will advance to the next line and reset to the left side of the screen after a standard print command.<br>
+<br>
+Step 3 : Taking input from the user<br>
+<br>
+The contents of variables do not have to be decided as you write your program. You can use the INPUT command to accept values and strings into variables. The input command also uses the cursor to determine where on the screen it should show what the user is typing. Replace the line: a$="Hello World" with the following:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+INPUT "Enter Word>";a$<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+When you run the program, your user now has the ability to enter a string of their own. When return is pressed, the program continues onto the print command where their entry is printed to the screen. Notice where the cursor went after the input command was used.<br>
+<br>
+Step 4 : Random value generator<br>
+<br>
+In order to randomly place text on the screen, we need to generate a random coordinate for the cursor. We can do this using the RND command, which accepts a single range parameter. A line such as:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+PRINT RND(640)<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+When run, this will print a random value between 0 and 640 to the screen. We will be able to use the same command to generate random X and Y coordinate values.<br>
+<br>
+Step 5 : The Main Loop<br>
+<br>
+Almost all large programs have a main loop. It can be pictured as an engine, with all it's cogs and gears revolving continually. It is often the first thing you will think about when writing your programs.<br>
+<br>
+Bring the above steps together and lessons learned from our first tutorial, write the following program:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+INPUT "Enter Word>";a$<br>
+DO<br>
+ CLS<br>
+ SET CURSOR RND(640), RND(480)<br>
+ PRINT a$<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the input command to prompt "What is your name?"<br>
+2. Change the program so text only appears in the top half of the screen<br>
+3. Change the program so the screen fills up with text<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut03.htm">TUTORIAL THREE</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

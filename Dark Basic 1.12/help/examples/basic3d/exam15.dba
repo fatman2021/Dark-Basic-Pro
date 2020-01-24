@@ -1,0 +1,126 @@
+Rem * Title  : Particle Bombs
+Rem * Author : Aristides Mytaras
+Rem * Date   : 13th November 1999
+rem ===============================================
+rem DARK BASIC demonstration of particle explosions
+rem ===============================================
+rem An original example by Aristides Mytaras
+rem -----------------------------------------------
+hide mouse
+
+rem Arrays for position, velocity and life of each particle
+dim partx#(300)
+dim party#(300)
+dim partz#(300)
+dim partxvel#(300)
+dim partyvel#(300)
+dim partzvel#(300)
+dim partlife(300)
+inten#=50
+camz#=500
+
+rem User prompt
+dim max(1)
+max(1)=99
+center text 320,20,"...PROCESSING "+str$(max(1))+" PARTICLES..."
+
+rem Make the particle objects, starting from object 50
+sync on
+for t=1 to max(1) : make object plain (50+t),5,5 : next t
+color backdrop 0
+
+rem Main loop
+do
+
+rem User prompt
+center text 320,20,"...USE SPACEBAR TO EXPLODE..."
+
+rem if <space> is pressed...
+if spacekey()=1
+	rem ...get a random point...
+	x#=rnd(500)
+	y#=rnd(500)+10
+	z#=rnd(500)
+	rem ...and request an explosion,max particles,intensity,80 life
+	request_explosion(x#,y#,z#,max(1),inten#,80)
+endif
+
+rem use the upkey and downkey to vary intensity
+rem and the mouse buttons to zoom in and out
+if upkey()=1 then inten#=inten#+1:set cursor 0,0:print "intensity:";inten#
+if downkey()=1 then inten#=inten#-1:set cursor 0,0:print "intensity:";inten#
+if mouseclick()=2 then camz#=camz#+10
+if mouseclick()=1 then camz#=camz#-10
+
+position camera -100,100,camz#
+point camera 150,150,150
+
+rem this function must be called once every cycle to deal with the particles
+handle_explosion
+
+sync
+loop
+
+rem functions:
+
+rem -----------------
+rem request explosion
+function request_explosion(ex#,ey#,ez#,particles,intensity#,life)
+t=0:p=0
+repeat
+	t=t+1
+		rem if the particular particle (gettit?) is not busy... (is dead):
+		if partlife(t)=0
+			p=p+1
+			rem ...make it alive...
+			partlife(t)=life + rnd(life/5)
+			rem ....put it at the center of the explosion....
+			partx#(t)=ex#
+			party#(t)=ey#
+			partz#(t)=ez#
+			rem ...and give it some push.
+			partyvel#(t)=rnd(intensity#)-(intensity#/2)
+			partxvel#(t)=rnd(intensity#)-(intensity#/2)
+			partzvel#(t)=rnd(intensity#)-(intensity#/2)
+			rem ...oh, and make it visible!
+			show object (50+t)
+		endif
+	rem if the number of particles requested is met, exit the loop
+	if p>=particles then exit
+until t>=max(1)
+endfunction
+
+rem ----------------
+rem handle explosion
+function handle_explosion()
+
+for t=1 to max(1)
+	rem if the particle is alive...
+	if partlife(t)>1
+		partlife(t) = partlife(t) - 1
+		position object 50+t,partx#(t),party#(t),partz#(t)
+		rem calculate friction
+		partxvel#(t)=partxvel#(t)*0.95
+		partyvel#(t)=partyvel#(t)*0.95
+		partzvel#(t)=partzvel#(t)*0.95
+		rem and gravity...
+		partyvel#(t)=partyvel#(t)-0.5
+		rem and add the acceleration values to the actual coordinates.
+		partx#(t) = partx#(t) + partxvel#(t)
+   	party#(t) = party#(t) + partyvel#(t)
+		partz#(t) = partz#(t) + partzvel#(t)
+		rem if it hits the ground, reverse its horisontal acceleration so it bounces
+		if party#(t)<=0 then partyvel#(t)=partyvel#(t)*-0.7
+		rem do some random rotation so it looks good...
+		rotate object t+50,wrapvalue(object angle x(t+50)+rnd(50)),wrapvalue(object angle y(t+50)+rnd(50)),0
+	endif
+	rem if particle is close to dying...
+	if partlife(t)=1
+		rem ...make it dead
+		partlife(t)=0
+		rem ...and hide it too.
+		hide object 50+t
+	endif
+next t
+
+endfunction

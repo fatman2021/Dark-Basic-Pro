@@ -1,0 +1,84 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL FOUR<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+ARTISTIC VARIABLES<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to demonstrate how variables can be used to draw simple shapes on the screen. It also demonstrates how to draw a circle using nothing but dots.<br>
+<br>
+Step 1 : Drawing basic shapes<br>
+<br>
+Drawing simple shapes to the screen is very straight forward. Providing you know that an X coordinate measures the horizontal distance of the screen from left to right and that the Y coordinate measures the vertical distance of the screen from the top to the bottom, you should be able to understand what each of these do:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+CLS<br>
+DOT 635,475<br>
+BOX 10,10,630,20<br>
+CIRCLE 320,240,100<br>
+ELLIPSE 320,240,100,200<br>
+LINE 120,240,520,240<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+Step 2 : A touch of color<br>
+<br>
+If you run the program now, you will notice they are all the same color. White on black is the default color scheme, but you can change this to anything you wish. To draw in a particular color, you must set the ink color first. In order to set the ink color you need a special color value. As the color value is made up of red, green and blue components, it is very difficult to find the right value be guesswork alone. It is for this reason that the RGB command was created. This command takes a red, green and blue value separately and produces a single value that represents the desired color to set the ink with. The ink command itself requires two color values. The first is a foreground color that paints the shapes whereas the second is a background color that is used to clear the screen with. Place this line at the top of your code to see what happens:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+INK RGB(255,100,0),RGB(0,0,255)<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+Step 3 : Using variables to draw<br>
+<br>
+The idea of using variables to draw to the screen is a profound lesson to learn. It is the basis on which all advanced computer graphics are based. To draw a thing, move its position value and draw it again is the very essence of movement. To draw a thing, change the image value and draw it again is the very essence of animation. Prepare to type your first profound piece of code:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+v=0<br>
+DO<br>
+LINE 0,v,v,480<br>
+v=v+1<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+It may not seem profound now, but you will repeat this basic logic thousands of times. Learning its importance now will advance your learning considerably. Run the program to see what happens.<br>
+<br>
+Step 4 : From a line to a circle<br>
+<br>
+It's not just strange line patterns that can be created. Replace the code segment above with the following lines to see how variables can command even more control over what you draw:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+v=0<br>
+cx=160<br>
+cy=120<br>
+DO<br>
+ox=cos(v)*100<br>
+oy=sin(v)*100<br>
+v=v+1<br>
+DOT cx+ox,cy+oy<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to alter the size of the dot circle<br>
+2. Change the program to alter the color of the dots within the circle<br>
+3. Change the program to move the center of dot circle as it's being drawn<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut05.htm">TUTORIAL FIVE</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

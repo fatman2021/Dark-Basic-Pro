@@ -1,0 +1,42 @@
+Rem * Title  : Load and Move AVI
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC AVI ANIMATION EXAMPLE PROGRAM 3
+rem ==========================================
+rem This program will move the AVI around
+rem ------------------------------------------
+
+rem Specify your AVI filename and an animation number
+load animation "avi\demo1.avi",1
+
+rem Get width of the AVI animation
+animwidth=animation width(1)
+
+rem Get height of the AVI animation
+animheight=animation height(1)
+
+rem Will play your AVI animation
+loop animation 1
+
+rem Manual sync
+sync on
+
+rem Will wait for you to press any key while moving animation
+while inkey$()=""
+
+	rem Place your AVI sliding across the screen
+	cls
+	x=x+1
+	place animation 1,x,0,x+animwidth,animheight
+
+	rem Update screen
+	sync
+
+endwhile
+
+rem Delete the animation
+delete animation 1
+
+rem End the program
+end

@@ -1,0 +1,38 @@
+Rem * Title  : lots of Sprites
+Rem * Author : Guy Savoie
+Rem * Date   : October 2001
+
+Rem How about 1000 rotating sprites on a DB screen?
+
+
+set display mode 640,480,16
+sync rate 0 : sync on
+
+hide mouse
+
+
+rem Create memblock from bitmap zero
+make memblock from bitmap 1,0
+
+rem Load Ripple DLL
+load dll "lotsofsprites.dll",1
+
+rem Initialise the DLL by passing the memblock-bitmap data
+width=memblock dword(1,0) : height=memblock dword(1,4) : depth=memblock dword(1,8)
+call dll 1,"init_bitmap",width,height,depth,get memblock ptr(1)+12
+
+rem Main loop
+while mouseclick()=0
+   rem Call the DLL function that writes to the memblock-bitmap
+   call dll 1,"draw_sprites",get memblock ptr(1)+12
+
+   make bitmap from memblock 0,1
+
+   rem Update screen
+   sync
+endwhile
+
+rem End loop
+
+call dll 1,"free_buffer"
+

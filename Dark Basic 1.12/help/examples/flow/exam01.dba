@@ -1,0 +1,41 @@
+Rem * Title  : IF THEN Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem =====================================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem =====================================================
+rem This program will show you how to use the if commands
+rem -----------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem set variable to one
+variable=1
+	
+rem the IF THEN command will execute any commands on the same line
+rem has the THEN command  
+if variable=1 then print "variable=1"
+
+rem the IF ENDIF commands will execute any commands between 
+rem the IF and ENDIF
+if variable=1
+	print "variable=1"
+endif
+
+rem the IF ELSE ENDIF commands will execute any commands between
+rem the If ENDIF
+if variable=1
+	rem if variable = one then do this
+	print "variable=1"
+else
+	rem if variable is not one then do this
+	print "variable is not 1"
+endif
+
+rem Will wait for you to press any key
+print "PLEASE PRESS ANY KEY"
+suspend for key
+
+rem End the program
+end

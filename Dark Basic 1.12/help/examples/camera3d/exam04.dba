@@ -1,0 +1,57 @@
+Rem * Title  : Smooth 3rd Person
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ==============================================
+rem This program operates smooth 3RD person camera
+rem ----------------------------------------------
+
+rem Make a simple scene for the camera to look at
+make matrix 1,10000.0,10000.0,25,25
+load bitmap "floor1.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+prepare matrix texture 1,1,2,2
+randomize matrix 1,50.0
+set matrix height 1,12,12,300.0
+update matrix 1
+
+rem Create blob character to follow
+make object cone 1,100.0
+xrotate object 1,180
+
+rem Set variables for character position
+x#=2500
+z#=2500
+
+rem Activate manual sync
+sync on
+
+rem Begin loop
+do
+
+rem Control camera with arrow keys
+if upkey()=1 then x#=newxvalue(x#,a#,10) : z#=newzvalue(z#,a#,10)
+if downkey()=1 then x#=newxvalue(x#,a#,-10) : z#=newzvalue(z#,a#,-10)
+if leftkey()=1 then a#=wrapvalue(a#-10.0)
+if rightkey()=1 then a#=wrapvalue(a#+10.0)
+
+rem Update character
+y#=get ground height(1,x#,z#)+50.0
+position object 1,x#,y#,z#
+yrotate object 1,a#
+
+rem Position camera to the back of the character
+ca#=wrapvalue(curveangle(a#,ca#,12.0))
+cx#=newxvalue(x#,wrapvalue(ca#+180),300)
+cz#=newzvalue(z#,wrapvalue(ca#+180),300)
+cy#=get ground height(1,cx#,cz#)+100.0
+position camera cx#,cy#,cz#
+yrotate camera wrapvalue(ca#)
+
+rem Syncronise
+sync
+
+rem End loop
+loop

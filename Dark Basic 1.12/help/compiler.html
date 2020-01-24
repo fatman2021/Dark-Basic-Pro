@@ -1,0 +1,48 @@
+<HTML>
+<BODY BACKGROUND="webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="6" FACE="Verdana">
+COMMAND LINE COMPILER<BR>
+</FONT>
+</CENTER>
+
+<FONT COLOR="YELLOW" SIZE="4" FACE="Verdana">
+<br>
+If you prefer to use an external editor to edit your programs, you can use the command line compiler. The command line compiler allows you to compile, run and build executables without entering DarkBASIC.<br>
+<br>
+<FONT COLOR="YELLOW" SIZE="4" FACE="Verdana">
+1. Compiling Externally<br>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+DB.EXE -c test.dba<br>
+<br>
+</FONT>
+<FONT COLOR="YELLOW" SIZE="4" FACE="Verdana">
+2. Running Externally<br>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+DB.EXE -x test.dba<br>
+<br>
+</FONT>
+<FONT COLOR="YELLOW" SIZE="4" FACE="Verdana">
+3. Building An Executable Externally (no media)<br>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+DB.EXE -b "small.exe" test.dba<br>
+<br>
+</FONT>
+<FONT COLOR="YELLOW" SIZE="4" FACE="Verdana">
+4. Building An Executable Externally (with media)<br>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+DB.EXE -f "large.exe" test.dba<br>
+<br>
+</FONT>
+</FONT>
+<FONT COLOR="YELLOW" SIZE="4" FACE="Verdana">
+5. Using Relative and Absolute Paths<br>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+C:\Program Files\Dark Basic Software\Dark Basic\DB.EXE -f "d:\mywork\large.exe" test.dba<br>
+<br>
+</FONT>
+<FONT COLOR="YELLOW" SIZE="4" FACE="Verdana">
+When using relative paths, ensure your current directory is the project directory containing the DBA program. Your current  directory will be used to write the final executable and DBCompile.LOG file. You can override this behaviour by using Absolute paths when asked for a filename in the command line. The DBCompile.LOG file contains any error messages, or completion strings returned by the compiler. The file will also include the line number at which the syntax/runtime error occurred.<br>
+</FONT>
+</BODY>
+</HTML>

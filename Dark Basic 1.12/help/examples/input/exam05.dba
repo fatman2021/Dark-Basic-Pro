@@ -1,0 +1,54 @@
+Rem * Title  : File System View
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ===========================================
+rem This program is a file system searcher
+rem -------------------------------------------
+
+rem Clear the screen
+cls
+
+rem Find current directory
+mydir$=get dir$()
+
+rem Current directory can also be changed
+set dir mydir$
+
+rem Show user current directory
+print "Directory to scan is ";mydir$
+
+rem Begin search for files in current working directory
+find first
+
+rem Create array and index variable
+dim item$(100)
+items=1
+
+rem begin repeat loop
+repeat
+
+rem add to item array if file found
+if get file type()=0
+item$(items)=get file name$()
+items=items+1
+endif
+
+rem Find next file in current working directory
+find next
+
+Rem Repeat loop until no more files in current working directory
+until get file type()=-1
+
+rem List files within array
+print "Files in current directory:"
+for t=1 to items-1
+print item$(t)
+next t
+
+Rem Delete array from memory
+undim item$()
+
+rem End the program
+end

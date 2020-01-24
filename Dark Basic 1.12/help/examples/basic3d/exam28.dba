@@ -1,0 +1,79 @@
+Rem * Title  : Make 3D Animation
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 28
+rem ==========================================
+rem This program shows use of 3D Animation
+rem ------------------------------------------
+hide mouse : sync on : sync rate 60
+
+rem Load a simple model
+load object "idle.x",1
+
+rem Clear any animation in model
+clear all object keyframes 1
+
+rem Create fisrt frame of animation using limbs 9 and 10 of man model
+rotate limb 1,9,0,0,0 : rotate limb 1,10,0,0,180 : set object keyframe 1,0
+
+rem Move limbs to new wave position and set keyframe 
+rotate limb 1,9,0,0,30 : rotate limb 1,10,0,0,190 : set object keyframe 1,5
+
+rem Set last frame of animation back to first position
+rotate limb 1,9,0,0,0 : rotate limb 1,10,0,0,180 : set object keyframe 1,10
+
+rem Start animation to watch the wave
+loop object 1
+
+rem Move camera back
+position camera 0,100,-300
+point camera 0,100,0
+
+rem User prompt
+set text size 28
+while spacekey()=0
+	center text 320,20,"PRESS SPACE TO SAVE ANIMATION" : sync
+endwhile
+while spacekey()=1 : endwhile
+
+rem Stop animation for saving
+stop object 1
+
+rem Save animation to animation file
+save object animation "myanim.dat",1
+
+rem Clear keyframes manually
+for t=0 to 10
+	clear object keyframe 1,t
+next t
+
+rem Delete object to start from scratch
+delete object 1
+
+rem Load a simple model
+load object "idle.x",1 : loop object 1
+position camera 0,100,-200
+point camera 0,100,0
+
+rem Watch old animation
+set text size 32
+while spacekey()=0
+	center text 320,20,"OLD ANIMATION FROM MODEL" : sync
+endwhile
+
+rem First empty out old animation
+clear all object keyframes 1
+
+rem Append animation we created to the model
+append object animation "idle.x","myanim.dat",1,0
+
+rem Reset backdrop and camera
+color backdrop rgb(0,128,0)
+position camera 0,100,-200
+point camera 0,100,0
+
+rem Watch new animation
+set text size 50 : loop object 1
+do : center text 320,20,"CUSTOMISED ANIMATION!" : sync : loop
+

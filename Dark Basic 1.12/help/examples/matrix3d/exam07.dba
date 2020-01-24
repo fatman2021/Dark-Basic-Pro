@@ -1,0 +1,34 @@
+Rem * Title  : Matrix Display Data
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ===========================================
+rem This program will display matrix data
+rem -------------------------------------------
+
+rem Make a matrix
+backdrop off
+make matrix 1,10000,10000,25,25
+
+rem Define a basic matrix
+position matrix 1,100,0,200
+randomize matrix 1,10.0
+cls 0
+
+rem Output matrix data
+ink rgb(255,255,0),0
+print "Matrix Data"
+print "-----------"
+print "exist=";matrix exist(1)
+print "posx=";matrix position x(1)
+print "posy=";matrix position y(1)
+print "posz=";matrix position z(1)
+print "height at 12,12=";get matrix height(1,12,12)
+print "ground at 5000,5000=";get ground height(1,5000,5000)
+print "tile count=";matrix tile count(1)
+print "tiles exist=";matrix tiles exist(1)
+print "wireframe state=";matrix wireframe state(1)
+
+rem End the program
+end

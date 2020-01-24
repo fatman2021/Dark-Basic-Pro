@@ -1,0 +1,171 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Staton Richardson">
+   <meta name="Description" content="To show how to change object position and rotatation using keyboard input">
+   <title>Input and object translation</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. The Basics</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>2.
+Input and object translation.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to change object position and rotation using keyboard input.</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>We will begin this tutorial
+with the introduction of the "Rem" command. "Rem" is a great tool for making
+notes to yourself as you program. This command instructs DarkBASIC to ignore
+everything after "Rem" on the same line. As your program grows longer and
+as you spend more time on the code you begin to forget what variables and
+code segments actually do. You insert statements using the "Rem" command
+to explain to yourself what those variables and code segments are for.
+This tool comes in handy when you are sharing your code with others or
+working on several different projects.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Setup sync rate</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Sync Rate 30</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Create sphere</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Make object cube 1,100</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;
+Rem Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Do</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem&nbsp; Store the object's Y angle in aY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+aY# = Object angle Y(1)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem&nbsp; Control input</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Upkey()=1 then Move object 1,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Leftkey()=1 then aY# = Wrapvalue(aY#+5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Rightkey()=1 then aY# = Wrapvalue(aY#-5)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF99"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem rotate the sphere</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Yrotate object 1,aY#</font></font></font>
+<p><font face="Courier New,Courier"><font size=+1><font color="#FFFF00">&nbsp;</font><font color="#FFFF99">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rem Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Loop</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>You
+may recognize some of the code from the previous tutorial. In following
+tutorials we may reuse code from earlier tutorials. If you see a command
+you are unfamiliar with and isn't explained, go back to earlier tutorials
+to refresh your memory, or consult the DarkBASIC help files.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Let's
+have a look at variables. Variables are names you can use to store values.
+DarkBASIC uses several types of variables that are distinguishable by the
+extension of the variable. Look at this line from the code example.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+aY# = Object angle Y(1)</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>In
+this line we are storing the Y angle of object 1 in the variable "aY#".
+Notice the "#" symbol at the end of "aY#" this lets DarkBASIC know you
+wish to use a floating point variable. A floating point variable is a number
+that has a decimal in it such as; 3.5, -5.5 or 0.00001. It allows you to
+store fractional numbers and is best used when you wish to store a coordinate
+or an angle. Other variables used by dark basic are; character strings,
+arrays and integers. Character string variables use the "$" for an extension
+and store data in this manner, " A$ = "Hello World" ". Data for character
+strings must be punctuated with quotation marks. Arrays store sets of data
+of the same data type. We will discuss arrays in a later tutorial. Integers
+store counting numbers, both negative and positive, such as; -5, 5, 2112
+or -10000. Integers use no extension. The naming of variables is up to
+you but remember to give them a name that closely resembles what they represent.
+This will help you when you are trying to find bugs in your code or if
+you are sharing your code with someone else. We've named this variable
+"aY#" to represent angle Y of object "1". Notice we didn't use the full
+name "AngleY#". As your program grows larger you may have to type the variable
+many times. By abbreviating the variable you make your code easier to read
+and reduce the amount of typing you have to do.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Object angle Y(1)</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+"Object Angle Y" command is used to return the angle of the object as it
+is rotated around the Y axis. The Y direction can be remembered as the
+up and down position of the object as it's viewed in your scene. The Y
+axis the object rotates around is a line that runs from top to bottom much
+like the earth rotates around the axis which runs from the north to the
+south pole. The X direction runs from right to left in your 3D world and
+the axis rotation can be remembered as the way a tire rotates as you are
+viewing the tread of the tire. The Z direction can be remembered as the
+front to back direction and the Z axis rotation is much like the rotation
+of a steering wheel in a automobile. The way to use the "Object Angle Y"
+command is to place the number of the object you wish to know the Y angle
+of in the parenthesis. Remember, always type a command exactly the way
+it is shown in the help files. In this command there is no space between
+the "Y" and the first parenthesis. If a command isn't typed correctly DarkBASIC
+won't recognize it as a valid statement.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Upkey()=1 then Move object 1,2</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+"If then" statement is a very powerful DarkBASIC comparison command. You
+place the argument you wish to test after "If". If the argument is true
+then it executes what is after "Then". If the argument is false it ignores
+what is after the "Then". The "Upkey()" statement is placed after the "If"
+in this example. The "Upkey()" command is used to check whether you have
+pressed the up key on the keyboard. The command returns a "1" if you you
+have and a "0" if the key is not pressed. If the up key is pressed it executes
+the "Move Object" command. The "Move Object" command moves the object in
+the direction the object is facing. The first number after the "Move Object"
+command is the number of the object you wish to move. The second number
+is the number of world units you wish to move the object each time the
+command is executed.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Leftkey()=1 then aY# = Wrapvalue(aY#+5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If Rightkey()=1 then aY# = Wrapvalue(aY#-5)</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>These
+two "If Then" comparisons check to see if&nbsp; the right and left keys
+are being pressed. What happens after the left or right key is pressed
+is different. Here is where we use our variable "aY#" to store a value.
+The "Wrapvalue" statement is a step saver command. DarkBASIC's rotation
+commands only accept a value 0 or greater and less than 360. This range
+of numbers represents the number of degrees used when calculating angles.
+If the value is outside of the bounds of the number of degrees the "Wrapvalue"
+command wraps the value around. A value of 365 would be wrapped around
+to 5. Inside the parenthesis of these statements we've placed our angle
+Y variable and an addition and subtraction operator. If the left key is
+pressed 5 is added to the "aY#" value and then stored in the "aY#" variable,
+changing the variable to the new value. The same thing is done with the
+right key except 5 is subtracted from the value.</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Yrotate object 1,aY#</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+"Yrotate object" command rotates an object around its Y axis a given number
+of degrees. The first number after the command is the number of the object
+you wish to rotate. The second number is the angle you wish to rotate the
+object. Notice we put the variable where the number should go. In most
+of DarkBASICS commands, where a number should be placed, you can substitute
+with a variable.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>The
+next step is to use the "Sync" command to open the curtain on your stage
+and display your objects new position and rotation in the 3D scene.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the value that is added or subtracted in the "Wrapvalue" command
+to speed up or slow down the rotation of the object.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the second number in the "Move Object" command to increase the
+number of world units the object is moved. You can use a floating point
+number such as 0.5 or 1.5. It's a good practice to always place a 0 in
+front of the decimal if the number is less than 1.</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFFFF"><font size=+1>Try
+changing the "YRotate Object" command to the "ZRotate Object" or the "XRotate
+Object" Command to see how the object rotates.</font></font></font>
+<br>&nbsp;
+</body>
+</html>

@@ -1,0 +1,37 @@
+Rem * Title  : Setting Text Opacity
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ========================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ========================================
+rem This program will use set text opaque
+rem ----------------------------------------
+	
+rem first we will load a picture
+load bitmap "pic.bmp"
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Pick a new font
+rem the new font will work with all text command but not the print command
+	
+rem This is the font i want to use
+set text font "times new roman"
+	
+rem Set the size of the new font  
+set text size 32
+
+rem Set the font to opaque
+set text opaque
+text 40,50,"THIS IS THE FONT SET TO OPAQUE"
+
+rem Set the font to transparent 
+set text transparent
+text 40,90,"THIS IS THE FONT SET TO TRANSPARENT"
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

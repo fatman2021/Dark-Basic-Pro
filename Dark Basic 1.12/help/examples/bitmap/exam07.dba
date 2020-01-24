@@ -1,0 +1,38 @@
+Rem * Title  : Bitmap Deleting
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem =============================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ============================================
+rem This program will create and delete a bitmap
+rem --------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem This command will create a bitmap
+create bitmap 1,640,480
+
+rem Set all drawing to bitmap 0
+set current bitmap 0
+
+rem This command will check for bitmap one
+if bitmap exist(1)=1
+	print "THERE IS A BITMAP NUMBER ONE"
+endif
+
+rem This command will delete bitmap
+delete bitmap 1
+
+rem This command will check for bitmap two
+if bitmap exist(2)=1
+	print "THERE IS A BITMAP NUMBER TWO"
+else
+	print "THERE IS NOT BITMAP NUMBER TWO"
+endif
+	
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

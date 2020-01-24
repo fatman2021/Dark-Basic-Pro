@@ -1,0 +1,63 @@
+Rem * Title  : Display Anim Data
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem =======================================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem =======================================================
+rem This program will load and get info about a anim file 
+rem -------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Clear the screen
+cls 
+
+rem Load a animation file into number one
+load animation "avi\demo1.avi",1
+create bitmap 1,animation width(1),animation height(1)
+loop animation 1,1,0,0,80,60
+set current bitmap 0
+
+rem This command will check if there is a animation number one
+if animation exist(1)=1:print "there is a animation number one":endif
+
+rem This command will check if the animation number one is playing
+if animation playing(1)=1
+	print "the animation is playing"
+else
+	print "the animation is not playing"
+endif
+
+rem Get animation dimensions
+print animation position x(1)
+print animation position y(1)
+print animation width(1)
+print animation height(1)
+
+rem This command will check if the animation number one is looping
+if animation looping(1)=1
+	print "the animation is looping"
+else
+	print "the animation is not looping"
+endif
+
+rem This command will check if the animation number one is paused
+if animation paused(1)=1
+	print "the animation is paused"
+else
+	print "the animation is not paused"
+endif
+
+rem Project hidden animation onto a sphere
+backdrop off
+make object sphere 1,200
+set current bitmap 1
+sync on
+do
+ get image 1,0,0,80,60
+ texture object 1,1
+ xrotate object 1,wrapvalue(object angle x(1)+2)
+ sync
+loop
+

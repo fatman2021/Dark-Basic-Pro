@@ -1,0 +1,43 @@
+Rem * Title  : Mesh Animation
+Rem * Author : DBS-LB
+Rem * Date   : 1st January 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 16
+rem ==========================================
+rem This program animates a multi-mesh object
+rem ------------------------------------------
+
+rem Manual syncronisation
+sync on
+
+rem Create three meshes
+make object sphere 1,100 : make mesh from object 1,1 : delete object 1
+make object cylinder 2,100 : make mesh from object 2,2 : delete object 2
+make object cone 3,100 : make mesh from object 3,3 : delete object 3
+
+rem Make new object
+make object cube 1,100
+
+rem Main loop
+do
+
+rem Animate object using meshes
+inc pacer
+if pacer>5
+
+	rem Pacer controls speed of animation
+	pacer=0
+
+	rem Frame controls which mesh is used in animation
+	inc frame
+	if frame=3 then frame=0
+	change mesh 1,0,1+frame
+
+endif
+
+rem Update screen
+sync
+
+rem End of loop
+loop
+

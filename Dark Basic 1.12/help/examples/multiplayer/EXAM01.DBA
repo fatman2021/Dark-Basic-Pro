@@ -1,0 +1,39 @@
+Rem * Title  : Easy Multiplayer
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 01
+rem ===============================================
+rem This program handles Easy Multiplayer
+rem -----------------------------------------------
+
+rem Set sync, display mode and an always active window
+sync on : set display mode 320,240,16 : always active on
+set window on : set window title "JOINER"
+
+rem Join First, Else Host (for best results run as EXECUTABLES)
+center text 160,100,"...ATTEMPTING TO JOIN..."
+center text 160,120,"[IN DB...HIT ESCAPE TO BYPASS WARNING]" : sync : sync
+join net game 1,"Bill"
+if net game exists()=0
+	cls 0 : center text 160,110,"...HOSTING NEW NET GAME..." : sync : sync
+	create net game "mygamename","Fred",4,0
+	set window position 330,23 : set window title "HOST"
+endif
+
+rem Main game loop
+dim tmousex(256) : dim tmousey(256)
+do
+	rem Send mouse position to all net players
+	send net message integer 0,mousex()+(mousey()*640)
+	ink rgb(255,0,0),0 : circle mousex(),mousey(),15 : ink rgb(0,255,0),0
+	
+	rem Receive integer and extract mouse position
+	repeat
+		position=net message integer() : pn=net message player from()
+		tmousey(pn)=position/640 : tmousex(pn)=position-(tmousey(pn)*640)
+		get net message
+	until net message exists()=0
+	for pn=1 to 4 : circle tmousex(pn),tmousey(pn),15 : next pn
+	sync : cls 0
+loop

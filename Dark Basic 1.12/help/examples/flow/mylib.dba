@@ -1,0 +1,16 @@
+Rem * Title  : My Library
+Rem * Author : DBS-LB
+Rem * Date   : 1st Dec 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM MYLIB
+rem ===========================================================
+rem This program is a sub-program
+rem -----------------------------------------------------------
+
+function HelloWorldFunction(count)
+
+for t=1 to count
+print "Hello World"
+next t
+
+endfunction

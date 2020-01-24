@@ -1,0 +1,44 @@
+Rem * Title  : Display Music Data
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem =======================================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem =======================================================
+rem This program will load and get info about a music file 
+rem -------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Clear the screen
+cls 
+
+rem Load a music file into number one
+load music "music1.mid",1
+
+rem This command will check if there is a music number one
+if music exist(1)=1:print "there is a music number one":endif
+
+rem This command will check if the music number one is playing
+if music playing(1)=1
+	print "the music is playing"
+else
+	print "the music is not playing"
+endif
+
+rem This command will check if the music number one is looping
+if music looping(1)=1
+	print "the music is looping"
+else
+	print "the music is not looping"
+endif
+
+rem This command will check if the music number one is paused
+if music paused(1)=1
+	print "the music is paused"
+else
+	print "the music is not paused"
+endif
+
+rem End the program
+end

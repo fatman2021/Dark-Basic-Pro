@@ -1,0 +1,69 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>3.
+Strafing</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To introduce how to implement strafing.</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Strafing or side stepping
+is a great maneuver for dodging projectiles or looking to your right or
+left as you move. We will show you how to implement strafing using the
+right and left arrow keys. In this example we are only showing the code
+that has been changed in the previous example. As we continue to add to
+our game the code will get too cumbersome to display in the tutorial.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Leftkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+XTest# = Newxvalue(X#,Wrapvalue(CameraAngleY#-90),10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+ZTest# = Newzvalue(Z#,Wrapvalue(CameraAngleY#-90),10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If XTest#>0 and XTest#&lt;10000 and ZTest#>0 and ZTest#&lt;10000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+X#=XTest#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Z#=ZTest#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Rightkey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+XTest# = Newxvalue(X#,Wrapvalue(CameraAngleY#+90),10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+ZTest# = Newzvalue(Z#,Wrapvalue(CameraAngleY#+90),10)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If XTest#>0 and XTest#&lt;10000 and ZTest#>0 and ZTest#&lt;10000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+X#=XTest#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Z#=ZTest#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>Strafing is implemented using
+the "NewXValue" and "NewYValue" commands to determine the X# and Z# value
+of the strafing position. To determine the values for strafing to the left,
+we subtract 90 degrees from the "CameraAngleY#" value. This gives us a
+direction that is directly left of where we are facing. We use the "WrapValue"
+command to keep the value within 360 degrees. Using this new angle in the
+"NewValue" commands we determine the coordinates 10 units in the left direction.
+The new coordinates are stored in the "XTest" and "ZTest" variables. These
+variables are then tested to make sure they are within the bounds of the
+matrix, if they pass the test the values are stored in the "X#" and "Z#"
+values to be used to reposition the camera. You'll remember from tutorial
+2, the Y axis runs from the top to the bottom of the screen. Any rotation
+around the Y axis will be parallel to the matrix.</font></font>
+</body>
+</html>

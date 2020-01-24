@@ -1,0 +1,35 @@
+Rem * Title  : Packed Files
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 21
+rem ==============================================
+rem This program shows how to make packed files
+rem ----------------------------------------------
+
+rem Packed files are useful for storing many files
+rem in one file for encryption and portable storage
+
+rem Creating a packed file
+print "Writing PAK file..."
+open to write 1,"mydata.pak"
+	write fileblock 1,"text.txt"
+	write fileblock 1,"store.dat"
+	write dirblock 1,"sample"
+close file 1
+
+rem Extracting from a packed file
+print "Reading PAK file into Temp folder..."
+open to read 1,"mydata.pak"
+	make directory "Temp"
+	set dir "Temp"
+	read fileblock 1,"text.txt"
+	read fileblock 1,"store.dat"
+	read dirblock 1,"sample"
+	set dir ".."
+close file 1
+
+rem Done
+print "Done."
+end
+

@@ -1,0 +1,140 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>5.
+Sound and 3D sound</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to load and position&nbsp; 3D sounds.</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In our last tutorial we showed
+you how to create and shoot a projectile. This tutorial will add sound
+effects to make your bullet more dynamic. Since we will be using the "CameraAngle"
+variables quite often we have shortened them to an abbreviation to make
+the code easier to read.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Load
+sound "crickets.wav",1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Loop
+sound 1</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>Before we explain into 3D
+sound, we will add some ambient sound to the game. The "Load Sound" command
+loads a sound into your program but does not play it. The first parameter
+in this command is the name of the sound file you wish to load. As with
+any command where files are loaded, you must enclose the filename with
+quotation marks. The second parameter in the command is the number of the
+sound. DarkBASIC uses this number the same as it does when you load objects
+or images. The number is a unique identifier for the sound. The "Loop Sound"
+command uses one parameter, the number of the sound you wish to play. This
+command continuously plays the specified sound in a loop. Using these two
+commands you should hear the sound of crickets chirping.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Load
+3Dsound "fireball2.wav",2</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Load&nbsp; 3DSound"
+command loads the sound we wish to use for our projectile. The first parameter
+in this command is the name of the file we wish to load and the second
+parameter is the number we wish to identify the sound. When we load a sound
+as 3D we are informing DarkBASIC we wish to place the sound at a specific
+point in our 3D world.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+Rotate camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;if
+cAX#>270</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if cAX#-270 > 90 then cAX#=270</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;else</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if cAX# > 90 and cAX#-270&lt;270 then cAX#=90</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;YRotate
+camera CurveAngle(cAY#,oldcAY#,24)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;XRotate
+camera CurveAngle(cAX#,oldcAX#,24)</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>This section of code is added
+to the game program to keep the player from rotating the camera upside
+down. The camera angles are also needed to keep the listener position correct
+for 3D sound.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+Position Listener</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+Listener X#,Y#+50,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rotate
+Listener 0,cameraAngleY#,0</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>The "Position Listener"
+command is used to position where you wish to hear the sound. The three
+parameters after the command are used to designate the X, Y and Z position
+where you wish to place the listener. We will use the same position as
+the camera. The "Rotate Listener" command is used to rotate the listener.
+This command uses three parameters, the X, Y and Z angle you wish to rotate
+the listener. To keep the listener direction the same as the camera,&nbsp;
+we leave the X and Z angle at 0 and only rotate around the Y axis.&nbsp;
+For the Y value we use the "CameraAngleY#" variable.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+Shoot bullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;if
+Mouseclick()=1 and BulletLife=0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position object 2,X#,Y#+43,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Set object to camera orientation 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+BulletLife =25</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+show object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Loop sound 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In the code where we check
+to see if the mouse button has been clicked, we have added the "Loop sound"
+command to begin playing the bullet sound. This sound will play until it
+is stopped by the code that controls the bullet life.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>If
+BulletLife > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Dec BulletLife</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Move object 2,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bX#=Object position X(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bY#=Object position Y(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bZ#=Object position Z(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position sound 2,bX#,bY#,bZ#</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Hide object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+stop sound 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>In the bullet shooting code,
+we have added two commands to handle the position and ending of our sound.
+The "Position Sound" command is used to place our sound at a specific 3D
+coordinate. The first parameter of this command is the number of the sound
+we wish to position. The last 3 parameters designate the position where
+we wish to place the sound. We have retrieved the X, Y and Z positions
+of the bullet and stored them in the "'bX#", "bY#" and "bZ#" variables.
+These are the values we use to position the bullet sound. When we have
+determined the "BulletLife" value has reach a value of 0, we use the "Stop
+Sound" command to stop the bullet sound from playing.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

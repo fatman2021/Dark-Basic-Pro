@@ -1,0 +1,42 @@
+Rem * Title  : Tutorial Sample 8
+Rem * Author : DBS-LB
+Rem * Date   : 1/8/99
+rem Load character into hidden bitmap
+LOAD BITMAP "runner.bmp",1
+
+rem Grab images for character animation
+FOR y=0 to 1
+FOR x=0 TO 6
+GET IMAGE 1+x+(y*7),(x*89),(y*120),(x*89)+89,(y*120)+120
+NEXT x
+NEXT y
+
+rem Delete character bitmap
+DELETE BITMAP 1
+
+rem Set player variables
+xpos=0
+ypos=300
+image=1
+
+rem Activate manual syncronization
+SYNC ON
+
+rem Begin Loop
+DO
+
+rem Run right and wrap
+xpos=xpos+6 : IF xpos>640 THEN xpos=-64
+
+Rem Animate runner and wrap
+image=image+1 : IF image>12 THEN image=2
+
+rem Update sprite
+sprite 1,xpos,ypos,image
+
+rem Refresh screen now
+SYNC : SLEEP 20
+
+rem End Loop
+LOOP
+

@@ -1,0 +1,23 @@
+Rem * Title  : A Simple Matrix
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program will create a simple matrix
+rem ------------------------------------------
+
+rem Make a matrix
+make matrix 1,10000.0,10000.0,25,25
+
+rem Randomize the matrix
+randomize matrix 1,50
+
+rem Wait for a key press
+suspend for key
+
+rem Delete the matrix
+delete matrix 1
+
+rem End the program
+end

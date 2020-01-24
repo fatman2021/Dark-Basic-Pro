@@ -1,0 +1,32 @@
+Rem * Title  : Scaling Textures
+Rem * Author : DBS-LB
+Rem * Date   : 5th October 2000
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 21
+rem ===============================================
+rem This program scales an object texture
+rem -----------------------------------------------
+
+rem Load image and create wall object
+load image "brick13.bmp",1
+make object box 1,500,100,50
+
+rem Texture Object with image
+texture object 1,1
+
+rem Rotate Object
+yrotate object 1,22
+
+rem Pause to show normal wall
+sleep 2000
+
+rem Scale Texture to look like simple wall
+scale object texture 1,5,1
+sleep 2000
+
+rem Scale Texture to look like detailed wall
+scale limb texture 1,0,5,2
+
+rem End program
+end
+

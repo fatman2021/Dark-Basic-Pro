@@ -1,0 +1,25 @@
+Rem * Title  : Other Directories
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==============================================
+rem DARK BASIC EXAMPLE PROGRAM 20
+rem ==============================================
+rem This program shows how to access directories
+rem ----------------------------------------------
+
+rem Show current application path and filename
+rem which will contain your own when you run a saved EXE
+print "Your Application Path and Name:"
+print
+print appname$()
+print
+print "Press Any Key"
+wait key
+
+rem Show contents of windows directory
+cls 0
+print "Your Windows Directory:"
+print
+set dir windir$() : dir
+
+

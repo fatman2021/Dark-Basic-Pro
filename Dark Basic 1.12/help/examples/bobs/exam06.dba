@@ -1,0 +1,71 @@
+Rem * Title  : Stretching a Bob
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ===================================================
+rem This program will draw a stretch a bob on screen 
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a bitmap on to the screen
+load bitmap "face.bmp"
+
+rem Grab image 1 from bitmap
+get image 1,18,17,156,196
+
+rem Clear the Screen
+cls
+
+rem Now we will make a bob
+bob 1,100,100,1
+
+rem get bob width and find the middle of it going across
+rem get bob height and find the middle of it going down
+rem new offset for bob 1 
+
+offset bob 1,(bob width(1)/2),(bob height(1)/2)
+
+rem the is were on screen bob will appear
+acrossscreen=0
+downscreen=0
+
+rem press left mouse button to quit
+rem move mouse left,right,up and down to stretch bob
+
+
+repeat
+
+	if returnkey()=1
+		cls 0
+		set cursor 0,440
+		print "using the stretch bob command"
+		print " bob x ",bob x(1);
+		print " bob y ",bob y(1);
+		print " bob scale x ",bob scale x(1);
+		print " bob scale y ",bob scale y(1)
+		repeat:until returnkey()<>1
+		cls
+	endif
+
+	rem draw the bob at the new position
+	bob 1,acrossscreen,downscreen,1
+
+	rem resize bob
+	stretch bob 1,mousex(),mousey()
+	
+until mouseclick()=1
+
+rem clear the screen
+cls 
+
+rem remove the bob from memory
+delete bob 1
+
+rem remove image 1 from memory
+delete image 1
+
+rem End the program
+end

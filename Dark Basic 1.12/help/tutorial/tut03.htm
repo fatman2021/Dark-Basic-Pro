@@ -1,0 +1,76 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL THREE<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+SCREEN SWITCHER<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to detect for the available screen display modes and let the user select which one they wish to use. The choice of display modes depends on the graphics card you have installed.<br>
+<br>
+Step 1 : Detect all display modes available<br>
+<br>
+To make a list of available display modes, you must perform a check using the system checklist. Checklists are very easy to use and require a single command to fill the checklist with the data you require. For display modes, type the following command:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+PERFORM CHECKLIST FOR DISPLAY MODES<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The checklist will internally fill up with every display mode you can use on the current graphics card.<br>
+<br>
+Step 2 : Printing out the display mode data from the checklist<br>
+<br>
+The number of items stored in the checklist can be returned using the command CHECKLIST QUANTITY(). A description of the display mode can be returned using the command CHECKLIST STRING$(index), where index is the position in the list you are interested in. We can set up a FOR NEXT loop that scans the entire list, and prints out the description. Notice how the value of T can be included in the line to be printed:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+CLS<br>
+FOR T=1 TO CHECKLIST QUANTITY()<br>
+PRINT T;" ";CHECKLIST STRING$(T)<br>
+NEXT T<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+If you were to run the program now, you will see a list of display modes printed alongside it's position in the list. We will want our program allow the user to select a display mode from this list. For convenience, we will only allow display modes 1-9 from being selected.<br>
+<br>
+Step 3 : Selecting a display mode from 1 to 9<br>
+<br>
+When the user has selected a number, we want to set the display mode to the same as that described in the list. The description of a display mode is Width, Height and Bit-Depth. These values are also stored separately in the checklist for us to use. Add the following code:<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+DO<br>
+IF ASC(INKEY$())>48<br>
+position=ASC(INKEY$())-48<br>
+width=CHECKLIST VALUE A(position)<br>
+height=CHECKLIST VALUE B(position)<br>
+depth=CHECKLIST VALUE C(position)<br>
+SET DISPLAY MODE width, height, depth<br>
+ENDIF<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+When you run the program, you should be able to select from a list of display modes and switch to that resolution. You will notice the screen is cleared. This is a very important fact. When the screen resolution is changed, all video memory is wiped which includes screens and textures.<br>
+<br>
+Step 4 : Restoring the screen<br>
+<br>
+It is a simple matter to restore the screen after a screen switch. Simply move the DO command from the middle of your program to the top. Your main loop is now complete.<br>
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to only list 9 display modes<br>
+2. Change the program to allow the user to select up to 99 display modes<br>
+3. Change the program so 8-bit depth display modes cannot be selected<br>
+<br>
+You can skip to the next tutorial by selecting <a href="tut04.htm">TUTORIAL FOUR</a>.
+<br>
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,98 @@
+Rem * Title  : Clearing the Screen
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program will use the cls command
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),0
+
+rem The main part of the program start here
+
+gosub clsexample
+gosub clsexampletwo
+
+rem End the program
+end
+
+clsexample:
+rem **********************************************
+rem * This will show you how to clear the screen *
+rem * using the current background color        *
+rem **********************************************
+
+rem draw some circles 
+gosub rand
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Print a message on screen
+text 200,240,"press the spacebar to clear this screen"
+
+rem Wait for any key to be pressed
+suspend for key
+
+rem This command will clear the screen using the current paper color
+cls 
+
+rem Print a message on screen
+text 200,240,"That was simple"
+text 200,260,"press the spacebar to continue"  
+
+rem Wait for any key to be pressed
+suspend for key
+
+rem clear the screen to black
+cls 0 
+return
+
+clsexampletwo:
+rem **********************************************
+rem * This will show you how to clear the screen *
+rem * using a color provide                     *
+rem **********************************************
+
+rem draw some circles 
+gosub rand
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Print a message on screen
+text 200,240,"press the spacebar to clear this screen"
+
+rem Wait for any key to be pressed
+suspend for key
+
+rem This command will clear the screen using a color provide
+cls rgb(255,0,0)
+
+rem Print a message on screen
+text 200,240,"That was simple"
+text 200,260,"press the spacebar to continue"  
+
+rem Wait for any key to be pressed
+suspend for key
+
+rem clear the screen to black
+cls 0 
+return
+
+rand:
+rem **********************************************
+rem *This will fill the screen with some circles *
+rem **********************************************
+
+rem Set the ink to blue and paper color to black 
+ink rgb(255,255,0),0
+
+rem Fill Screen with 100 circles
+for t=0 to 100
+	circle rnd(640),rnd(480),Rnd(100)
+next t
+
+return

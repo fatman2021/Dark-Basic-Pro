@@ -1,0 +1,107 @@
+Rem * Title  :  Memblock Compression Functions
+Rem * Author : Guy Savoie
+Rem * Date   : October 7, 2001
+`
+` Version 1.0
+`
+` Requires DBLZH.DLL, Written by Guy Savoie <guy@nmisoftware.com>.
+`
+` dbZLH is Copyright © 2001
+` Dark Basic Software Limited
+` All Rights Reserved
+`
+` dbLZH uses the LZH (Lempel Ziv Huffman) algorithm, which has excellent
+` compression ratios, and excellent decompression speed. It is also not
+` limited by patents like several other compression algorithms.
+`
+` Note: CompressBlock and Expand_Block return -1 when an error is encountered,
+`       otherwise, they return the size of the resulting MemBlock in bytes.
+`
+` Usage:
+`
+`function enable_block_compression   --- no return value
+`function disable_block_Compression  --- no return value
+`function compress_block(fromblock,toblock) --- returns -1 if error, size in bytes of ToBlock if successful
+`function expand_block(fromblock,toblock) --- returns -1 if error, size in bytes of ToBlock if successful
+`
+` By default, these functions use DLL number 99 - to change the
+` DLL number for your code, replace all references to
+` 99 with your desired DLL number in the following functions
+`
+
+function enable_block_compression
+   rem load the DLL into memory so it will be accessible.
+   load dll "dbLZH.dll",99
+endfunction
+
+function disable_block_Compression
+   rem this removes the DLL from memory.
+   delete dll 99
+endfunction
+
+function compress_block(fromblock,toblock)
+   rem set the result variable for the default case - error
+   result = -1
+   rem is the DLL loaded?
+   if DLL EXIST(99)
+      rem Does the From MemBlock exist?
+      if memblock exist(fromblock)=1
+         rem Is there anything IN the MemBlock?
+         if get memblock size(fromblock) > 0
+            rem Copy the raw data into the DLL memory stream
+            call dll 99,"PutInputStream",get memblock ptr(fromblock),get memblock size(fromblock)
+            rem Do the compression
+            result = call dll(99,"CompressStream")
+            rem Was there an error?
+            if result > -1
+               rem now clear the MemBlock destination and resize it to receive the processed data
+               if memblock exist(toblock) then delete memblock toblock
+               make memblock toblock,result
+               rem copy the processed data out to the MemBlock destination
+               call dll 99,"GetOutputStream",get memblock ptr(toblock)
+            endif
+         endif
+      endif
+   endif
+   Rem Tell the Compression DLL to clear the streams,
+   Rem and free up the memory, since we are done with them
+   call dll 99,"ClearStreams"
+endfunction result
+
+function expand_block(fromblock,toblock)
+   rem set the result variable for the default case - error
+   result = -1
+   rem is the DLL loaded?
+   if DLL EXIST(99)
+      rem Does the From MemBlock exist?
+      if memblock exist(fromblock)=1
+         rem Is there anything IN the MemBlock?
+         if get memblock size(fromblock) > 0
+            rem Copy the raw data into the DLL memory stream
+            call dll 99,"PutInputStream",get memblock ptr(fromblock),get memblock size(fromblock)
+            rem Do the decompression
+            result = call dll(99,"DecompressStream")
+            rem Was there an error?
+            if result > -1
+               rem now clear the MemBlock destination and resize it to receive the processed data
+               if memblock exist(toblock) then delete memblock toblock
+               make memblock toblock,result
+               rem copy the processed data out to the MemBlock destination
+               call dll 99,"GetOutputStream",get memblock ptr(toblock)
+            endif
+         endif
+      endif
+   endif
+   Rem Tell the Compression DLL to clear the streams,
+   Rem and free up the memory, since we are done with them
+   call dll 99,"ClearStreams"
+endfunction result
+
+` dbLZH.DLL exported procedures and functions
+`
+`procedure PutInputStream(BlockPointer:Integer;Size:Integer);stdcall;
+`function DecompressStream:Integer;stdcall;
+`function CompressStream:Integer;stdcall;
+`Procedure GetOutputStream(BlockPointer:Integer);stdcall;
+`Procedure ClearStreams;stdcall;
+

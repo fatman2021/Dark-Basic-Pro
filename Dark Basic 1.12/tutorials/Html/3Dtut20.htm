@@ -1,0 +1,158 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>1.
+Explosion effects</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To explain how to create a simple explosion effect</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+show you how to create a simple explosion effect when the bullet strikes
+the target or the ground or when it runs out of life.</font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Make Explosion</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+Object Sphere 30,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>texture
+object 30,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>ghost
+object on 30</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Hide
+Object 30</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+Object Sphere 31,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>texture
+object 31,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>ghost
+object on 31</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Hide
+Object 31</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+3Dsound "Explode.wav",3</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>These lines of code are placed
+at the beginning of the program where we initialize our objects, sounds
+and images. We are creating the objects we will use for the explosion effect.
+Notice we are reusing the texture we used for the fire in the our particle
+effect. We have also loaded a sound file we will use as our explosion sound.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;if
+Mouseclick()=1 and Explode =0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if BulletLife&lt;50</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Position object 2,X#,Y#-7,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Set object to camera orientation 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+BulletLife =120</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+show object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Loop sound 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Here we have introduced the
+variable "Explode" into our program. We are checking to see if an explosion
+is in effect. If there is an explosion occurring we don't want to shoot
+another bullet because it may cut the explosion off abruptly diminishing
+the impact of the effect. We have also set a limit on when the bullet can
+be shot again by testing to see if the life of the bullet is less than
+50. This is done to make sure the bullet is far enough away that the lack
+of the explosion effect being shown, will not be noticed by the player.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if bY# &lt; Get Ground height(1,bX#,bZ#) then BulletLife=0</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The previous line of code
+is located in the "ShootBullet" subroutine. It checks to see if the bullet
+has hit the ground and sets the "BulletLife" variable equal to zero if
+it has</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Hide object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+stop sound 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+for x=10 to 20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+hide object x</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+next x</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Explode = 20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This segment of code is also
+in the "ShootBullet" subroutine. It is after the bullets life has been
+set to zero, either by colliding with something or running out of life.
+All of the particle objects are hidden as well as the bullet object. The
+explode variable is set to a value of twenty to begin the explosion counter.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>If
+Explode > 0 then Gosub ExplodeRocket</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This line of code is in our
+main loop. If the explosion counter is greater than zero the subroutine
+"ExplodeRocket" is called to execute the explosion code.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Explode bullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>ExplodeRocket:</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+object 30,bX#,bY#,bZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Show
+object 30</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+object 31,bX#,bY#,bZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Show
+object 31</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;EScale=20*(30-Explode)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Scale
+object 30,EScale,EScale,EScale</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Yrotate
+object 30,WrapValue(Explode*37)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Scale
+object 31,EScale/1.5,EScale/1.5,EScale/1.5</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Yrotate
+object 31,WrapValue(359-Explode*37)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Dec
+Explode</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Explode = 0 then hide object 30: Hide object 31</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Explode=18</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+position sound 3,bX#,bY#,bZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+play sound 3</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Explode &lt; 15 then position sound 3,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Return</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "ExplodeRocket" subroutine
+is where all the work for the explosion is done. Where the bullet stopped,
+We position the two spheres we created for our explosion effect. We calculate
+our explosion scale factor and store it in the variable "EScale". Next,
+we scale our first sphere and rotate it at a speed that will slow down
+as the sphere gets bigger. We do the same to our other sphere except we
+scale this one at a slower rate than our first sphere and rotate it at
+a faster rate based on the "Explode" value. Next we use the "Dec" command
+to decrease the explode value by one. We check to see if our "Explode"
+variable has reached zero. If it has we hide our two explosion spheres.
+Notice, we used the colon to execute two "Hide Object" commands on one
+line. We could have used the "If EndIf" comparison but using the colon
+separator makes our code shorter and easier to read. The next lines of
+code mimic the sound effect, where you see something happen in the distance
+before you hear it. The code waits for the counter to reach 18 before it&nbsp;
+plays the sound. It also starts the sound playing at the bullet position.
+When the counter reaches 15 the sound is moved to the camera position creating
+the distant explosion effect. By using the "Play Sound" command rather
+than the "Loop Sound" command the sound is only played once then ends.</font></font>
+<br>&nbsp;
+</body>
+</html>

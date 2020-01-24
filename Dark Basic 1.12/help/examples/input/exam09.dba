@@ -1,0 +1,61 @@
+Rem * Title  : HMD Controller
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 9
+rem ============================================
+rem This program detects HMD controller movement
+rem --------------------------------------------
+
+rem Performs a checklist for all contol devices
+perform checklist for control devices
+
+rem Simply select the first one it finds
+if checklist quantity()=0
+	print "You have no control devices available!"
+	print "Cannot continue with example"
+	end
+else
+	set control device checklist string$(1)
+endif
+
+rem Set a gunsight in the middle of the screen
+x=320
+y=240
+
+rem Activate manual sync
+sync on
+
+rem Begin main loop
+do
+
+rem Clear the screen each cycle
+cls
+
+rem Show the analogue values
+set cursor 0,10
+print control device name$()
+print control device x()
+print control device y()
+print control device z()
+
+rem Move the gunsight based on the control device axis value
+x=x+(control device x()/100)
+y=y+(control device y()/100)
+
+rem Make sure the gunsight does not leave the screen
+if x<0 then x=0
+if x>640 then x=640
+if y<0 then y=0
+if y>480 then y=480
+
+rem Draw a gunsight 
+circle x,y,20
+line x,y-20,x,y+20
+line x-20,y,x+20,y
+
+rem Syncronise
+sync
+
+rem End the loop
+loop

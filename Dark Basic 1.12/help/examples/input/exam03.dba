@@ -1,0 +1,30 @@
+Rem * Title  : Simple File Viewer
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem ===========================================
+rem This program is a simple file system viewer
+rem -------------------------------------------
+
+rem Clear the screen
+cls
+
+rem List files in current directory
+print "Files in directory:"
+dir
+print
+print "Press Any Key"
+
+rem Wait for key press
+suspend for key
+
+rem Clear the screen
+cls
+
+rem List available drives
+print "Available drives:"
+drivelist
+
+rem End the program
+end

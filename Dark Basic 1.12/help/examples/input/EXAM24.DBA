@@ -1,0 +1,42 @@
+Rem * Title  : Keyboard Entry
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 24
+rem ===============================================
+rem This program handles Keyboard Entry
+rem -----------------------------------------------
+
+rem Create a slowly sync'd loop for keyboard entry
+sync on : sync rate 20
+
+rem A nice font
+set text font "Arial" : set text size 32
+
+rem Main loop
+do
+
+rem Build line string
+new$=entry$()
+for n=1 to len(new$)
+	if asc(mid$(new$,n))=8
+		line$=left$(line$,len(line$)-1)
+	else
+		line$=line$+mid$(new$,n)
+	endif
+next n
+clear entry buffer
+
+rem Make simple cursor
+if flash$="" then flash$="|" else flash$=""
+
+rem Show Entry Buffer
+cls rgb(64,64,64)
+center text 320,200,"PERFECT KEYBOARD ENTRY"
+text 160,240,line$+flash$
+
+rem Update screen
+sync
+
+rem End loop
+loop

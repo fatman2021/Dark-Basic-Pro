@@ -1,0 +1,29 @@
+Rem * Title  : Tutorial Sample 7
+Rem * Author : DBS-LB
+Rem * Date   : 1/8/99
+rem Load music file
+LOAD MUSIC "sample.mid",1
+
+rem Load sound file
+LOAD SOUND "sample.wav",1
+LOAD SOUND "sample.wav",2
+LOAD SOUND "sample.wav",3
+
+rem Start Music
+LOOP MUSIC 1
+
+rem Begin loop
+DO
+
+rem Pressing key '1' will play sound 1
+IF SCANCODE()=2 AND SOUND PLAYING(1)=0 THEN PLAY SOUND 1
+
+rem Pressing key '2' will play sound 2
+IF SCANCODE()=3 AND SOUND PLAYING(2)=0 THEN PLAY SOUND 2
+
+rem Pressing key '3' will play sound 3
+IF SCANCODE()=4 AND SOUND PLAYING(3)=0 THEN PLAY SOUND 3
+
+rem End loop
+LOOP
+

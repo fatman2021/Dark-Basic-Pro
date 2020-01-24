@@ -1,0 +1,51 @@
+
+
+      Rem Make sphere 
+       Rem Setup sync 
+      Sync On 
+      Sync Rate 30 
+
+      Rem Make Cubes and place randomly 
+      For x = 1 to 5 
+          Make object cube x,100 
+          Position object x,Rnd(2000),0,Rnd(2000) 
+          Set object collision to boxes x 
+      Next x 
+
+      Rem Make sphere 
+      Make object sphere 10,50 
+      Position object 10,-100,0,-100 
+      Set object collision to spheres 10 
+
+      Rem Main loop 
+      Do 
+         Rem  Store Object angle Y in aY# 
+         aY# = Object angle Y(10) 
+
+         Rem  Control input for camera 
+         If Upkey()=1 then Move object 10,10 
+         If Leftkey()=1 then Yrotate object 10,Wrapvalue(aY#-5) 
+         If Rightkey()=1 then Yrotate object 10,Wrapvalue(aY#+5) 
+
+         Rem Detect collision 
+         If Object collision(10,0)>0 then position object 10,X#,0,Z# 
+
+         Rem get player object position and store in X# and Z# 
+         X# = Object position x(10) 
+         Z# = Object position z(10) 
+
+         Rem get new camera position and store in cZ# and cX# 
+         cZ# = Newzvalue(Z#,aY#-180,100) 
+         cX# = Newxvalue(X#,aY#-180,100) 
+
+         Rem position camera 
+         Position Camera cX#,75,cZ# 
+
+                    Rem point the camera at the player object 
+         Point camera X#,25,Z# 
+
+         Rem Refresh Screen 
+         Sync 
+
+      Loop 
+

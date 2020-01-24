@@ -1,0 +1,244 @@
+<HTML>
+<BODY BACKGROUND="webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Verdana"><center>BASIC 3D COMMAND SET<br></center>
+<FONT SIZE="4"><br>
+3D Object files that are stored in the X format can be loaded using this command set. You are able to store over sixty thousand 3D objects at any one time. Each object can have an infinite number of sub-objects known as limbs and an infinite number of textures. Limbs are used to define different parts of your object. If the object contains texture references, the textures will be loaded automatically. Not only can objects be positioned, rotated and scaled anywhere in your scene, but they can also perform animation if the object contains animation data. When using 3D objects, you are only limited by the speed and capacity of your machine.<br>
+<br>
+Click on any commands for more information:<BR>
+<br>
+
+<FONT COLOR="Yellow">
+<center>BASIC 3D OBJECT COMMANDS<BR></center>
+<FONT COLOR="White">
+<BR>
+<a href="basic3d/oload.htm">LOAD OBJECT</a> will load a 3D object file into the specified object number<BR>
+<a href="basic3d/odelete.htm">DELETE OBJECT</a> will delete the specified 3D object previously loaded into object number<BR>
+<a href="basic3d/osetob.htm">SET OBJECT</a> will set the internal properties of a specified object<BR>
+<a href="basic3d/omake.htm">MAKE OBJECT</a> will construct a 3D object from a single mesh and image<BR>
+<a href="basic3d/omsphere.htm">MAKE OBJECT SPHERE</a> will construct a 3D object using a sphere mesh<BR>
+<a href="basic3d/omcube.htm">MAKE OBJECT CUBE</a> will construct a 3D object using a cube mesh<BR>
+<a href="basic3d/ombox.htm">MAKE OBJECT BOX</a> will construct a 3D object using a box mesh<BR>
+<a href="basic3d/omcyl.htm">MAKE OBJECT CYLINDER</a> will construct a 3D object using a cylinder mesh<BR>
+<a href="basic3d/ompyr.htm">MAKE OBJECT CONE</a> will construct a 3D object using a cone mesh<BR>
+<a href="basic3d/omplain.htm">MAKE OBJECT PLAIN</a> will construct a 3D object using a flat mesh<BR>
+<a href="basic3d/omtri.htm">MAKE OBJECT TRIANGLE</a> will construct a 3D object using a triangle mesh<BR>
+<a href="basic3d/oappend.htm">APPEND OBJECT</a> will append all animation data in the file to the specified object<BR>
+<a href="basic3d/oplay.htm">PLAY OBJECT</a> will play the animation data contained within the specified 3D object<BR>
+<a href="basic3d/oloop.htm">LOOP OBJECT</a> will loop the animation data contained within the specified 3D object<BR>
+<a href="basic3d/ostop.htm">STOP OBJECT</a> will stop the object animation data from playing<BR>
+<a href="basic3d/ohide.htm">HIDE OBJECT</a> will hide the specified 3D object from view<BR>
+<a href="basic3d/oshow.htm">SHOW OBJECT</a> will show a specified 3D object that was previously hidden<BR>
+<a href="basic3d/otexture.htm">TEXTURE OBJECT</a> will texture a specified 3D object<BR>
+<a href="basic3d/oscale.htm">SCALE OBJECT</a> will scale the specified 3D object to resize in all three dimensions<BR>
+<a href="basic3d/ocolor.htm">COLOR OBJECT</a> will color the specified 3D object<BR>
+<a href="basic3d/oscr.htm">SCROLL OBJECT TEXTURE</a> will scroll the texture of the specified 3D object<BR>
+<a href="basic3d/oscal.htm">SCALE OBJECT TEXTURE</a> will scale the texture of the specified 3D object<BR>
+<a href="basic3d/osetfram.htm">SET OBJECT FRAME</a> will set the animation frame of the specified 3D object<BR>
+<a href="basic3d/osetsped.htm">SET OBJECT SPEED</a> will set the animation speed of the specified 3D object<BR>
+<a href="basic3d/osetinte.htm">SET OBJECT INTERPOLATION</a> will set the rate of animation frame interpolation<BR>
+<a href="basic3d/osrotxyz.htm">SET OBJECT ROTATION XYZ</a> will set the order of rotation to default<BR>
+<a href="basic3d/osrotzyx.htm">SET OBJECT ROTATION ZYX</a> will reverse the order of rotation<BR>
+<a href="basic3d/oghston.htm">GHOST OBJECT ON</a> will make the specified 3D object semi-transparent<BR>
+<a href="basic3d/oghstoff.htm">GHOST OBJECT OFF</a> will turn off the effect of ghosting on the specified 3D object<BR>
+<a href="basic3d/ofade.htm">FADE OBJECT</a> will make the specified 3D object fade to the ambient light level<BR>
+<a href="basic3d/oglue.htm">GLUE OBJECT TO LIMB</a> will attach the specified 3D object to another objects limb<BR>
+<a href="basic3d/ounglue.htm">UNGLUE OBJECT</a> will detach the specified 3D object from any limb<BR>
+<a href="basic3d/olockon.htm">LOCK OBJECT ON</a> will lock the specified 3D object to the screen<BR>
+<a href="basic3d/olockoff.htm">LOCK OBJECT OFF</a> will unlock the specified 3D object from the screen<BR>
+<a href="basic3d/sot.htm">SET OBJECT TEXTURE</a> different texture modes<BR>
+<a href="basic3d/doz.htm">DISABLE OBJECT ZDEPTH</a> this command will make a object appear over other polygons<BR>
+<a href="basic3d/eoz.htm">ENABLE OBJECT ZDEPTH</a> this command will return object zdepth info to normal<BR>
+<br>
+<br><center><FONT COLOR="Yellow">
+ANIMATION COMMANDS<BR>
+</center><br><FONT COLOR="White">
+<a href="basic3d/soa.htm">SAVE OBJECT ANIMATION</a> this command will save a object animation to a file<BR>
+<a href="basic3d/aoam.htm">APPEND OBJECT ANIMATION</a> this command will append animation file  <BR>
+<a href="basic3d/caok.htm">CLEAR ALL OBJECT KEYFRAMES</a> this command will clear all the animation from a object <BR>
+<a href="basic3d/cokf.htm">CLEAR OBJECT KEYFRAME</a> this command will clear all the animation from a object<BR>
+<a href="basic3d/soko.htm">SET OBJECT KEYFRAME</a> this will set the position of all limbs to an object keyframe <BR>
+<br>
+<br><center><FONT COLOR="Yellow">
+STATIC OBJECT COMMANDS<BR>
+</center><br><FONT COLOR="White">
+
+<a href="basic3d/omakesto.htm">MAKE STATIC OBJECT</a> will copy the specified 3D object as a static object<BR>
+<a href="basic3d/odelesto.htm">DELETE STATIC OBJECTS</a> will delete all static objects<BR>
+<a href="basic3d/mscb.htm">MAKE STATIC COLLISION BOX</a> creates invisible collision zones<BR>
+<a href="basic3d/ssot.htm">SET STATIC OBJECTS TEXTURE</a> different texturing for statics<BR>   
+<a href="basic3d/dso.htm">DISABLE STATIC OCCLUSION</a> this command will deactivate the use of static occlusion<BR>
+<a href="basic3d/eso.htm">ENABLE STATIC OCCLUSION</a> this command will activate the use of static occlusion<BR>
+<a href="basic3d/sso.htm">SAVE STATIC OBJECTS</a> this command will save all static object data to a file<BR>
+<a href="basic3d/lso.htm">LOAD STATIC OBJECTS</a> this command will load all static object data from a file<BR>
+<a href="basic3d/aots.htm">ATTACH OBJECT TO STATIC</a> this command temporarily makes an object static<BR>
+<a href="basic3d/dofs.htm">DETACH OBJECT FROM STATIC</a> this command will remove a temporary static object<BR>
+
+<br><center><FONT COLOR="Yellow">
+3D MOTION AND EULER ROTATION<BR>
+</center><br><FONT COLOR="White">
+
+<a href="basic3d/opositon.htm">POSITION OBJECT</a> will place the specified 3D object in 3D space<BR>
+<a href="basic3d/orotate.htm">ROTATE OBJECT</a> will rotate the specified 3D object around it's X, Y and Z axis<BR>
+<a href="basic3d/oxrotate.htm">XROTATE OBJECT</a> will rotate the specified 3D object around it's X axis<BR>
+<a href="basic3d/oyrotate.htm">YROTATE OBJECT</a> will rotate the specified 3D object around it's Y axis<BR>
+<a href="basic3d/ozrotate.htm">ZROTATE OBJECT</a> will rotate the specified 3D object around it's Z axis<BR>
+<a href="basic3d/opoint.htm">POINT OBJECT</a> will point the specified 3D object towards a point in space<BR>
+<a href="basic3d/omove.htm">MOVE OBJECT</a> will move the specified 3D object in the direction it is pointing <BR>
+<a href="basic3d/ofix.htm">FIX OBJECT PIVOT</a> will reset the object's orientation to zero without rotating it<BR>
+
+<br><center><FONT COLOR="Yellow">
+FREE FLIGHT ROTATION<BR>
+</center><br><FONT COLOR="White">
+
+<a href="basic3d/toleft.htm">TURN OBJECT LEFT</a> will rotate/yaw an object left, relative to the orientation<br>
+<a href="basic3d/toright.htm">TURN OBJECT RIGHT</a> will rotate/yaw an object right, relative to the orientation<br>
+<a href="basic3d/poup.htm">PITCH OBJECT UP</a> will rotate/pitch an object up, relative to the orientation<br>
+<a href="basic3d/podown.htm">PITCH OBJECT DOWN</a> will rotate/pitch an object down, relative to the orientation<br>
+<a href="basic3d/roleft.htm">ROLL OBJECT LEFT</a> will rotate/roll an object left or CCW, relative to the orientation<br>
+<a href="basic3d/roright.htm">ROLL OBJECT RIGHT</a> will rotate/roll an object left or CW, relative to the orientation<br>
+<a href="basic3d/setob2ob.htm">SET OBJECT TO OBJECT ORIENTATION</a> aligns the orientation of one object to another<br>
+<a href="basic3d/setob2cam.htm">SET OBJECT TO CAMERA ORIENTATION</a> aligns the orientation of one object to the camera<br>
+
+<br><center><FONT COLOR="Yellow">
+COLLISION DETECTION<BR>
+</font></center><br>
+
+<FONT COLOR="White">
+<a href="basic3d/setocon.htm">SET OBJECT COLLISION ON</a> will set the object to be included in all collision activity<BR>
+<a href="basic3d/setocoff.htm">SET OBJECT COLLISION OFF</a> will set the object to be excluded from all collision activity<BR>
+<a href="basic3d/mocb.htm">MAKE OBJECT COLLISION BOX</a> makes an object use box collision<BR>
+<a href="basic3d/docb.htm">DELETE OBJECT COLLISION BOX</a> makes an object use normal collision<BR>
+<a href="basic3d/setosph.htm">SET OBJECT COLLISION TO SPHERES</a> will set the object limbs to sphere collision<BR>
+<a href="basic3d/setobox.htm">SET OBJECT COLLISION TO BOXES</a> will set the object limbs to box collision<BR>
+<a href="basic3d/setoboxr.htm">SET OBJECT COLLISION TO POLYGONS</a> will set the object limbs to polygon collision<BR>
+<a href="basic3d/setgcon.htm">SET GLOBAL COLLISION ON</a> will allow the detection of collision with any two 3D objects<BR>
+<a href="basic3d/setgcoff.htm">SET GLOBAL COLLISION OFF</a> will turn off the influence of global collision<BR>
+
+<BR>
+<FONT COLOR="Yellow">
+<center>BASIC 3D LIMB COMMANDS<BR></center>
+<FONT COLOR="White">
+<BR>
+<a href="basic3d/lperform.htm">PERFORM CHECKLIST FOR OBJECT LIMBS</a> will make a list of all 3D object limbs<BR>
+<a href="basic3d/lhide.htm">HIDE LIMB</a> will hide the specified limb within the 3D object<BR>
+<a href="basic3d/lshow.htm">SHOW LIMB</a> will show the specified limb within the 3D object<BR>
+<a href="basic3d/loffset.htm">OFFSET LIMB</a> will change the position of the specified limb within the 3D object<BR>
+<a href="basic3d/lrotate.htm">ROTATE LIMB</a> will change the rotation of the specified limb within the 3D object<BR>
+<a href="basic3d/lscale.htm">SCALE LIMB</a> will change the scaling of the specified limb within the 3D object<BR>
+<a href="basic3d/ladd.htm">ADD LIMB</a> will create a new limb from a mesh and add it to an existing 3D object<BR>
+<a href="basic3d/llink.htm">LINK LIMB</a> will link a newly added limb to the hierarchy of the main 3D object<BR>
+<a href="basic3d/lsettext.htm">TEXTURE LIMB</a> will apply an existing image to the limb of a 3D object as a texture<BR>
+<a href="basic3d/lcolor.htm">COLOR LIMB</a> will color the specified limb of a 3D object<BR>
+<a href="basic3d/lscr.htm">SCROLL LIMB TEXTURE</a> will scroll the texture of the specified limb of a 3D object<BR>
+<a href="basic3d/lscal.htm">SCALE LIMB TEXTURE</a> will scale the texture of the specified limb of a 3D object<BR>
+<BR>
+
+<FONT COLOR="Yellow">
+<center>BASIC 3D MESH COMMANDS<BR></center>
+<FONT COLOR="White">
+<BR>
+<a href="basic3d/mload.htm">LOAD MESH</a> will load a single mesh file into the specified mesh number<BR>
+<a href="basic3d/mdelete.htm">DELETE MESH</a> will delete the specified mesh previously loaded<BR>
+<a href="basic3d/ochmesh.htm">CHANGE MESH</a> will change the mesh of a specified 3D object<BR>
+<a href="basic3d/mmake.htm">MAKE MESH FROM OBJECT</a> will make a mesh from a specified object<BR>
+<BR>
+
+<FONT COLOR="Yellow">
+<center>MISCELLANEOUS 3D COMMANDS<BR></center>
+<FONT COLOR="White">
+<BR>
+
+<FONT COLOR="White">
+<a href="basic3d/bkon.htm">BACKDROP ON</a> will turn on the fixed 3D backdrop<BR>
+<a href="basic3d/bkoff.htm">BACKDROP OFF</a> will turn off the fixed 3D backdrop<BR>
+<a href="basic3d/bkcol.htm">COLOR BACKDROP</a> will color the fixed 3D backdrop in any color<BR>
+<a href="basic3d/bktex.htm">TEXTURE BACKDROP</a> will texture the fixed 3D backdrop using an image<BR>
+<a href="basic3d/bkscr.htm">SCROLL BACKDROP</a> will scroll the fixed 3D backdrop in any direction<BR>
+<a href="basic3d/drawtf.htm">DRAW TO FRONT</a> will draw all 2D graphics over 3D renders<BR>
+<a href="basic3d/drawtb.htm">DRAW TO BACK</a> will draw all 2D graphics behind 3D renders<BR>
+<a href="basic3d/smmv.htm">SET MIPMAP MODE</a> different mipmap modes<BR>
+<a href="basic3d/sno.htm">SET NORMALIZATION ON</a> normalizes all 'normals' contained in 3D rendering data<BR>
+<a href="basic3d/snf.htm">SET NORMALIZATION OFF</a> deactivates normalization of all 'normals' data<BR>
+<BR>
+
+<FONT COLOR="Yellow">
+The next commands will return a result:<br>
+<FONT COLOR="White">
+<BR>
+
+<a href="basic3d/oexist.htm">OBJECT EXIST()</a> will return a one if the specified 3D object exists<BR>
+<a href="basic3d/ototal.htm">TOTAL OBJECT FRAMES()</a> will return the last frame number of the specified 3D object<BR>
+<a href="basic3d/osize.htm">OBJECT SIZE()</a> will return the unit size of the specified 3D object<BR>
+<a href="basic3d/opositx.htm">OBJECT POSITION X()</a> will return the X position of the specified 3D object in 3D space<BR>
+<a href="basic3d/oposity.htm">OBJECT POSITION Y()</a> will return the Y position of the specified 3D object in 3D space<BR>
+<a href="basic3d/opositz.htm">OBJECT POSITION Z()</a> will return the Z position of the specified 3D object in 3D space<BR>
+<a href="basic3d/orotatx.htm">OBJECT ANGLE X()</a> will return the X angle of the specified 3D object<BR>
+<a href="basic3d/orotaty.htm">OBJECT ANGLE Y()</a> will return the Y angle of the specified 3D object<BR>
+<a href="basic3d/orotatz.htm">OBJECT ANGLE Z()</a> will return the Z angle of the specified 3D object<BR>
+<a href="basic3d/obsx.htm">OBJECT SIZE X()</a> returns the full width of the object<BR>
+<a href="basic3d/obsy.htm">OBJECT SIZE Y()</a> returns the full height of the object<BR>
+<a href="basic3d/obsz.htm">OBJECT SIZE Z()</a> returns the full depth of the object<BR>
+<a href="basic3d/ovisible.htm">OBJECT VISIBLE()</a> will return a one if the specified 3D object is visible<BR>
+<a href="basic3d/oplaying.htm">OBJECT PLAYING()</a> will return a one if the specified 3D object is playing its animation<BR>
+<a href="basic3d/olooping.htm">OBJECT LOOPING()</a> will return a one if the specified 3D object is looping its animation<BR>
+<a href="basic3d/oframe.htm">OBJECT FRAME()</a> will return the current animation frame of the specified 3D object<BR>
+<a href="basic3d/ospeed.htm">OBJECT SPEED()</a> will return the current animation speed of the specified 3D object<BR>
+<a href="basic3d/ointerp.htm">OBJECT INTERPOLATION()</a> will return the current animation interpolation rate<BR>
+<a href="basic3d/ocollid.htm">OBJECT COLLISION()</a> will return a one if the two specified 3D objects are overlapping<BR>
+<a href="basic3d/ohit.htm">OBJECT HIT()</a> will return a one if the two specified 3D objects hit each other<BR>
+<br>
+<a href="basic3d/oscrx.htm">OBJECT SCREEN X()</a> will return the current X screen coordinate of the 3D object<BR>
+<a href="basic3d/oscry.htm">OBJECT SCREEN Y()</a> will return the current Y screen coordinate of the 3D object<BR>
+<a href="basic3d/oscri.htm">OBJECT IN SCREEN()</a> will return a one if the specified 3D object is on the screen<BR>
+<br>
+<a href="basic3d/ghit.htm">GET STATIC COLLISION HIT()</a> returns whether an area is touching a static box<BR>
+<a href="basic3d/scx.htm">GET STATIC COLLISION X()</a> returns sliding data for X after collision detected<BR>
+<a href="basic3d/scy.htm">GET STATIC COLLISION Y()</a> returns sliding data for Y after collision detected<BR>
+<a href="basic3d/scz.htm">GET STATIC COLLISION Z()</a> returns sliding data for Z after collision detected<BR>
+<a href="basic3d/oglos.htm">STATIC LINE OF SIGHT()</a> returns whether a projected line hits a static box<BR>
+<a href="basic3d/oglosx.htm">STATIC LINE OF SIGHT X()</a> returns X position of hit after obstruction detected<BR>
+<a href="basic3d/oglosy.htm">STATIC LINE OF SIGHT Y()</a> returns Y position of hit after obstruction detected<BR>
+<a href="basic3d/oglosz.htm">STATIC LINE OF SIGHT Z()</a> returns Z position of hit after obstruction detected<BR>
+<br>
+<a href="basic3d/gocx.htm">GET OBJECT COLLISION X()</a> returns sliding data for X if flag is zero<BR>
+<a href="basic3d/gocy.htm">GET OBJECT COLLISION Y()</a> returns sliding data for Y if flag is zero<BR>
+<a href="basic3d/gocz.htm">GET OBJECT COLLISION Z()</a> returns sliding data for Z if flag is zero<BR>
+<br>
+<a href="basic3d/lexist.htm">LIMB EXIST()</a> will return a one if the specified limb of the 3D object exists<BR>
+<a href="basic3d/loffsetx.htm">LIMB OFFSET X()</a> will return the X offset of the specified limb of the 3D object<BR>
+<a href="basic3d/loffsety.htm">LIMB OFFSET Y()</a> will return the Y offset of the specified limb of the 3D object<BR>
+<a href="basic3d/loffsetz.htm">LIMB OFFSET Z()</a> will return the Z offset of the specified limb of the 3D object<BR>
+<a href="basic3d/lrotatx.htm">LIMB ANGLE X()</a> will return the X angle of the specified limb of the 3D object<BR>
+<a href="basic3d/lrotaty.htm">LIMB ANGLE Y()</a> will return the Y angle of the specified limb of the 3D object<BR>
+<a href="basic3d/lrotatz.htm">LIMB ANGLE Z()</a> will return the Z angle of the specified limb of the 3D object<BR>
+<a href="basic3d/lposx.htm">LIMB POSITION X()</a> will return the world X position of the specified limb<BR>
+<a href="basic3d/lposy.htm">LIMB POSITION Y()</a> will return the world Y position of the specified limb<BR>
+<a href="basic3d/lposz.htm">LIMB POSITION Z()</a> will return the world Z position of the specified limb<BR>
+<a href="basic3d/ldirx.htm">LIMB DIRECTION X()</a> will return the world X angle of the specified limb<BR>
+<a href="basic3d/ldiry.htm">LIMB DIRECTION Y()</a> will return the world Y angle of the specified limb<BR>
+<a href="basic3d/ldirz.htm">LIMB DIRECTION Z()</a> will return the world Z angle of the specified limb<BR>
+<a href="basic3d/ltexture.htm">LIMB TEXTURE()</a> will return the image number used to texture the limb of the 3D object<BR>
+<a href="basic3d/lvisible.htm">LIMB VISIBLE()</a> will return a one if the specified limb exists<BR>
+<a href="basic3d/ltn.htm">LIMB TEXTURE NAME()</a> returns the internal name of the limb texture<BR>
+<br>
+
+<a href="basic3d/mexist.htm">MESH EXIST()</a> will return a one if the specified mesh exists<BR>
+<br>
+
+<a href="basic3d/mmcurve.htm">CURVEVALUE()</a> will return an auto-interpolated value based on a given speed<BR>
+<a href="basic3d/mmcurvea.htm">CURVEANGLE()</a> will return an auto-interpolated angle based on a given speed<BR>
+<a href="basic3d/mmwrap.htm">WRAPVALUE()</a> will return a value that wraps any given value between 0 and 360<BR>
+<a href="basic3d/mmnewx.htm">NEWXVALUE()</a> will return the new x position value of an angled movement<BR>
+<a href="basic3d/mmnewy.htm">NEWYVALUE()</a> will return the new y position value of an angled movement<BR>
+<a href="basic3d/mmnewz.htm">NEWZVALUE()</a> will return the new z position value of an angled movement<BR>
+<br>
+<a href="basic3d/avalpha.htm">ALPHABLENDING AVAILABLE()</a> will return whether the 3D card supports alphablending<BR>
+<a href="basic3d/avfilt.htm">FILTERING AVAILABLE()</a> will return whether the 3D card supports filtering<BR>
+<a href="basic3d/avfog.htm">FOG AVAILABLE()</a> will return whether the 3D card supports fog<BR>
+<a href="basic3d/av3dblit.htm">3DBLIT AVAILABLE()</a> will return whether the 3D card supports 2D in 3D<BR>
+<br>
+
+</font></font></p>
+</BODY>
+</HTML>

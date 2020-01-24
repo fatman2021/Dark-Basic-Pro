@@ -1,0 +1,40 @@
+Rem * Title  : Normalization
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 26
+rem ==========================================
+rem This program shows use of normalization
+rem ------------------------------------------
+hide mouse : sync on : sync rate 60
+
+rem Create a simple object
+make object sphere 1,100
+
+rem Hide ambience to show lighting effect
+set ambient light 0
+
+rem Move camera back
+position camera 0,0,-200
+point camera 0,0,0
+
+rem Create loop to control scale
+set normalization on
+do
+
+	rem User prompt
+	set cursor 0,0
+	print "Hit SPACE to switch off normalization"
+	if spacekey()=1 then set normalization off : done=1
+	if done=0 then print "Notice the sphere lights correctly no matter what the scale is"
+	if done=1 then print "Notice the 'normal data' which controls light intensity no longer scales with the sphere!"
+
+	rem Make object scale in and out
+	a#=wrapvalue(a#+4) : s#=110+(cos(a#)*100)
+	scale object 1,s#,s#,s#
+
+	rem Update screen
+	sync
+
+loop
+

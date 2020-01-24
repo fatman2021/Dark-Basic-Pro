@@ -1,0 +1,1161 @@
+Rem * Title  : DarkSWARM
+Rem * Author : DBS-LB
+Rem * Date   : 13th Feb 2000
+rem ********************************************
+rem *                DarkSWARM                 *
+rem ********************************************
+rem * AUTHOR: Lee Bamber   DATE: 13th Feb 2000 *
+rem ********************************************
+
+rem Declare global arrays
+dim hiscore(1)
+dim enemy#(40,5)
+dim bullet#(40,5)
+dim explode#(10,5)
+
+rem Initialise program
+sync rate 30
+hide mouse
+sync on
+
+rem Load and play music
+load music "swarm.mid",1 : loop music 1
+
+rem Load images, sounds and create game elements
+gosub _load_images
+gosub _load_sounds
+gosub _create_decals
+gosub _create_numbers
+gosub _create_backdrop
+gosub _create_player
+gosub _create_aliens
+gosub _create_bullets
+gosub _create_explosions
+gosub _create_mothership
+
+rem Setup camera and lighting
+position camera 0,-40,-200
+set ambient light 40
+point camera 0,0,0
+
+rem Load old hiscore if available
+load array "hiscore.dat",hiscore(0)
+
+rem Prepare start of game message
+message$="GET READY"
+gosub _new_message
+
+rem New game at level one
+level=1 : gosub _form_aliens
+
+rem Main game loop
+do
+
+rem Control message delay
+if messagedelay>0
+
+	rem Decrement message delay counter
+	dec messagedelay
+
+	rem When message over, reactivate game
+	if messagedelay=0
+
+		rem Hide message decal
+		hide object 31 : position object 31,0,0,0
+
+		rem Activate game
+		gameactive=1
+
+	endif
+
+endif
+
+rem Control main game elements
+gosub _control_decals
+gosub _control_backdrop
+gosub _control_player
+gosub _control_aliens
+gosub _control_mothership	
+gosub _control_bullets
+gosub _control_explosions
+
+rem Update screen
+sync
+
+rem End of game loop
+loop
+
+
+rem ***********************
+rem * Control Subroutines *
+rem ***********************
+
+_control_decals:
+
+rem Update score and hiscore decals
+texture_digits(score,20,21,22,23)
+texture_digits(hiscore(0),24,25,26,27)
+
+rem Control message decal
+if messagedelay>0
+
+	rem Play standard message sound
+	if messagedelay=50
+		if message$="GET READY" then play sound 6 else play sound 7
+	endif
+
+	rem Control angle of message decal
+	if messagedelay<50
+		ma#=0.0
+	else
+		ma#=(messagedelay-50)*2
+	endif
+
+	rem Position and rotate message decal
+	position object 31,0,-50+sin(wrapvalue(ma#))*500,cos(wrapvalue(ma#))*500
+	xrotate object 31,45+(ma#*3)
+
+endif
+
+return
+
+_control_backdrop:
+
+rem Scroll star backdrop
+inc starscrolly#,1.0
+scroll backdrop 0,0-starscrolly#
+
+rem Scroll stellar effect by sliding plain objects
+inc stellarscrolly#,2.9
+if stellarscrolly#>=300 then dec stellarscrolly#,300
+position object 15,0,0-stellarscrolly#,0
+position object 16,0,300-stellarscrolly#,0
+
+rem Show stellar effect
+show object 15 : show object 16
+
+return
+
+_control_player:
+
+rem Handle movement keys
+if leftkey()=1 then speedx#=speedx#-6.0
+if rightkey()=1 then speedx#=speedx#+6.0
+
+rem If game is active, handle bullet firing
+if gameactive=1
+
+	rem If spacebar pressed and gun ready
+	if spacekey()=1 and gunready=0
+
+		rem Fire bullet from ship position
+		if fire_bullet(1,shipx#,-90.0)>0
+
+			rem Start gun delay countdown if bullet fired successfully
+			gunready=10
+	
+			rem Play gun sound
+			play sound 1
+
+		endif
+
+	endif
+
+	rem Decrement gun ready counter
+	if gunready>0 then dec gunready
+
+endif
+
+rem Handle inertia of the ship
+speedx#=speedx#/2.5
+shipx#=shipx#+speedx#
+
+rem Prevent ship leaving the screen
+if shipx#<-130.0 then shipx#=-130.0
+if shipx#>130.0 then shipx#=130.0
+
+rem Rotate the ship based on its X coordinate
+yrotate object 50,wrapvalue(180-(shipx#/2.0))
+
+rem Position the ship
+position object 50,shipx#,-90,-10
+
+rem Handle protective shield of ship
+if playershield>0
+
+	rem Fade player in and out while ghosted
+	fade object 50,abs(cos(wrapvalue(playershield*10.0))*100)
+
+	rem Decrement shield counter until it wears off
+	dec playershield
+	if playershield=0
+
+		rem Make ship solid again
+		ghost object off 50
+		fade object 50,200
+
+	endif
+
+endif
+
+return
+
+_destroy_player:
+
+rem Play player destroyed sound
+play sound 2
+
+rem Reposition player randomly
+shipx#=rnd(200)-100.0
+
+rem Activate protective shield for ship
+ghost object on 50
+playershield=100
+
+rem Decrement lives
+dec lives
+
+rem Change the lives icon based on number of lives left
+if lives=2 then hide limb 30,2
+if lives=1 then hide limb 30,1
+if lives=0 then hide limb 30,0
+
+rem When player has no more lives
+if lives=-1
+
+	rem Return to level one
+	level=1
+
+	rem Destroy all bullets
+	gosub _destroy_bullets
+
+	rem Restore player
+	gosub _restore_player
+
+	rem Restore aliens
+	gosub _restore_aliens
+
+	rem Prompt new game message
+	message$="GET READY"
+	gosub _new_message
+
+endif
+
+return
+
+_restore_player:
+
+rem Restore lives icon to show all ships
+show limb 30,0 : show limb 30,1 : show limb 30,2
+
+rem Restore lives
+lives=3
+
+rem If score higher than hiscore, set a new hiscore
+if score>hiscore(0) then hiscore(0)=score
+
+rem Save hiscore to a file
+if hiscore(0)>0 then save array "hiscore.dat",hiscore(0)
+
+rem Reset score
+score=0
+
+return
+
+_control_aliens:
+
+rem If game is active, handle alien shifting
+if gameactive=1
+
+	rem Slowly increase speed of aliens as each one is destroyed
+	alienspeed#=1.0+((enemymax-visiblealiens)/20.0)
+
+	rem Stage 0 : Move aliens right
+	if alienshiftdirection=0
+
+		rem Move alien shift position to the right
+		inc alienshiftx#,alienspeed#
+
+		rem When they have shifted all the way right, trigger stage 1
+		if alienshiftx#>50.0 then alienshiftdirection=1 : aliendrop=8
+
+	endif
+
+	rem Stage 1 : Move aliens down
+	if alienshiftdirection=1
+
+		rem Move alien shift position down
+		dec aliendrop
+		dec alienshifty#,1.0
+
+		rem When they have completely shifted down, trigger stage 2
+		if aliendrop=0 then alienshiftdirection=2
+
+	endif
+
+	rem Stage 2 : Move aliens left
+	if alienshiftdirection=2
+
+		rem Move alien shift position to the left
+		dec alienshiftx#,alienspeed#
+
+		rem When they have shifted all the way left, trigger stage 3
+		if alienshiftx#<-50.0 then alienshiftdirection=3 : aliendrop=8
+
+	endif	
+
+	rem Stage 3 : Forthly move aliens down again
+	if alienshiftdirection=3
+
+		rem Move alien shift position down
+		dec aliendrop
+		dec alienshifty#,1.0
+
+		rem When they have completely shifted down, return to stage 0
+		if aliendrop=0 then alienshiftdirection=0
+
+	endif
+
+endif
+
+rem Update each alien object
+for e=1 to enemymax
+
+	rem Get the object identity of the alien
+	objid=enemy#(e,1)
+
+	rem Position the alien based on the shift and formation coordinates
+	position object objid,alienshiftx#+enemy#(e,2),alienshifty#+enemy#(e,3),-10
+
+	rem Make the alien wobble
+	yrotate object objid,wrapvalue(180-(cos(enemy#(e,4))*10.0))
+	enemy#(e,4)=wrapvalue(enemy#(e,4)+16)
+
+	rem Store the current position of alien object
+	ax#=object position x(enemy#(e,1))
+	ay#=object position y(enemy#(e,1))
+
+	rem Reset player lost flag
+	playerlost=0
+
+	rem Check whether alien is alive
+	if object visible(objid)=1
+
+		rem Find distance between player and alien
+		dx#=shipx#-ax# : dy#=(-90)-ay#
+		dist#=sqrt(abs(dx#*dx#)+abs(dy#*dy#))
+		if dist#<=10.0
+	
+			rem If player and alien close, make explosions
+			hide object enemy#(e,1)
+			trigger_explosion(ax#,ay#)
+
+			rem Set player lost flag
+			playerlost=1
+		
+		endif
+
+		rem Check whether alien reaches bottom of screen
+		if ay#<-105.0 then playerlost=1
+
+	endif	
+
+	rem If player lost flag is set, destroy player
+	if playerlost=1
+
+		rem Make player explode
+		trigger_explosion(shipx#,-90.0)
+		
+		rem Destroy player
+		gosub _destroy_player
+
+		rem Restore aliens
+		gosub _restore_aliens
+
+	endif
+
+next e
+
+rem Randomly pick an alien to fire
+e=1+rnd(enemymax-1) : objid=enemy#(e,1)
+
+rem If alien is alive and scores a probability of 1/5
+if object visible(objid)=1 and rnd(5)=0 and gameactive=1
+
+	rem Find position of alien
+	ax#=object position x(objid)
+	ay#=object position y(objid)
+
+	rem Fire bullet from the alien position
+	fire_bullet(2,ax#,ay#)
+
+endif
+
+return
+
+_restore_aliens:
+
+rem Reset aliens for new level
+for e=1 to enemymax
+
+	rem Find object identity of alien
+	objid=enemy#(e,1)
+
+	rem Reposition the object off screen to hide old alien positions
+	position object objid,-500,-500,0
+
+	rem Show alien object
+	show object objid
+
+next e
+
+rem Reset the alien shift variables
+alienshiftdirection=0
+alienshiftx#=0.0
+alienshifty#=0.0
+aliendrop=0
+
+rem Put aliens into formation for this level
+gosub _form_aliens
+
+return
+
+_form_aliens:
+
+rem If level established
+if level>0
+
+	rem Get alien formation data
+	restore : maxlevel=level
+	if maxlevel>6 then maxlevel=6
+	for l=1 to maxlevel
+		read a,b,c,d
+	next l
+	
+	rem Prepare to count visible aliens
+	visiblealiens=0
+
+	rem Loop through all aliens
+	currentalien=1
+	for row=0 to 3
+		for x=0 to 7
+	
+			rem Determine how many aliens per row
+			if row=0 then hf=a/2
+			if row=1 then hf=b/2
+			if row=2 then hf=c/2
+			if row=3 then hf=d/2
+		
+			rem If alien outside formation for this row
+			if x<4-hf or x>3+hf
+
+				rem Find object identity of this alien
+				objid=enemy#(currentalien,1)
+
+				rem Hide alien that is not part of formation
+				hide object objid
+			
+			else
+			
+				rem Count aliens that remain visible
+				inc visiblealiens
+			
+			endif
+			
+			rem Increment index for next alien
+			inc currentalien
+
+		next x
+	next row
+
+endif
+
+return
+
+_control_bullets:
+
+rem Update bullets
+for b=1 to bulletmax
+
+	rem Find object identity for this bullet
+	objid=bullet#(b,1)
+
+	rem Is the bullet visible
+	if object visible(objid)=1
+
+		rem Move bullet up if it belongs to player
+		if bullet#(b,4)=1 then bullet#(b,3)=bullet#(b,3)+10.0
+
+		rem Move bullet down if it belongs to alien
+		if bullet#(b,4)=2 then bullet#(b,3)=bullet#(b,3)-5.0
+
+		rem Position bullet
+		position object objid,bullet#(b,2),bullet#(b,3),-10
+
+		rem Destroy bullet if it leaves screen
+		if bullet#(b,3)<-130.0 then hide object objid
+		if bullet#(b,3)>130.0 then hide object objid
+
+		rem Check whether this player bullet..
+		if bullet#(b,4)=1
+	
+			rem ..has hit an alien
+			for e=1 to enemymax
+			
+				rem If alien is visible
+				if object visible(enemy#(e,1))=1
+	
+					rem Find distance between bullet and alien
+					ax#=object position x(enemy#(e,1))
+					ay#=object position y(enemy#(e,1))
+					dx#=bullet#(b,2)-ax#
+					dy#=bullet#(b,3)-ay#
+					dist#=sqrt(abs(dx#*dx#)+abs(dy#*dy#))
+					
+					rem If distance less than size of alien
+					if dist#<=10.0
+		
+						rem Play alien destroyed sound
+						play sound 3
+	
+						rem Destroy alien and make explosions
+						hide object enemy#(e,1)
+						hide object bullet#(b,1)
+						trigger_explosion(ax#,ay#)
+						trigger_explosion(bullet#(b,2),bullet#(b,3))
+		
+						rem Decrement alien counter
+						dec visiblealiens
+	
+						rem Increment score for destroying this alien
+						if enemy#(e,5)=0 then inc score,5
+						if enemy#(e,5)=1 then inc score,10
+						if enemy#(e,5)=2 then inc score,15
+	
+						rem When no more aliens visible
+						if visiblealiens=0
+	
+							rem Increase level
+							inc level
+	
+							rem Restore aliens
+							gosub _restore_aliens
+	
+							rem Prompt next level message
+							message$="LEVEL "+str$(level)
+							gosub _new_message
+	
+						endif
+	
+					endif
+	
+				endif
+			
+			next e
+	
+			rem ..has hit the mothership
+			dx#=bullet#(b,2)-mothx#
+			dy#=bullet#(b,3)-(115.0)
+			dist#=sqrt(abs(dx#*dx#)+abs(dy#*dy#))
+			if dist#<=15.0
+	
+				rem Play mothership destroyed sound
+				play sound 4
+	
+				rem Destroy mothership and make explosions
+				hide object bullet#(b,1)
+				trigger_explosion(mothx#,115.0)
+				trigger_explosion(bullet#(b,2),bullet#(b,3))
+	
+				rem Reposition mothership to the far left
+				mothx#=-2000.0
+	
+				rem Increment score for destroying mothership
+				inc score,100
+	
+			endif
+
+		endif
+
+		rem Check whether alien bullet..
+		if bullet#(b,4)=2
+	
+			rem ..has hit an unshielded player
+			if playershield=0
+	
+				rem Find distance between bullet and player
+				dx#=shipx#-bullet#(b,2)
+				dy#=(-90)-bullet#(b,3)
+				dist#=sqrt(abs(dx#*dx#)+abs(dy#*dy#))
+
+				rem If distance less than size of bullet
+				if dist#<5.0
+		
+					rem Destroy bullet and explode player ship
+					hide object bullet#(b,1)
+					trigger_explosion(shipx#,-90.0)
+					trigger_explosion(bullet#(b,2),bullet#(b,3))
+
+					rem Destroy player
+					gosub _destroy_player		
+
+				endif
+
+			endif
+
+		endif
+	
+	endif
+
+next b
+
+return
+
+_destroy_bullets:
+
+rem Hide all bullets
+for b=1 to bulletmax
+
+	rem Find object identity of bullet
+	objid=bullet#(b,1)
+
+	rem Hide bullet object
+	hide object objid
+
+next b
+
+return
+
+_control_explosions:
+
+rem Update all explosions
+for ex=1 to explosionmax
+
+	rem Find object identity of explosion
+	objid=explode#(ex,1)
+
+	rem If explosion visible
+	if object visible(objid)=1
+
+		rem Position explosion
+		position object objid,explode#(ex,2),explode#(ex,3),-10
+
+		rem Scale and rotate explosion for effect
+		scale object objid,explode#(ex,4)*2,explode#(ex,4)*2,explode#(ex,4)*4
+		fade object objid,explode#(ex,4)*2
+		zrotate object objid,explode#(ex,4)*3.0
+
+		rem Decrease explosion counter
+		explode#(ex,4)=explode#(ex,4)-10.0
+
+		rem Hide explosion when counter runs out
+		if explode#(ex,4)<=0.0 then hide object objid
+
+	endif
+
+next ex
+
+return
+
+_control_mothership:
+
+rem When mothership is in view
+if mothx#>-200.0 and mothx#<200.0
+
+	rem Play mothership sound if not already playing
+	if sound playing(5)=0 then play sound 5
+
+endif
+
+rem Move mothership across the screen
+inc mothx#,4.0
+
+rem When mothership moves too far right, bring it back to the far left
+if mothx#>400.0 then mothx#=-400.0
+
+rem Position mothership object
+position object 200,mothx#,115,0
+
+rem Wobble mothership for effect
+wobble#=wrapvalue(wobble#+16)
+xrotate object 200,wrapvalue(315+(cos(wobble#)*20))
+
+return
+
+
+rem ************************
+rem * Creation Subroutines *
+rem ************************
+
+_load_images:
+
+rem Load images for backdrop
+load image "bmp\stars.bmp",1
+load image "bmp\stellar.bmp",2
+
+rem Load images for action
+load image "bmp\bullet.bmp",3
+load image "bmp\bolt.bmp",4
+load image "bmp\explode1.bmp",5
+load image "bmp\explode2.bmp",6
+
+rem Load images for aliens
+load image "bmp\alien1.bmp",7
+load image "bmp\alien2.bmp",8
+load image "bmp\alien3.bmp",9
+
+return
+
+_load_sounds:
+
+rem Load sound effects
+load sound "wav\lasergun.wav",1
+load sound "wav\edestroy.wav",2
+load sound "wav\pdestroy.wav",3
+load sound "wav\pdestroy.wav",4 : set sound speed 4,20000
+load sound "wav\moth.wav",5
+load sound "wav\getready.wav",6
+load sound "wav\ping.wav",7 : set sound speed 7,30000
+
+return
+
+_create_numbers:
+
+rem Create a hidden bitmap to work on 
+create bitmap 1,40,60
+
+rem Set the text font style
+set text font "Arial"
+set text size 64
+
+rem Print numbers 0-9 and store as images
+for n=0 to 9
+	cls : text 0,0,str$(n) : get image 10+n,0,0,40,60
+next n
+
+rem Delete work bitmap
+delete bitmap 1
+
+rem Setup decal objects for number digits
+for n=20 to 27
+
+	rem Create a single digit decal
+	make object plain n,40,60
+	scale object n,200,320,200
+	rotate object n,20,0,0
+	set object n,1,0,1
+	fade object n,200
+	lock object on n
+	hide object n
+
+	rem Texture decal object with the image for the number '0'
+	texture object n,10
+
+	rem Position the digit on screen
+	if n<24
+
+		rem Digit position for score
+		position object n,((n-20)*65)-730,540,1000
+
+	else
+
+		rem Digit position for hiscore
+		position object n,((n-20)*65)+285,540,1000
+
+	endif
+
+next n
+
+return
+
+_create_decals:
+
+rem Load the ship object for use as a mesh
+load object "obj\ship.x",1 : make mesh from object 1,1 : delete object 1
+
+rem Make lives icon object out of ship meshes
+make object 30,1,0 : scale object 30,200,100,100
+add limb 30,1,1 : offset limb 30,1,20,0,0
+add limb 30,2,1 : offset limb 30,2,40,0,0
+
+rem Lock lives object to screen
+lock object on 30
+
+rem Position and colour the lives object
+position object 30,-375,-265,500
+color object 30,rgb(64,128,255)
+ghost object on 30
+
+rem Create a message decal object
+make object plain 31,300,100
+scale object 31,200,100,100
+xrotate object 31,45
+ghost object on 31
+hide object 31
+
+rem Lock message object to screen
+lock object on 31
+
+rem Position the message object
+position object 31,0,0,0
+
+return
+
+_new_message:
+
+rem Create a hidden work bitmap
+create bitmap 1,600,100
+
+rem Print text message and store as image
+set text size 70
+set text font "Arial"
+center text 300,40,message$
+get image 20,0,0,600,100
+
+rem Delete work bitmap
+delete bitmap 1
+
+rem Texture message object with text image
+texture object 31,20
+show object 31
+
+rem Set message to display
+messagedelay=100
+
+rem Deactivate game action
+gameactive=0
+
+return
+
+_create_backdrop:
+
+rem Texture backdrop with stars image
+texture backdrop 1
+
+rem Make stellar plain using nebula cloud texture
+make object plain 15,400,300 : texture object 15,2
+make object plain 16,400,300 : texture object 16,2
+ghost object on 15 : ghost object on 16
+fade object 15,5 : fade object 16,5
+
+rem Hide stellar effect
+hide object 15 : hide object 16
+
+return
+
+_create_player:
+
+rem Create a mesh of the ship and cockpit
+load object "obj\ship.x",1 : make mesh from object 1,1 : delete object 1
+load object "obj\dome.x",2 : make mesh from object 2,2 : delete object 2
+
+rem Make ship object from mesh
+make object 50,1,0 : scale object 50,75,50,75
+position object 50,0.0,-90,-10
+
+rem Add cockpit mesh to ship object
+add limb 50,1,2 : offset limb 50,1,0,-5,-5
+
+rem Colour ship and cockpit
+color limb 50,0,rgb(64,128,255)
+color limb 50,1,rgb(255,255,128)
+
+rem Restore player
+gosub _restore_player
+
+return
+
+_create_aliens:
+
+rem Reset total aliens counter
+enemymax=0
+
+rem Loop through four rows of eight aliens
+for row=0 to 3
+	for x=0 to 7
+
+		rem Calculate enemy object identity
+		objid=100+x+(row*8)
+
+		rem Create a single alien based on row hierarchy
+		if row=3 then etype=2
+		if row=2 then etype=1
+		if row<2 then etype=0
+		make_single_alien(objid,etype)
+
+		rem Scale alien based on height
+		scale object objid,50+(row*5),50+(row*5),50
+
+		rem Add alien details to enemy array
+		inc enemymax
+		enemy#(enemymax,1)=objid
+		enemy#(enemymax,2)=(x-3.5)*25
+		enemy#(enemymax,3)=(row+1.0)*20
+		enemy#(enemymax,4)=0
+		enemy#(enemymax,5)=etype
+
+	next x
+next row
+
+rem Restore alien
+gosub _restore_aliens
+
+return
+
+_create_bullets:
+
+rem Reset total bullets counter
+bulletmax=0
+
+rem Create bullets for player and aliens
+for b=1 to 40
+
+	rem Calculate object identity of bullet
+	objid=300+b
+
+	rem Make only one bullet for player
+	if b=1 then bullettype=1
+
+	rem Make the rest of the bullets for the aliens
+	if b>1 then bullettype=2
+
+	rem Make bullet using object identity
+	make_single_bullet(objid,bullettype)
+
+	rem Add bullet details to bullets array
+	inc bulletmax
+	bullet#(bulletmax,1)=objid
+	bullet#(bulletmax,2)=0
+	bullet#(bulletmax,3)=0
+	bullet#(bulletmax,4)=bullettype
+
+next b
+
+return
+
+_create_explosions:
+
+rem Reset total explosions counter
+explosionmax=0
+
+rem Create explosions
+for ex=1 to 10
+
+	rem Calculate object identity of explosion
+	objid=400+ex
+
+	rem Make explosion using object identity
+	make_single_explosion(objid)
+
+	rem Add explosion details to explosions array
+	inc explosionmax
+	explode#(explosionmax,1)=objid
+	explode#(explosionmax,2)=0
+	explode#(explosionmax,3)=0
+
+next b
+
+return
+
+_create_mothership:
+
+rem Create meshes from parts of mothership
+load object "obj\mothship.x",1 : make mesh from object 1,1 : delete object 1
+load object "obj\mothrim.x",2 : make mesh from object 2,2 : delete object 2
+
+rem Make mothership from meshes
+make object 200,1,0 : add limb 200,1,2
+position object 200,0,115,-10
+
+rem Colour the mothership body and rim
+color limb 200,0,rgb(250,250,200)
+color limb 200,1,rgb(255,0,0)
+
+rem Set mothership position to the far left
+mothx#=-400.0 : position object 200,mothx#,115,0
+
+return
+
+
+rem *************************
+rem * Function Declarations *
+rem *************************
+
+rem ---------------------------------------------------------
+rem Function to texture decal objects with a four digit value
+rem ---------------------------------------------------------
+function texture_digits(value,th,hu,te,un)
+
+rem Limit maximum size of value
+if value>9999 then value=9999
+
+rem Calculate the thousands digit value
+valuethousands=value/1000
+dec value,(valuethousands*1000)
+
+rem Calculate the hundreds digit value
+valuehundreds=value/100
+dec value,(valuehundreds*100)
+
+rem Calculate the tens digit value
+valuetens=value/10
+dec value,(valuetens*10)
+
+rem Calculate the units digit value
+valueunits=value
+
+rem Texture decal objects with the correct digit value
+texture object th,10+valuethousands
+texture object hu,10+valuehundreds
+texture object te,10+valuetens
+texture object un,10+valueunits
+
+rem Show decal object in the event that they're invisible
+show object th : show object hu : show object te : show object un
+
+endfunction
+
+rem ----------------------------------------------
+rem Function to create an alien of a specific type
+rem ----------------------------------------------
+function make_single_alien(objid,type)
+
+rem Make a decal object for the alien
+make object plain objid,50,40
+set object objid,1,0,0
+xrotate object objid,340
+scale object objid,50,50,500
+
+rem Texture the decal object with an alien image
+texture object objid,7+type
+fade object objid,200
+
+endfunction
+
+rem ----------------------------------------------
+rem Function to create a bullet of a specific type
+rem ----------------------------------------------
+function make_single_bullet(objid,type)
+
+rem Make a decal object for the alien or player bullet
+if type=1 then make object plain objid,5,20
+if type=2 then make object plain objid,10,10
+
+rem Prepare the decal object to look like a bullet
+texture object objid,2+type
+scale object objid,100,100,200
+set object objid,1,0,1
+ghost object on objid
+fade object objid,200
+
+rem Hide decal object
+hide object objid
+
+endfunction
+
+rem --------------------------------------------------------------
+rem Function to fire a free bullet from either the player or alien
+rem --------------------------------------------------------------
+function fire_bullet(who,x#,y#)
+
+rem Find a free bullet
+freebullet=0
+for b=1 to 40
+
+	rem Find the object identity for this bullet
+	objid=bullet#(b,1)
+
+	rem If the bullet is invisible and belongs to the player or alien
+	if object visible(objid)=0 and bullet#(b,4)=who
+
+		rem Set the freebullet variable to the index of the bullet
+		freebullet=b
+
+	endif
+
+next b
+
+rem If the freebullet variable is holding a bullet index
+if freebullet>0
+
+	rem Show and position bullet
+	show object bullet#(freebullet,1)
+	bullet#(freebullet,2)=x#
+	bullet#(freebullet,3)=y#
+
+endif
+
+endfunction freebullet
+
+rem ------------------------------------------
+rem Function to make a single explosion object
+rem ------------------------------------------
+function make_single_explosion(objid)
+
+rem Make a decal object for the explosion
+make object plain objid,30,30
+
+rem Prepare the decal object to look like an explosion
+texture object objid,5
+scale object objid,100,100,200
+set object objid,1,0,1
+ghost object on objid
+fade object objid,200
+
+rem Hide the decal object
+hide object objid
+
+endfunction
+
+rem -----------------------------------------------------
+rem Function to detonate a free explosion at a coordinate
+rem -----------------------------------------------------
+function trigger_explosion(x#,y#)
+
+rem Find a free explosion
+freeexplosion=0
+for ex=1 to 10
+
+	rem Find the object identity of this explosion
+	objid=explode#(ex,1)
+
+	rem If explosion invisible
+	if object visible(objid)=0
+
+		rem Store the explosion index in the freeexplosion variable
+		freeexplosion=ex
+
+	endif
+
+next ex
+
+rem If the freeexplosion variable contains an explosion index
+if freeexplosion>0
+	
+	rem Find the object identity of this explosion
+	objid=explode#(freeexplosion,1)
+
+	rem Show and position the explosion
+	show object objid
+	explode#(freeexplosion,2)=x#
+	explode#(freeexplosion,3)=y#
+	explode#(freeexplosion,4)=100.0
+
+	rem Texture the decal object with a random explosion image
+	texture object objid,5+rnd(1)
+
+endif
+
+endfunction
+
+
+rem ********************************************
+rem * Alien Formation Data (for upto 6 levels) *
+rem ********************************************
+data 6,6,4,2
+data 8,6,4,2
+data 8,8,6,4
+data 8,8,8,4
+data 8,8,8,6
+data 8,8,8,8
+

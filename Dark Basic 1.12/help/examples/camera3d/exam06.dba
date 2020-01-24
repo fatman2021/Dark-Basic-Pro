@@ -1,0 +1,36 @@
+Rem * Title  : Camera Range
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ==========================================
+rem This program sets the camera range
+rem ------------------------------------------
+
+rem Make simple 3D scene
+make matrix 1,6000,6000,25,25
+position matrix 1,-3000,0,-3000
+for t=1 to 10
+	make object sphere t,100
+	position object t,-500+rnd(1000),0,rnd(1000)
+next t
+
+rem Position camera
+position camera 0,100,0
+
+rem Range value
+backvalue=2000
+
+rem Begin loop
+do
+
+rem Set new camera viewing range
+if backvalue>500 then backvalue=backvalue-5
+set camera range 1,backvalue
+
+rem Turn the camera
+if leftkey()=1 then turn camera left 3
+if rightkey()=1 then turn camera right 3
+
+rem End loop
+loop

@@ -1,0 +1,84 @@
+Rem * Title  : Model Collision
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ==========================================
+rem This program handles object collision
+rem ------------------------------------------
+
+rem Make a wall to collide against
+make object plain 2,100.0,100.0
+position object 2,0,50,100
+
+rem Load your object
+load object "walk.x",1
+
+rem Fix the proper angle for the character
+yrotate object 1,180
+fix object pivot 1
+
+rem Switch on collision for the object
+set object collision on 1
+
+rem Activate manual sync
+draw to back
+sync on
+
+rem Begin main loop
+while mouseclick()=0
+
+rem Clear screen for ink flash
+cls
+print screen fps()
+
+rem Store old position
+oldx#=x#
+oldz#=z#
+oldangle#=angle#
+
+rem Control variables with the cursor keys
+if upkey()=1 then x#=newxvalue(x#, angle#, 4.0) : z#=newzvalue(z#, angle#, 4.0)
+if downkey()=1 then x#=newxvalue(x#, angle#, -4.0) : z#=newzvalue(z#, angle#, -4.0)
+if leftkey()=1 then angle#=wrapvalue(angle#-10)
+if rightkey()=1 then angle#=wrapvalue(angle#+10)
+
+rem Switch between sphere and box area for collision check
+if inkey$()="s"
+	set object collision to spheres 1
+endif
+if inkey$()="b"
+	set object collision to boxes 1
+endif
+if inkey$()="p"
+	set object collision to polygons 1
+endif
+if inkey$()="o" then set global collision on 
+if inkey$()="f" then set global collision off
+
+rem Update object position and rotation
+position object 1,x#,0,z#
+rotate object 1,0,angle#,0
+
+rem On initial contact, flash screen color
+if object hit(1,0)>0
+	ink 0,rgb(255,255,255)
+else
+	ink rgb(255,255,255),0
+endif
+
+rem If collision, restore old position
+if object collision(1,0)>0
+	x#=oldx#
+	z#=oldz#
+	angle#=oldangle#
+endif
+
+rem Update Screen
+sync
+
+rem End main loop
+endwhile
+
+rem Switch off collision for the object
+set object collision off 1

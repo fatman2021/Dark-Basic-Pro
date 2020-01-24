@@ -1,0 +1,169 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. Matrix</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>2.
+Texturing a matrix</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+The purpose of this tutorial is to introduce textured matrices</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>We'll begin with a program
+that creates a matrix terrain and randomly textures each cell of the matrix</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+On</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Sync
+Rate 30</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+make matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+matrix 1,10000,10000,20,20</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+texture matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+image "grass09.bmp",1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Prepare
+matrix texture 1,1,2,2</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Randomize the matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>randomize
+matrix 1,250</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Place random texture on each matrix tile</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>For
+x = 0 to 19</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;For
+z = 0 to 19</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+t= rnd(3)+1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Set Matrix Tile 1,x,z,t</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Next
+z</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Next
+x</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Update the changes to the matrix</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>update
+matrix 1</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Main loop</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Do</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Store Object angle</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;CameraAngleY#
+= Camera angle Y()</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem&nbsp;
+Control input for camera</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Upkey()=1 then Move camera 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Leftkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#-5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;If
+Rightkey()=1 then Yrotate Camera Wrapvalue(CameraAngleY#+5)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+If Spacekey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Fill matrix 1,Rnd(50),Rnd(3)+1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+randomize matrix 1,250</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>X#
+= Camera position X()</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Z# = Camera position Z()</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Position
+Camera X#,250,Z#</font></font></font>
+<br>&nbsp;
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Rem
+Refresh Screen</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Sync</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Loop</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>We begin by preparing a texture
+for the matrix.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Prepare matrix texture 1,1,2,2</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>The "Prepare Matrix Texture"
+command is the essential command for dividing a texture into portions to
+be applied to a matrix. The first parameter after the command specifies
+the number of the matrix we wish to prepare the texture for. The second
+parameter is the number of the image we will use for the matrix texture.
+The third and fourth parameters are the number of individual sections we
+wish to devide the texture into. Here we have used a value of 2 as the
+first number. This can be considered the X or crosswise division of the
+texture. A value of 2, commands DarkBASIC to divide the texture crosswise
+into two sections. For the last parameter we have also used a value of
+2. This can be considered the Y coordinate division of the the image. We
+have now divided the image into four sections or separate textures. The
+image you use for the matrix can't be larger than 256x256 but you can divide
+the image into as many as 256x256 separate tiles. In most cases, the last
+two values in the command will be equal. If the values aren't equal you
+will see stretching in the textures as they are tiled on a square matrix.
+The tiles, as they are divided, are numbered beginning with 1 in the upper
+left hand corner then proceed across and down to the next row.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;For
+x = 0 to 19</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;For
+z = 0 to 19</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+t= rnd(3)+1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Set Matrix Tile 1,x,z,t</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Next
+z</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Next
+x</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>These nested loops count
+through each of the cells of the matrix, and set each of the cells to a
+random prepared matrix tile. To set individual cells in a matrix to a specific
+image tile, we use the "Set Matrix Tile" command. The first parameter after
+the
+command is the number of the matrix we wish to affect. The second and third
+parameters are the row and column numbers of the matrix cells on which
+we wish to change the tile. The last parameter is the number of the image
+tile we wish to place in the particular cell of the matrix. We have used
+the "Rnd" command to select a random tile between 0 and 3. Notice, we have
+added a value of 1 to the random value. There is no "0" tile. We add 1
+to the value so we can randomly select a tile between 1 and 4.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+If Spacekey()=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Fill matrix 1,Rnd(50),Rnd(3)+1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+randomize matrix 1,250</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br>&nbsp;
+<p><font face="Arial,Helvetica"><font size=+1>This section of code changes
+the height and randomly changes the tiles of each cell of the matrix every
+time the space bar is pressed. The "Fill Matrix" command is introduced
+here to demonstrate its use in setting all the tiles on the matrix to a
+specific height and a specific image tile number. This command is best
+used to initialize a matrix. The first parameter after the command is the
+number of the matrix we wish to affect. the second parameter is the height
+we wish to set all the vertices of the matrix to. This is great for adding
+another matrix such as water or creating layers of matrices above each
+other. We have used the "Rnd" command to select a random height between
+0 and 50. This value corresponds with the "Y" coordinates in your 3D environment.
+The last parameter is the number of the tile of the prepared matrix texture
+we wish to use. We have used the "Rnd" command to select a random tile.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This completes the tutorial
+on the basics of texturing a matrix.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Try changing the last two
+values in the "Prepare Matrix Texture" command to see how the images in
+the tiles change. Next, try changing the random value in each of the "Rnd"
+commands to correspond to the number of tiles you have prepared for the
+matrix by changing the division values.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

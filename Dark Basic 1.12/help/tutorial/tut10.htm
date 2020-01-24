@@ -1,0 +1,86 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="7" FACE="Verdana">
+TUTORIAL TEN<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">
+3D THAT WALKS<br>
+</CENTER>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+The purpose of this program is to demonstrate how you can load a fully textured, animating 3D character and walk it around the screen. This program shows you how to position the camera, append animation data, position, rotate and animate your 3D objects. The program also contains code that shows you how to use and calculate variables responsible for positioning and moving your objects in 3D space.<br>
+<br>
+This tutorial program can be loaded directly into the editor by clicking
+<a href="tutorial\programs\sample10\sample10.dba">SAMPLE10.DBA</a>.<br>
+<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Courier">
+rem Position camera off center<br>
+POSITION CAMERA 0.0,0.0,-1000.0<br>
+rem Load 3D object and append walking data to it<br>
+LOAD OBJECT "idle.x",1 : APPEND OBJECT "walk.x",1,100<br>
+YROTATE OBJECT 1,180 : FIX OBJECT PIVOT 1<br>
+<br>
+rem Loop 3D object animation from 0 to 20 (idle)<br>
+LOOP OBJECT 1,0,20 : SET OBJECT SPEED 1,10<br>
+<br>
+rem Activate manual syncronization<br>
+SYNC ON<br>
+<br>
+rem Begin loop<br>
+DO<br>
+<br>
+rem Modify character angle based on left/right keys<br>
+stage=0<br>
+IF LEFTKEY()=1 THEN a#=a#-8.0<br>
+IF RIGHTKEY()=1 THEN a#=a#+8.0<br>
+a#=wrapvalue(a#)<br>
+<br>
+rem Modify character position based on up/down keys<br>
+IF UPKEY()=1 THEN x#=NEWXVALUE(x#,a#,3) : z#=NEWZVALUE(z#,a#,3) : stage=1<br>
+IF DOWNKEY()=1 THEN x#=NEWXVALUE(x#,a#,-3) : z#=NEWZVALUE(z#,a#,-3) : stage=1<br>
+<br>
+rem If character action changes<br>
+IF stage<>oldstage<br>
+	IF stage=0<br>
+		SET OBJECT FRAME 1,0.0<br>
+		LOOP OBJECT 1,0,20<br>
+		SET OBJECT SPEED 1,10<br>
+	ENDIF<br>
+	IF stage=1<br>
+		SET OBJECT FRAME 1,105.0<br>
+		LOOP OBJECT 1,105,125<br>
+		SET OBJECT SPEED 1,40<br>
+	ENDIF<br>
+	oldstage=stage<br>
+ENDIF<br>
+<br>
+rem Update character position and angle<br>
+POSITION OBJECT 1,x#,0.0,z#<br>
+YROTATE OBJECT 1,a#<br>
+<br>
+rem Refresh screen<br>
+SYNC<br>
+<br>
+rem End loop<br>
+LOOP<br>
+</FONT>
+<FONT COLOR="WHITE" SIZE="4" FACE="Verdana">
+<br>
+You will have noticed how useful the REM statements have become since tutorial six. Documenting a program not only explains what your code does, but allows you to break up your program into meaningful tasks. In addition to the information provided by the commentary, Dark Basic offers you the ability to request information on the command itself. Simply go to the editor that lists your program, click on a command you would like to know more about and then hit F1. This feature is called context sensitive help and you will be taken directly to a help page that fully describes the command and explains how to use it. Additionally, each help page has its own example program and references to the glossary or other related commands.<br>
+<br>
+Final Step : Things for you to do<br>
+<br>
+1. Change the program to make the character walk faster<br>
+2. Change the program to create a landscape for the character to walk on<br>
+3. Change the program to make the camera always point to the character<br>
+<br>
+If you have completed all ten tutorials, by successfully making the changes listed in the Final Step segment at the end of each tutorial, you have done extremely well. Don't worry if you haven't understood all the tutorial samples. It takes time to completely grasp the fundamentals, especially in the early stages of learning. If this is the case, it is advised that you return to the last tutorial you were comfortable with and adapt it by making your own changes. When you are practiced at making changes to that tutorial, you should be able to proceed to the next one with some confidence.<br> 
+<br>
+You can return to the main tutorial menu by selecting <a href="tstart.htm">MAIN TUTORIAL MENU</a>.<br>
+<br>
+</FONT>
+</BODY>
+</HTML>

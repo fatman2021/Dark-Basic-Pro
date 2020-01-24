@@ -1,0 +1,39 @@
+Rem * Title  : Load and Play AVI
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC AVI ANIMATION EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program will load and play a AVI file
+rem ------------------------------------------
+
+rem Specify your AVI filename and an animation number
+load animation "avi\demo1.avi",1
+
+rem Place your AVI near the top left corner of the screen
+place animation 1,50,50,310,170
+ 
+rem Will play your AVI animation
+play animation 1
+
+rem Wait a while
+sleep 100
+
+rem Pause AVI
+pause animation 1
+
+rem Will wait for you to press any key
+suspend for key
+
+rem Resume AVI
+resume animation 1
+
+rem Wait some more
+sleep 2000
+
+rem Delete the animation
+delete animation 1
+
+rem End the program
+end
+

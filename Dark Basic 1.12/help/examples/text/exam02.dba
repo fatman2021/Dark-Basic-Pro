@@ -1,0 +1,43 @@
+Rem * Title  : Text Command Usage
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ===================================================
+rem This program will show how to use the text command 
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+message$="PUT YOUR MESSAGE HERE"
+
+rem Print 100 strings on screen
+for t=1 to 100
+
+	rem Were across screen text will be printed
+	AcrossScreen=rnd(640)
+
+	rem Were down screen text will be printed
+	DownScreen=rnd(480)
+	
+	rem Print text
+	text AcrossScreen,DownScreen,message$
+
+next t
+
+ink 1000,1
+center text 320,240,"PRESS SPACEBAR"
+suspend for key
+
+rem Clear the screen
+cls 
+
+rem To print numbers with your text use the str$() command
+text 320,240,"My number is "+str$(42)+" don't you know.."
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

@@ -1,0 +1,26 @@
+Rem * Title  : Load a 3D Sound
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ================================================
+rem DARK BASIC EXAMPLE PROGRAM 7
+rem ================================================
+rem This program will load and play a 3d wav sound  
+rem ------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a wav sound file into number one
+load 3dsound "sound.wav",1
+
+rem This will position the sound behind you and to the right
+position sound 1,100,0,-100
+
+rem Play sound number
+play sound 1
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

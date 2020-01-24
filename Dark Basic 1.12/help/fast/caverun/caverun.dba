@@ -1,0 +1,130 @@
+Rem * Title  : Cave Runner
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ----------------
+rem Cave Runner Demo
+rem ----------------
+rem Author: DBS-LB99
+hide mouse
+
+rem Load bitmaps
+load bitmap "tiles.bmp",1
+get image 1,0,0,256,256
+delete bitmap 1
+
+rem Load sound
+load sound "hum.wav",1
+load sound "explode.wav",2
+loop sound 1
+
+rem Load music track
+load music "caverun.mid",1
+loop music 1
+
+rem Activate manual sync
+sync on
+
+rem Make landscape and ceiling matrix
+make matrix 1,2000,5000,10,25
+prepare matrix texture 1,1,2,2
+make matrix 2,2000,5000,10,25
+prepare matrix texture 2,1,2,2
+fill matrix 2,0,2
+randomize matrix 2,350.0
+for t=0 to 25
+	set matrix height 2,0,t,-100
+	set matrix height 2,10,t,-100
+next t
+update matrix 2
+
+rem Bagin game loop
+do
+
+rem Set seed for same random numbers
+randomize 1
+
+rem Clear cave floor
+fill matrix 1,0,1
+
+rem Set lighting, fog and setupset ambient light 20
+color backdrop 0
+if fog available()=1 then fog on : fog color 0 : fog distance 3000
+
+rem Reset speed
+x=0
+z=0
+speed#=0.0
+
+rem Begin main loop
+repeat
+
+rem Record old variables
+oldx=x
+oldgy#=gy#
+
+rem Control key movements
+if upkey()=1 then speed#=speed#+1.0 else speed#=speed#-1.0
+if leftkey()=1 then rz#=rz#+1.0
+if rightkey()=1 then rz#=rz#-1.0
+
+rem Control variables
+if speed#<0.0 then speed#=0.0
+if speed#<10.0 then speed#=speed#+1.1
+if speed#>40.0 then speed#=40.0
+rz#=rz#/1.1
+x=x-(2*rz#)
+
+rem Scroll landscape
+z=z+speed#
+if z>200
+	z=z-200
+	if rnd(3)=0
+		mp=mp-1
+		mp=mp+rnd(3)
+		if mp<1 then mp=1
+		if mp>4 then mp=4
+	endif
+	for t=0 to 0 : set matrix height 1,t,24,450 : set matrix tile 1,t,24,2 : next t
+	for t=1 to mp : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,2 : next t
+	for t=mp+1 to mp+1 : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,3 : next t
+	for t=mp+2 to mp+3 : set matrix height 1,t,24,rnd(20) : set matrix tile 1,t,24,1 : next t
+	for t=mp+4 to mp+4 : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,4 : next t
+	for t=mp+5 to 9 : set matrix height 1,t,24,rnd(200) : set matrix tile 1,t,24,2 : next t
+	for t=10 to 10 : set matrix height 1,t,24,450 : next t
+	update matrix 1
+	shift matrix up 1
+	shift matrix up 2
+endif
+
+rem Position matrix	
+position matrix 1,0,0,2500-z
+position matrix 2,0,100,2500-z
+
+rem Position camera
+gy#=curvevalue(50+get ground height(1,500+x,z),gy#,3)
+position camera 500+x,gy#,2500
+zrotate camera wrapvalue(rz#)
+
+rem Control sound frequency
+set sound speed 1,10000+(speed#*100)
+
+rem Update screen
+sync
+
+rem End main loop when collision with ceiling
+until get ground height(2,500+x,z)<gy#-75.0
+
+rem Return camera to point before collision
+position camera 500+oldx,oldgy#,2500
+
+rem Game Over
+play sound 2
+for c=0 to 255 step 20
+	cls rgb(c,0,0)
+	if fog available()=1 then fog distance (c*5) : fog color (c*256*256)
+	sync
+next c
+
+rem End game loop
+loop
+

@@ -1,0 +1,64 @@
+Media File Formats:
+
+Media files are used to provide external resources for your program and are stored in
+special file formats that represent the kind of media you wish to use:
+
+  X : 3D Object File - use LOAD OBJECT
+XOF : 3D Object File - use LOAD OBJECT
+3DS : 3D Object File - use LOAD OBJECT
+BMP : Bitmap File    - use LOAD BITMAP
+AVI : Animation File - use LOAD ANIMATION
+WAV : Sound File     - use LOAD SOUND
+MID : Music File     - use LOAD MUSIC
+ARR : Array File     - use LOAD ARRAY
+TXT : Array File     - use LOAD ARRAY
+
+Notes on conversion from other formats:
+
+X File Format
+-------------
+Dark Basic loads 3D Objects using this file format. Many 3D tools do not save out 3D
+object data using this 'DirectX file format'. You can use the DBConv.EXE tool that
+comes with Dark Basic to convert the more common 3DS files to X files. Dark Basic
+additionally supports direct loading of 3DS files if you are not concerned with the
+additional loading time and file sizes required during 3DS importing.
+
+BMP File Format
+---------------
+Dark Basic loads its bitmap graphics using this file format. One of the most common
+file formats for the PC, BMP files can be saved by all popular art packages and other
+graphic tools. The Paint program that came with Windows saves out images in the BMP
+format.
+
+AVI File Format
+---------------
+Dark Basic loads animation using this file format. Microsoft Video One codec is the
+default AVI format used by Windows. All animation and production tools export AVI
+animation files as standard and offer a good level of compression over quality.
+
+WAV File Format
+---------------
+Dark Basic loads its sound effects using this file format. There are very few commonly
+used sound formats, and WAV by far represents the most common variety. All sound 
+effects libraries and tools work with this file format, and is a very common media type.
+
+MID File Format
+---------------
+Dark Basic loads music using this file format. Though not the most popular format in
+recent years, it's compact and flexible. There are millions of MID music files available
+today from all over the internet and offers even kind of music imaginable.
+
+ARR File Format
+---------------
+Dark Basic allows the import of text and numerical data in the form of ARR format files.
+These files are directly loaded into arrays that have been created in a suitable format
+to load the files. Ideally, these files are created using the save array command that
+ensures the ability to snapshot the contents of an array and export it to a file.
+
+Additionally, text files can be recognised as ARR format files for the import of text
+data. You can use a utility such as Notepad to create your text files, and the data
+can be loaded into a Dark Basic array. Text data ideally requires a single dimension
+string array for loading. The text data will be seperated by lines into the array.
+
+Another use for ARR files is to record program data and save game positions with a
+single command, and restore them with a second command.

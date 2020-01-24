@@ -1,0 +1,64 @@
+Sync On 
+Sync Rate 30 
+
+hide mouse 
+
+Backdrop on 
+Set camera range 1,5000 
+
+Fog on 
+Fog distance 4000 
+Fog color RGB(128,128,128) 
+Color Backdrop RGB(128,128,128) 
+
+Rem make matrix 
+Make matrix 1,10000,10000,20,20 
+
+Rem texture matrix 
+Load image "grass09.bmp",1 
+Prepare matrix texture 1,1,1,1 
+Fill matrix 1,0,1 
+
+rem Randomize the matrix 
+randomize matrix 1,125 
+X#=5000 
+Z#=5000 
+Rem Main loop 
+Do 
+ OldCamAngleY# = CameraAngleY# 
+ OldCamAngleX# = CameraAngleX# 
+
+ CameraAngleY# = WrapValue(CameraAngleY#+MousemoveX()*0.2) 
+ CameraAngleX# = WrapValue(CameraAngleX#+MousemoveY()*0.2) 
+
+ Rem  Control input for camera 
+ If Upkey()=1 
+  XTest# = Newxvalue(X#,CameraAngleY#,10) 
+  ZTest# = Newzvalue(Z#,CameraAngleY#,10) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   X#=XTest# 
+   Z#=ZTest# 
+  Endif 
+ Endif 
+
+ If Downkey()=1 
+  XTest# = Newxvalue(X#,Wrapvalue(CameraAngleY#-180),10) 
+  ZTest# = Newzvalue(Z#,Wrapvalue(CameraAngleY#-180),10) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   X#=XTest# 
+   Z#=ZTest# 
+  Endif 
+ Endif 
+  
+
+ Yrotate camera CurveAngle(CameraAngleY#,OldCamAngleY#,24) 
+ Xrotate camera CurveAngle(CameraAngleX#,OldCamAngleX#,24) 
+  
+
+ Y# = Get ground height(1,X#,Z#) 
+ Position Camera X#,Y#+50,Z# 
+
+ Rem Refresh Screen 
+ Sync 
+Loop 
+

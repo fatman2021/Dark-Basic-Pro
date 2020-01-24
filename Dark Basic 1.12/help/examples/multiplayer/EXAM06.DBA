@@ -1,0 +1,105 @@
+Rem * Title  : Walkie Talker
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 06
+rem ===============================================
+rem This program handles a simple Walkie Talker
+rem -----------------------------------------------
+
+rem Make Net Game
+gosub _join_or_host
+
+rem Nice font
+set text font "arial"
+set text size 18
+set text opaque
+set text to bold
+
+rem Main game loop
+do
+	
+	rem Label text
+	cls rgb(128,128,192)
+	ink rgb(0,0,0),rgb(128,128,192)
+	center text 160,8,"MULTIPLAYER RADIO EXCHANGE"
+	center text 160,48,"..HOLD SPACEBAR to Record.."
+	center text 160,64,"..RELEASE SPACEBAR to Broadcast.."
+
+	rem Record Voice (microphone required)
+	if spacekey()=1 and voice=0
+		record sound 1,10
+		voice=1
+	endif
+	if spacekey()=0 and voice=1
+		stop recording sound
+		voice=2
+	endif
+
+	rem Status prompt
+	if voice=0 then center text 160,128,"STANDBY"
+	if voice=1 then center text 160,128,"TALK INTO MICROPHONE"
+	if voice=2 then center text 160,128,"SENDING COMM MESSAGE"
+	if voice=3 then center text 160,128,"NO NET GAME"
+
+	rem Only if net game in session
+	if net game exists()=0
+		if voice=2 then voice=3
+	else
+
+		rem Send sound to all net players
+		if voice=2
+			if sound exist(1)=1
+				send net message sound 0,1,1
+				delete sound 1
+				voice=0
+			endif
+		endif
+
+		rem Receive any sounds from other players
+		snd=2
+		repeat
+			if net message type()=7
+				net message sound snd : pn=net message player from()
+				if sound exist(snd)=1 then play sound snd
+			endif
+			get net message
+		until net message exists()=0
+	endif
+
+	rem Ensure sounds are deleted when not playing
+	for snd=2 to 99
+		if sound exist(snd)=1
+			if sound playing(snd)=0
+				delete sound snd
+			endif
+		endif
+	next snd
+
+	rem Update screen
+	sync
+
+loop
+
+rem Join or Host Subroutine
+_join_or_host:
+
+	rem Set sync, display mode and an always active window
+	sync on : set display mode 320,240,16 : always active on
+	set window on : set window title "JOINER"
+
+	rem Join First, Else Host (for best results run as EXECUTABLES)
+	center text 160,100,"...ATTEMPTING TO JOIN..."
+	center text 160,120,"[IN DB...HIT ESCAPE TO BYPASS WARNING]" : sync : sync
+	join net game 1,"Bill"
+	if net game exists()=0
+		cls 0 : center text 160,110,"...HOSTING NEW NET GAME..." : sync : sync
+		create net game "mygamename","Fred",4,0
+		set window position 330,23 : set window title "HOST"
+		iam$="host"
+	else
+		iam$="joiner"
+	endif
+
+return
+

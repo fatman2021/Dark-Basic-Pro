@@ -1,0 +1,65 @@
+rem ========================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ========================================
+rem This program will set the current bitmap 
+rem ----------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink 0,1
+
+rem This will load some bitmap into memory
+load bitmap "pics\bitmap0.bmp"
+load bitmap "pics\bitmap1.bmp",1
+
+rem Becase this program will copy one bitmap to another
+rem we nead a copy of bitmap 0
+load bitmap "pics\bitmap0.bmp",11
+
+bitmapnumber=0
+
+rem This command will allow you to draw on any bitmap		
+rem but you can only see a bitmap if it is bitmap 0 
+set current bitmap 0
+
+print "PLEASE PRESS THE LEFT MOUSE BUTTON"
+
+rem Loop forever
+do
+
+rem Check for left mouse button 
+if mouseclick()=1
+	bitmapnumber=bitmapnumber+1
+	if bitmapnumber>1
+		bitmapnumber=0
+	endif
+	if bitmapnumber>0
+
+		rem Clear the screen first
+		cls 0
+
+		rem Copy bitmap to screen bitmap
+		copy bitmap bitmapnumber,0
+
+		print "PLEASE PRESS THE LEFT MOUSE BUTTON"
+
+	else
+
+		rem Clear the screen first
+		cls 0
+
+		rem Copy bitmap to screen bitmap 
+		copy bitmap 11,0
+
+		print "PLEASE PRESS THE LEFT MOUSE BUTTON"
+
+	endif
+
+	rem Wait for left mouse button to be release
+	repeat
+	until mouseclick()=0
+
+endif
+
+rem End of loop
+loop
+

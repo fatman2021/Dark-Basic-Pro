@@ -1,0 +1,112 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 2. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>4.
+Shooting Bullets</font></font></font>
+<p><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To explain how to shoot a bullet in first person perspective</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This tutorial explains how
+to create a weapon and shoot a bullet in first person perspective. As in
+the previous tutorial we are adding to the previous code. We will only
+discuss the new changes to the code to implement the weapon and bullet.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+Make Gun</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+object cylinder 1,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>XRotate
+Object 1,90</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Fix
+object pivot 1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Scale
+object 1,100,100,500</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>position
+object 1,0,-7,15</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Lock
+object on 1</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code, placed
+before the main loop, creates a cylinder object and rotates it so it's
+perpendicular to the default camera view. We use the "Fix Object Pivot"
+command to make this the default orientation of the object. This means
+the object, in its current rotation, has all of its angle rotations set
+to 0 without changing the orientation of the object. This command is used
+commonly when loading models that are out of orientation. If you load a
+model of a character and it's laying on its face in its default orientation
+you can rotate the character model so it's standing. You fix the object's
+pivot to make the standing position the default orientation. After aligning
+the object with the camera, we use the "Scale Object" command to scale
+the object in the Z direction. This creates a long gun barrel object. The
+first parameter in this command is the object we wish to scale. The last
+three parameters in the command are the X, Y and Z directions we wish to
+scale the object. We set the X and Y scale to 100 which doesn't scale the
+object in those directions since the value represents a percentage. We
+set the Z scale to 500, scaling the object 500 percent or 5 times it's
+original length. Next, we position the object. By default our camera
+is set at a position of (0,0,0) with an rotation of (0,0,0). We position
+the cylinder, -7 units below the camera and 15 units units in front of
+the camera. This creates the resemblance of a gun barrel.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+Make bullet</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Make
+Object Sphere 2,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Hide
+Object 2</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This code creates a small
+sphere shaped object to be used as a projectile. We use the "Hide Object"
+command to hide the object. The reason we do this here is, we don't want
+the projectile to be seen until we shoot it.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Mouseclick()=1 and BulletLife=0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Position object 2,X#,Y#+43,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Set object to camera orientation 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+BulletLife =25</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+show object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code is where
+we receive input from the mouse button Next, the bullet is initialized
+to be shot from our gun. We use the "MouseClick()" command to determine
+if the mouse button has been pressed. This command will return the number
+of the mouse button that is pressed; 1 for left, 2 for right, 0 for no
+button pressed. The "if" comparison also checks to see if the bullet is
+already being shot&nbsp; by checking to see if the "BulletLife" variable
+is equal to 0. If these two tests are true the object bullet is positioned
+seven units below the camera. Next, the bullet object is oriented to the
+camera using the "Set Object To Camera Orientation" command. This command
+has one parameter, the number of the object we wish to align to the camera.
+Since our bullet is new, we set the "BulletLife" variable equal to 25.
+We allow our program to consider our bullet object for rendering, using
+the "Show Object" command.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If BulletLife > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Dec BulletLife</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Move object 2,20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+if BulletLife = 0 then Hide object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code is where
+the bullet is moved. If the variable "BulletLife" is greater than 0 we
+use the "Dec" command to decriment the "BulletLife" variable. This command
+decreases our variable by 1. We move the object in the direction it is
+facing, 20 world units. Next, we check the "BulletLife" variable to see
+if it equals 0. If it equals 0 our bullet is out of life and we again hide
+the projectile object.</font></font>
+<p><font face="Arial,Helvetica"><font size=+1>You should now be able to
+add projectile shooting to your game.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

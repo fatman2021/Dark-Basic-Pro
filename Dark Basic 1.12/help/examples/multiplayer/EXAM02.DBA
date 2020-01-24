@@ -1,0 +1,291 @@
+Rem * Title  : Basic Multiplayer
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 02
+rem ===============================================
+rem This program handles Basic Multiplayer
+rem -----------------------------------------------
+sync on : sync rate 0
+
+rem Hoster or Joiner (for best results run as EXECUTABLES)
+set window on
+always active on
+cls$=cl$()
+if len(cls$)>32 then cls$=""
+if cls$="" then cls$="host,mygamename"
+
+rem To test joiner in editor, remove the comment symbol here..
+rem cls$="Joiner"
+
+nameofmaker$=getbefore(cls$,",")
+gamename$=getafter(cls$,",")
+set window title gamename$+" : "+nameofmaker$
+
+rem Find all available Network Connections
+perform checklist for net connections
+print "CONNECTION SELECTION (";checklist quantity();")"
+for n=1 to checklist quantity()
+	print "[ ";n; " ]  ";checklist string$(n)
+next n
+print
+print "PLEASE SELECT A NUMBER >";
+gosub _pickinK
+print "OK!" : print
+sync : sync
+
+rem Select connection
+print "Making connection...";checklist string$(k)
+print : sync : sync
+if lower$(left$(checklist string$(k),3))="ipx"
+	print "IP: None"
+	set net connection k,""
+else
+	input "Enter IP>";ip$
+	print "IP: ";ip$
+	set net connection k,ip$
+endif
+print : sync : sync
+
+rem Find all available NetGame Sessions
+perform checklist for net sessions
+print "SESSION SELECTION (";checklist quantity();")"
+for n=1 to checklist quantity()
+	print "[ ";n; " ]  ";checklist string$(n)
+next n
+print
+if nameofmaker$="host"
+	session=0
+else
+	print "PLEASE SELECT A NUMBER >";
+	gosub _pickinK
+	print "OK!" : print
+	sync : sync
+	session=k
+endif
+
+if nameofmaker$="host"
+	rem Create a session
+	print "Creating game...Max 4 Players!" : sync : sync
+	create net game gamename$,nameofmaker$,4,1
+	if net game exists()=0
+		do : cls 0 : center text 320,240,"Could not create the session!!" : sync : loop
+	endif
+else
+	rem Check for a session..
+	if checklist quantity()=0
+		do : cls 0 : center text 320,240,"No Sessions" : sync : loop
+	else
+		rem Join a session
+		print "Joining game session ";session;"..." : sync : sync
+		join net game session,nameofmaker$
+		if net game exists()=0
+			do : cls 0 : center text 320,240,"Could not join the session!!" : sync : loop
+		endif
+	endif
+endif
+sync : sync
+sleep 1000
+cls 0
+
+rem Clear 
+dim playerstring$(256)
+for n=1 to 4 : playerstring$(n)="n/a" : next n
+
+rem Make a memblock
+make memblock 1,1024
+for t=0 to 1023 : write memblock byte 1,t,42 : next t
+
+rem Start main loop
+spacekeyflag=0
+do
+
+rem Switch
+if spacekey()=1
+	while spacekey()=1 : endwhile
+	spacekeyflag=1-spacekeyflag
+	cls 0
+endif
+if returnkey()=1
+	cls 0
+endif
+
+rem Clear screen
+set cursor 0,0
+if spacekeyflag=1
+ink 0,0 : box 0,0,639,100
+else
+ink 0,0 : box 0,0,639,349
+endif
+ink rgb(255,255,0),0
+print "SPACE - Detail Toggle   RETURN - Clear Screen" : print
+
+rem Host or Joiner
+if nameofmaker$="host"
+	print "HOST BROADCASTING (Producing ";count;")"
+else
+	print "JOINER WATCHING (Producing ";count;")"
+endif
+print
+
+rem Session Traffic
+if net game exists()=1
+
+	rem Receive Data via message loop
+	get net message
+	while net message exists()=1
+	
+		rem Obtain Message Details
+		ptype=net message type()
+		pnumberf=net message player from()
+		pnumbert=net message player to()
+	
+		rem Construct Display from message
+		pstring$=" F:"+str$(pnumberf)
+		pstring$=pstring$+"  T:"+str$(pnumbert)
+		pstring$=pstring$+"  ?:"+str$(ptype)
+		if ptype=1 then pstring$=pstring$+"  INTEGER:"+str$(net message integer())
+		if ptype=2 then pstring$=pstring$+"  FLOAT:"+str$(net message float())
+		if ptype=3 then pstring$=pstring$+"  STRING:"+net message string$()
+		if ptype=4
+			net message memblock 1
+			pstring$=pstring$+"  MEMBLOCK:"+str$(memblock byte(1,0))+str$(memblock byte(1,1023))
+		endif
+		playerstring$(pnumberf)=pstring$
+	
+		rem Chart The Data
+		if ptype=1 then puredata=net message integer()+(pnumberf*6400)
+		if pnumberf=1 then ink rgb(255,0,255),0
+		if pnumberf=2 then ink rgb(255,0,0),0
+		if pnumberf=3 then ink rgb(0,255,0),0
+		if pnumberf=4 then ink rgb(0,0,255),0
+		if pnumberf=5 then ink rgb(0,255,255),0
+		if pnumberf=6 then ink rgb(255,255,0),0
+		if pnumberf=7 then ink rgb(125,125,125),0
+		if pnumberf=8 then ink rgb(100,100,255),0
+		gosub _usepuredata
+
+		rem Events during session
+		if net game lost()=1
+			do : cls 0 : center text 320,240,"SESSION LOST!" : sync : loop
+		endif
+		`
+		plr=net player created()
+		if plr>0
+			cls 0
+			print "NEW PLAYER CREATED!  ";plr
+			sync : sync : sleep 1000
+		endif
+		plr=net player destroyed()
+		if plr>0
+			cls 0
+			print "EXISTING PLAYER DESTROYED!  ";plr
+			sync : sync : sleep 1000
+		endif
+		flag=net game now hosting()
+		if flag=1
+			cls 0
+			print "THIS APP NOW HOSTING!"
+			sync : sync : sleep 1000
+			nameofmaker$="host"
+			set window title nameofmaker$
+		endif
+	
+		rem Get next message (if any)
+		get net message
+	
+	rem End of message loop
+	endwhile
+	
+	rem Send Data
+	send net message integer 0,count
+
+	rem Chart Own Send Data
+	ink rgb(255,255,255),0 : puredata=count : gosub _usepuredata
+
+endif
+
+rem Show framerate in quickmode
+ink rgb(255,255,255),0
+if spacekeyflag=1
+	print "LASTDATA: ";puredata
+	print "FPS: ";screen fps()
+endif
+
+rem Show playernames in top right
+if spacekeyflag=0
+	set cursor 500,16+(0*20)
+	print "PLAYER NAMES"
+	perform checklist for net players
+	if checklist quantity()>0
+		for p=1 to checklist quantity()
+			set cursor 500,16+(p*20)
+			pnumberf=checklist value a(p)
+			if pnumberf=1 then ink rgb(255,0,255),0
+			if pnumberf=2 then ink rgb(255,0,0),0
+			if pnumberf=3 then ink rgb(0,255,0),0
+			if pnumberf=4 then ink rgb(0,0,255),0
+			if pnumberf=5 then ink rgb(0,255,255),0
+			print pnumberf;" ";checklist string$(p)
+		next p
+	endif
+endif
+
+rem Show player strings
+ink rgb(255,255,255),0
+if spacekeyflag=0
+	set cursor 0,48
+	for p=1 to 4
+		print p;" > ";playerstring$(p)
+	next p
+endif
+	
+rem Update screen
+inc count
+sync
+
+rem End loop
+loop
+
+rem Draw data
+_usepuredata:
+	xb=puredata/640
+	x=puredata-(xb*640)
+	dot x,420+(cos((360.0/640.0)*x)*50)-xb
+return
+
+rem Let user pick a key
+_pickinK:
+	while scancode()<>0 : endwhile
+	do
+		k=scancode()
+		if k>=2 and k<2+checklist quantity() then exit
+		sync
+	loop
+	k=k-1
+	while scancode()=0 : endwhile
+return
+
+rem Grab text before d$
+function getbefore(s$,d$)
+	t$=""
+	for n=1 to len(s$)
+		if mid$(s$,n)=d$ then exit
+		t$=t$+mid$(s$,n)
+	next n
+endfunction t$
+
+rem Grab text after d$
+function getafter(s$,d$)
+	t$="" : tt=0
+	for n=1 to len(s$)
+		if mid$(s$,n)=d$
+			tt=1
+		else
+			if tt=1
+				t$=t$+mid$(s$,n)
+			endif
+		endif
+	next n
+endfunction t$
+

@@ -1,0 +1,113 @@
+Sync On 
+Sync Rate 30 
+
+hide mouse 
+
+Backdrop on 
+Set camera range 1,5000 
+
+Fog on 
+Fog distance 4000 
+Fog color RGB(128,128,128) 
+Color Backdrop RGB(128,128,128) 
+
+Rem make matrix 
+Make matrix 1,10000,10000,20,20 
+
+Rem texture matrix 
+Load image "grass09.bmp",1 
+Prepare matrix texture 1,1,1,1 
+Fill matrix 1,0,1 
+
+rem Randomize the matrix 
+randomize matrix 1,125 
+X#=5000 
+Z#=5000 
+
+rem Make Gun 
+Make object cylinder 1,2 
+XRotate Object 1,90 
+Fix object pivot 1 
+Scale object 1,100,100,500 
+position object 1,0,-7,15 
+Lock object on 1 
+
+Rem Make bullet 
+Make Object Sphere 2,2 
+Hide Object 2 
+
+
+
+
+Rem Main loop 
+Do 
+ OldCamAngleY# = CameraAngleY# 
+ OldCamAngleX# = CameraAngleX# 
+
+ CameraAngleY# = WrapValue(CameraAngleY#+MousemoveX()*0.2) 
+ CameraAngleX# = WrapValue(CameraAngleX#+MousemoveY()*0.2) 
+
+ Rem  Control input for camera 
+ If Upkey()=1 
+  XTest# = Newxvalue(X#,CameraAngleY#,10) 
+  ZTest# = Newzvalue(Z#,CameraAngleY#,10) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   X#=XTest# 
+   Z#=ZTest# 
+  Endif 
+ Endif 
+
+ If Downkey()=1 
+  XTest# = Newxvalue(X#,Wrapvalue(CameraAngleY#-180),10) 
+  ZTest# = Newzvalue(Z#,Wrapvalue(CameraAngleY#-180),10) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   X#=XTest# 
+   Z#=ZTest# 
+  Endif 
+ Endif 
+  
+ If Leftkey()=1 
+  XTest# = Newxvalue(X#,Wrapvalue(CameraAngleY#-90),10) 
+  ZTest# = Newzvalue(Z#,Wrapvalue(CameraAngleY#-90),10) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   X#=XTest# 
+   Z#=ZTest# 
+  Endif 
+ Endif 
+
+ If Rightkey()=1 
+  XTest# = Newxvalue(X#,Wrapvalue(CameraAngleY#+90),10) 
+  ZTest# = Newzvalue(Z#,Wrapvalue(CameraAngleY#+90),10) 
+  If XTest#>0 and XTest#<10000 and ZTest#>0 and ZTest#<10000 
+   X#=XTest# 
+   Z#=ZTest# 
+  Endif 
+ Endif 
+  
+  if Mouseclick()=1 and BulletLife=0 
+    Position object 2,X#,Y#+43,Z# 
+    Set object to camera orientation 2 
+    BulletLife =25 
+    show object 2 
+ Endif 
+
+
+
+  If BulletLife > 0 
+     Dec BulletLife 
+     Move object 2,20 
+     if BulletLife = 0 then Hide object 2 
+  Endif 
+
+
+ Yrotate camera CurveAngle(CameraAngleY#,OldCamAngleY#,24) 
+ Xrotate camera CurveAngle(CameraAngleX#,OldCamAngleX#,24) 
+  
+
+ Y# = Get ground height(1,X#,Z#) 
+ Position Camera X#,Y#+50,Z# 
+
+ Rem Refresh Screen 
+ Sync 
+Loop 
+

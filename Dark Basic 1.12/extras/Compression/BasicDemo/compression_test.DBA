@@ -1,0 +1,100 @@
+Rem * Title  :  Memblock Compression Demo
+Rem * Author : Guy Savoie
+Rem * Date   : October 15, 2001
+rem MemBlock Compression Demonstation
+
+#include "memblockLZH.dba"
+
+set display mode 640,480,16
+hide mouse
+
+Print "DarkBASIC MemBlock Compression Demonstration"
+Print "[Press Any Key to Begin]"
+Print
+suspend for key
+
+rem Load the image into a bitmap, copy the bitmap into a memblock, and
+rem delete the bitmap.
+
+rem We could load the memblock directly, but it would still be an encoded
+rem JPG file... We want to demonstrate the compression on a large
+rem amount of data that is not already compressed.
+
+Print "Loading DB.JPG to Offscreen Bitmap #1..."
+load bitmap "db.jpg",1
+make memblock from bitmap 1,1
+delete bitmap 1
+Print "Copied Bitmap #1 to MemBlock #1: "+str$(get memblock Size(1))+" Bytes."
+Print "[Press Any Key to Begin Compression]"
+Print
+suspend for key
+
+rem Now Load the Compression DLL into memory
+
+Print "Initializing Compression DLL..."
+enable_block_compression
+
+Rem ...and Compress the MemBlock
+
+Print "Compressing MemBlock #1 into MemBlock #2..."
+sync
+result = compress_block(1,2)
+
+Rem If the result was -1, it was an error. Otherwise, it is the size,
+Rem in bytes, of the processed MemBlock.
+
+if result = -1 then goto error_end
+
+Print "Size of MemBlock #2: "+str$(get memblock Size(2))+" Bytes."
+Print "MemBlock #2 is "+Str$(Int((get Memblock Size(2)*100)/get Memblock Size(1)))+"% the size of MemBlock #1"
+Print "[Press Any Key to Continue]"
+suspend for key
+
+cls
+
+Rem Clean out MemBlock 1 --- No Cheating!
+
+delete memblock 1
+
+Rem Now we will decompress MemBlock 2, back into MemBlock 1
+Print "Now Expanding the Compressed Block..."
+print
+result = expand_block(2,1)
+
+Rem If the result was -1, it was an error. Otherwise, it is the size,
+Rem in bytes, of the processed MemBlock.
+
+if result = -1 then goto error_end
+
+Print "Size of MemBlock #1: "+str$(get memblock Size(1))+" Bytes."
+Print "[Press Any Key to Display Bitmap]"
+suspend for key
+
+cls
+
+rem copy it twice to eliminate flicker when the program ends
+make bitmap from memblock 0,1:sync
+make bitmap from memblock 0,1:sync
+
+goto the_end
+
+Rem If there was an error, let the user know - an error might be caused
+Rem by an empty MemBlock, the compression DLL not loaded, or trying to
+Rem decompress data that was not compressed by DBLZH.
+
+error_end:
+  Print
+  Print "There was an Error Encountered."
+  sync:sync
+
+the_end:
+
+Print "[Press Any Key to End]"
+sync:sync
+suspend for key
+
+Rem Now clean up after ourselves.
+
+disable_block_compression
+delete memblock 1
+delete memblock 2

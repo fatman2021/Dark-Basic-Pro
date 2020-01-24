@@ -1,0 +1,50 @@
+Rem * Title  : INC and DEC Commands
+Rem * Author : DBS-LB
+Rem * Date   : 1st January 2000
+rem =========================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem =========================================
+rem This program will use INC and DEC commands
+rem -----------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Set variables
+a=40
+a#=40.5
+
+rem Increment variables
+inc a
+inc a#
+
+rem Show variable values
+print a
+print a#
+
+rem Increment variables
+inc a,5
+inc a#,5.0
+
+rem Show variable values
+print a
+print a#
+
+rem Decrement variables
+dec a,5
+dec a#,5.0
+
+rem Show variable values
+print a
+print a#
+
+rem Increment variables
+dec a
+dec a#
+
+rem Show variable values
+print a
+print a#
+
+rem End the program
+end

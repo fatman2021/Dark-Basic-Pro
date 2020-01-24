@@ -1,0 +1,22 @@
+
+set text size 32
+set text font "Arial"
+find first
+while get file type()<>-1
+	if get file type()=0
+		file$=get file name$()
+		if lower$(right$(file$,3))<>"dba"
+			cls 0 : center text 320,20,"BMP DDS DIB JPG PCX PNG PSD RLE TGA TIF"
+			center text 320,200,upper$("About to load "+file$)
+			wait key : while scancode()<>0 : endwhile
+			load bitmap file$,1
+			if bitmap exist(1)
+				copy bitmap 1,0,0,bitmap width(1)-1,bitmap height(1)-1,0,0,0,639,479 : delete bitmap 1
+			else
+				print "Failed to Load!"
+			endif
+			wait key : while scancode()<>0 : endwhile
+		endif
+	endif
+	find next
+endwhile

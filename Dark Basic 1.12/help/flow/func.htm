@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">FUNCTION and ENDFUNCTION<BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+These commands will declare a user defined function within your program. User functions work in the same way normal commands work. They can accept multiple parameters and return values in the same manner, allowing you to create customized commands within your program.<br>
+<br>
+You will need to specify a name for your function, which must not be a reserved word and must not contain spaces or invalid characters. The parameter list for the function must then be specified within brackets. Do not leave a space between the function name and the brackets. Your parameter list can be left empty, or you can specify up to 255 parameter names inside the brackets. A parameter is declared by simply entering a name. If you require more than one parameter, make sure you use commas to separate them. You may enter commands for your function starting on the line following the declaration. You must declare the end of a function using the ENDFUNCTION command. If you wish your function to return a value, simply add the variable or value after the ENDFUNCTION command. You must leave a space between the endfunction command and the variable or value you wish to return.<br>
+<br>
+Any variables declared in the function are what are known as local variables. Local variables can only be recognized and used from within the function. Global variables on the other hand are variables declared outside of any function. Your function cannot recognize or use global variables. Your program cannot recognize or use local variables if you are running outside of the function in question. This allows you to re-use variable names within a function without fear of overwriting some other global variable elsewhere in your program, amongst other advantages. The same rules apply to arrays and parameters passed into the function. Parameters declared by the function can be used in the same way you would use any local variable, in order to bring information from the outside world.
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+FUNCTION Name(Parameter List)<BR>
+Commands Go Here<br>
+ENDFUNCTION Return Value<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="flow.htm">Basic Commands</a><br>
+<a href="glossary.htm">Glossary</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\flow\exam13.dba">FUNCTION Commands</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

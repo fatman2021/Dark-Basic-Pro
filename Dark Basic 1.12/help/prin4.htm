@@ -1,0 +1,238 @@
+<HTML><BODY BACKGROUND="webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="9" FACE="Verdana">DARK BASIC<br></FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">Common Statements<br></CENTER>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+ASSIGNMENT STATEMENTS<br>
+<br>
+You have already used an assignment statement, and is probably the most commonly used part of any programming language. The Equal Symbol (=) is used to assign a value to a variable or array.  Take the following examples:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+a=42<br>
+a#=99.9<br>
+a$="HELLO"<br>
+lottery(1,1)=49<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+<br>
+DATA AND READ STATEMENTS<br>
+<br>
+There are many occasions where you will be required to store data inside your program. Take our earlier lottery example. It would be much better to make a list of numbers at the end of the program simply add to the list as you get new lottery results. Using the DATA and READ commands you can do exactly that. Look at the following example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+DATA 9,"NINE",9.9<br>
+READ a,a$,a#<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The DATA command accepts a list of data items separated by a comma. The data items do not have to be of the same type, but they do need to be read in the right type order. As you can see our first item of data is an integer number of 9, then a string with the text "NINE" and a real number with a value of 9.9.<br>
+<br>
+The READ command also accepts a list, but the list must contain variables that are of the correct type to read the data. When an item of data is read, a pointer moves to the next item of data stored in the list. The first item of data is an integer, which means the value of 9 is stored in the integer variable of A successfully. The data pointer then moves to the next item that is the string that stored "NINE" text. This is read and stored in the string variable A$. The same applies to the real number data of 9.9.<br>
+<br>
+If you where to visualize the data list in memory it would look like this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+9<br>
+"NINE"<br>
+9.9<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+If you tried to read the integer value of 9 into a string variable, an empty string will be stored as the types are incompatible. If you tried to read a string into an integer or real variable, a zero will be stored. It is your responsibility to make sure the type order used to store you data is the same when you come to read it back.<br>
+<br>
+<br>
+RESTORE STATEMENTS<br>
+<br>
+You are able to reset the data pointer at any time using the RESTORE command. If for example you have read the data and printed it to the screen, you will need to read the same data again if the user wants to clear the screen and redraw the data. By resetting the data pointer the READ command will start at the top of the data list and you can read it again.<br>
+<br>
+You can also create more than one data list. If for example you required not only a data list of lottery numbers, you also required a list of lottery numbers on your lottery ticket then you will require two separate data lists.  You create the data as follows:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+lotterydata:<br>
+DATA 12,23,34,45,56,67<br>
+DATA 23,34,45,56,67,11<br>
+DATA 34,45,56,67,33,22<br>
+<br>
+ticketdata:<br>
+DATA 01,02,03,04,05,06<br>
+DATA 21,32,43,24,13,22<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+To print the first set of data to the screen, you would first point the data pointer to the first set of data. You do this by using the RESTORE command and specifying the label that precedes the data statements. A label statement is declared by adding a colon (:) as the last character of the label. You can point the data as follows:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+RESTORE lotterydata<br>
+READ a,b,c,d,e,f<br>
+PRINT "LOTTERY ",a,b,c,d,e,f<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Then when you wish to print out the first ticket number from the second data list, you simply use the second label that points to the ticket data:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+RESTORE ticketdata<br>
+READ a,b,c,d,e,f<br>
+PRINT "TICKET ",a,b,c,d,e,f<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+There are better ways to structure the reading of data from a data list, but these simple examples demonstrate how to access multiple lists of data. <br>
+<br>
+<br>
+BRANCH STATEMENTS<br>
+<br>
+Normally, a program executes statements in sequence starting at the top. A branch statement allows you to jump to another part of the program to continue execution. A GOSUB command will jump to a label and continue from its new location. When the program encounters a RETURN command, the program will jump back to the GOSUB from where it originally came. Take the following example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+PRINT "Hello"<br>
+GOSUB MySubroutine<br>
+END<br>
+<br>
+MySubroutine:<br>
+PRINT "World"<br>
+RETURN<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The program will print the "Hello" text to the screen, then jump to the MySubroutine line of the program and continue execution. The next command it finds will print "World" to the screen. The RETURN command then returns the program to the point it left, where it then proceeds onto the next command after the GOSUB command which in this case is the END command.<br>
+<br>
+A GOTO command, however does not remember from where it jumped and will continue running from its new location permanently. It is not recommended you use GOTO commands often, as there are better ways to control the flow of your programs. Here is an example, however, of a simple GOTO command:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+MyLabel:<br>
+PRINT "Hello World ";<br>
+GOTO MyLabel<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Or alternatively:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+DO<br>
+PRINT "Hello World ";<br>
+LOOP<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+You will agree the last example is a much better, cleaner and friendly way of doing the above and demonstrates how the use of GOTO can be eliminated. GOTO is retained in the DARK BASIC language for compatibility with older BASIC languages.<br>
+<br>
+<br>
+FOR NEXT Statements<br>
+<br>
+You may recall the user of the FOR NEXT statement in earlier examples. The FOR NEXT commands are used to create a finite loop in which a variable is incremented or decremented from a value to a value.  A simple example would be:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+FOR T=1 TO 5<br>
+PRINT T;" ";<br>
+NEXT T<br>
+PRINT "Done"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The output to the screen would read:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+1 2 3 4 5<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The program would set T to a value of 1 and then go to the next line to PRINT. After the print, the NEXT command would return the program to the FOR command and increment the value of T to make it 2. When the PRINT command is used again, the value of T has changed and a new value is printed. This continues until T has gone from 1 through to 5, then the loop ends and the program is permitted to continue. The next command after the NEXT statement prints "Done" to the screen slowing the program has left the loop.<br>
+<br>
+You can also next loops to create a loop within a loop, as the following example shows:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+FOR A=1 TO 5<br>
+ PRINT "MAIN A=";A<br>
+ FOR B=1 TO 10<br>
+  PRINT "LITTLE B=";B<br>
+ NEXT B<br>
+NEXT A<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The FOR NEXT statement loops the main A variable from 1 to 5, but for every loop of A the FOR NEXT statement inside the first loop must also loop its variable B from 1 to 10. This is known as a nested loop as the loop in the middle is nested inside an outer loop. <br>
+<br>
+Such loops are especially useful for working on array data by using the variables that increment as position indexes for the arrays. As an example, we could list all our lottery numbers using the following example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+FOR week=1 TO 52 STEP 4<br>
+ PRINT "LOTTERY NUMBER FOR WEEK ";week; " ARE ";<br>
+ FOR index=1 to 6<br>
+  PRINT lottery(week,index);" ";<br>
+ NEXT index<br>
+NEXT week<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Notice the new STEP command added to the end of the FOR NEXT statement. The STEP command is used to change the default increment value from 1 to another value. In this case, the program will only print the lottery numbers for every forth week.<br>
+<br>
+<br>
+IF THEN Statements<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+The IF statement allows your program to make decisions that controls the flow of your program. The IF statement requires an expression to evaluate that results in either true or false. If the expression is true, the commands following the THEN command will be executed. If the expression is false, the program will move onto the next statement and ignore the rest of the IF THEN statement.  Take the following example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+INPUT "Enter Your Age>",age<br>
+IF age>=16 THEN PRINT "You can buy a lottery ticket"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+When the user enters a value greater or equal to 16, the program will display its message. This program demonstrates a simple IF THEN Statement. To understand how this works we must look at the IF command in a little more detail. First, we must take the expression and evaluate it:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+age>=16<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+We can determine from our earlier coverage of operators, that this relational operator will result in either a zero or a one depending on whether age is greater or equal to 16. The IF command considers a value of zero to be false and all other values as true. So we can determine that if age is indeed greater or equal to 16 then the result will be 1, and the expression according to the IF command will be true.<br>
+<br>
+The expression can be any combination of values, variables, arrays and operators providing the expression makes sense. These expressions will make sense:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+IF A THEN PRINT "ok"<br>
+IF A = B THEN PRINT "ok"<br>
+IF A > (B - 5) THEN PRINT "ok"<br>
+IF A = (B + (A * 2)) THEN PRINT "ok"<br>
+IF A=1 AND B=2 THEN PRINT "ok"<br>
+IF NAME$="FRED" AND SURNAME$="BLOGGS" THEN PRINT "ok"<br>
+IF A#=1.5 OR LOTTERY(10,2)=20 THEN PRINT "ok"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+These expressions will not make sense:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+IF A = B = THEN PRINT "not ok"<br>
+IF > A = B THEN PRINT "not ok"<br>
+IF A B THEN PRINT "not ok"<br>
+IF AND A THEN PRINT "not ok"<br>
+IF B OR THEN PRINT "not ok"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+On occasions where one line is not enough after the THEN command, you can use the IF ENDIF statement. Using the same IF logic as above, instead of a THEN Command, simply provide your commands to executed on the lines following the IF command. You must then mark the end of the commands to be executed with an ENDIF command, as the following example shows:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+IF A = B<br>
+PRINT "Hello A and B!"<br>
+ENDIF<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+This is the same as:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+IF A = B THEN PRINT "Hello A and B!"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+But the main advantage is that the first piece of code can be adapted to do this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+IF A = B<br>
+PRINT "Hello A!"<br>
+PRINT "Hello B!"<br>
+PRINT "Hello A and B!"<br>
+PRINT "Hello B and A!"<br>
+PRINT "Hello Everything!"<br>
+ENDIF<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+You can also respond to an IF command if the expression turns out to be false. In cases where you wish to execute a different piece of code if the condition is false, the ELSE command should be used as follows:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+IF A = B<br>
+PRINT "The values are the same!<br>
+ELSE<br>
+PRINT "The values are different!"<br>
+ENDIF<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+It is important to make sure that you always use an ENDIF when THEN is not in use. You will note ENDIF is used whether or not the ELSE command is utilized.<br>
+<br>
+<br>
+PRINT Statements<br>
+<br>
+The PRINT command is capable of printing out more than a single value. The command allows you to specify a list of comma separated data. The data items can be of any type. Although the use of PRINT has been frequent in the above examples, there are some unique features you may not be aware of.<br>
+<br>
+When the PRINT command is used to print data to the screen, the print cursor that is used to paste the individual letters to the screen reset to the left of the screen and one line down when the print is complete. A string of PRINT commands will print to the screen one line at a time. You can change this by leaving the cursor at the end of the printed line after a PRINT command.  You achieve this by adding a semi-colon (;) at the end of the print data, for example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+PRINT "Hello ";<br>
+PRINT "World"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+In the same way, you can use this symbol to separate data in the same PRINT command, for example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+PRINT "My name is ";name$, " and I am ";age;" years old."<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+In addition to preventing the text cursor from resetting, you can also position the text cursor anywhere on the screen using the SET CURSOR command.  This example will randomly print text anywhere on the screen:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+DO<br>
+SET CURSOR RND(640),RND(480)<br>
+PRINT "TEXT"<br>
+LOOP<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+There are much more sophisticated text commands in DARK BASIC that handle fonts, colors, sizes and styles but you may discover these as you explore the rest of the help system.<br>
+<br>
+<br>
+INPUT Statements<br>
+<br>
+Though seldom used, the INPUT command is a very simple way of obtaining numeric and string input from the user. You can obtain a particular type of value simply by using a variable of that type, for example:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+INPUT a$<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Will accept a string input from the user. If they enter a number, it will be stored as a string in the variable A$. Your program can provide a prompt to make sense of the requested input, as follows:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+INPUT "What is your password? ",password$<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+This example prompts the user by printing the message to the screen and the user can enter the password. They will see their entry as they type it into the keyboard, and this entry will be stored in the string variable when they hit the return key. The same applies to integer and real variables.<br>
+<br>
+<br>
+END and BREAK Statements<br>
+<br>
+The END command will terminate the execution of a program. If you where running the program from the editor, you will be dropped into the Command Line Interface (CLI). By using the END command, the user will not be able to continue running the program after they have terminated. If you where running the program as a standalone executable, the user will be returned to Windows.<br>
+<br>
+If the BREAK command was used in the program, execution will merely be suspended, and not terminated. BREAK commands are used to temporarily break out of a program and into the CLI for debugging purposes. You are able to continue running the program after a BREAK command has occurred.<br>
+<br>
+Click here to go to the <a href="prin5.htm">Next Section</A>.<br>
+</FONT></BODY></HTML>

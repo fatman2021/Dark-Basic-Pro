@@ -1,0 +1,38 @@
+Rem * Title  : Matrix Manipulation
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 2
+rem ==========================================
+rem This program will manipulate a matrix
+rem ------------------------------------------
+
+rem Make a matrix
+make matrix 1,10000.0,10000.0,25,25
+
+rem Wait a while
+sleep 1000
+
+rem Switch off wireframe
+set matrix wireframe off 1
+
+rem Randomize the matrix
+randomize matrix 1,50
+
+rem Wait a while
+sleep 1000
+
+rem Position the matrix
+position matrix 1,0,0,500
+
+rem Wait a while
+sleep 1000
+
+rem Switch on wireframe
+set matrix wireframe on 1
+
+rem Delete the matrix
+delete matrix 1
+
+rem End the program
+end

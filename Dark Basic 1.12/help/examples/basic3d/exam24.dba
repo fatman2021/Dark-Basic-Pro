@@ -1,0 +1,119 @@
+Rem * Title  : Box Collision
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 24
+rem ==========================================
+rem This program shows use of object rotated
+rem box collision and unrotated box collision
+rem ------------------------------------------
+autocam off : sync rate 60
+hide mouse : sync on
+
+rem Setup direction array
+dim arrayx(10)
+
+rem Create walls (and make them non-rotation collision boxes)
+make object box 1,50,500,100 : position object 1,-300,0,0
+make object box 2,50,500,100 : position object 2,300,0,0
+make object collision box 1,-25,-250,-50,25,250,50,0
+make object collision box 2,-25,-250,-50,25,250,50,0
+
+rem Create boxes for bouncing
+for t=0 to 9
+	y=t*10
+	make object box 100+t,160,20,20
+	position object 100+t,rnd(200)-100,(t*46)-200,0
+	yrotate object 100+t,90
+	arrayx(t)=rnd(1)
+next t
+
+rem Load model to bounce off
+load object "idle.x",200
+position object 200,0,500,0
+
+rem Main loop
+default$="4"
+do
+
+	rem Select different collision modes
+	inkeyk$=inkey$()
+	if default$<>"" then inkeyk$=default$ : default$=""
+	if inkeyk$>"0" and inkeyk$<"4" then set object collision to boxes 1
+	if inkeyk$>"0" and inkeyk$<"4" then set object collision to boxes 2
+	if inkeyk$>"3" and inkeyk$<"6" then make object collision box 1,-25,-250,-50,25,250,50,0
+	if inkeyk$>"3" and inkeyk$<"6" then make object collision box 2,-25,-250,-50,25,250,50,0
+	for t=0 to 9
+		if inkeyk$="1" then desc$=" 1 : SET OBJECT COLLISION TO SPHERES (OLD MODE)"
+		if inkeyk$="1" then set object collision to spheres 100+t
+		if inkeyk$="2" then desc$=" 2 : SET OBJECT COLLISION TO BOXES (OLD MODE)"
+		if inkeyk$="2" then set object collision to boxes 100+t
+		if inkeyk$="3" then desc$=" 3 : SET OBJECT COLLISION TO POLYGONS (OLD MODE)"
+		if inkeyk$="3" then set object collision to polygons 100+t
+		if inkeyk$="4" then desc$=" 4 : MAKE OBJECT COLLISION BOX With Rotated Boxes"
+		if inkeyk$="4" then make object collision box 100+t,-80,-10,-10,80,10,10,1
+		if inkeyk$="5" then desc$=" 5 : MAKE OBJECT COLLISION BOX Without Rotated Boxes"
+		if inkeyk$="5" then make object collision box 100+t,-80,-10,-10,80,10,10,0
+	next t
+
+	rem User prompt
+	center text 320,10,"SELECT KEYS 1 TO 5 TO VIEW DIFFERENT COLLISION MODES"
+	center text 320,440,desc$
+	center text 320,460,"SCREEN FRAME RATE : "+str$(screen fps())
+
+	rem Move boxes
+	for t=0 to 9
+
+		rem Use direction value to move a box
+		if arrayx(t)=0 then position object 100+t,object position x(100+t)+(1*(1+t)),object position y(100+t),object position z(100+t)
+		if arrayx(t)=1 then position object 100+t,object position x(100+t)-(1*(1+t)),object position y(100+t),object position z(100+t)
+
+		rem Check whether box is touching anything
+		colresult=object collision(100+t,0)
+		if colresult>0
+			if colresult=1
+				rem Box is touching left wall, set box direction to right
+				arrayx(t)=0
+			else
+				if colresult=2
+					rem Box is touching right wall, set box direction to left
+					arrayx(t)=1
+				else
+					rem Box is touching something else, toggle box direction
+					arrayx(t)=1-arrayx(t)
+				endif
+			endif
+		endif
+	next t
+
+	rem Rotate cubes to make collision interesting
+	for t=0 to 9
+		if arrayx(t)=0
+			yrotate object 100+t,wrapvalue(object angle y(100+t)+1)
+		else
+			yrotate object 100+t,wrapvalue(object angle y(100+t)-1)
+		endif
+	next t
+
+	rem Drop model into collision bounce zone
+	if object position y(200)>0
+		position object 200,0,object position y(200)-1,0
+		if object collision(200,0)>0
+			position object 200,0,object position y(200)+2,0
+		endif
+	endif
+	xrotate object 200,wrapvalue(object angle x(200)+1)
+	if object collision(200,0)>0
+		xrotate object 200,wrapvalue(object angle x(200)-2)
+	endif
+
+	rem Update camera based on mouse position
+	position camera mousex()-320,0,-500
+	point camera mousex()-320,0,0
+
+	rem Update screen
+	sync
+
+rem End loop
+loop
+

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">PREPARE MATRIX TEXTURE<BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+This command will select an image of tiled textures that the matrix will eventually use. Each grid square in the matrix can have a tile texture, located within the image. Individual tile textures can be obtained from the single image by slicing it into sections both across and down. The tile textures are then assigned a number starting in the top left corner of the sectioned image and working across, then down. To section an image into 4 smaller tile textures you would specify 2 across and 2 down.<BR><BR>
+Textures need to be of a particular size. The maximum image size you can use as a texture is 256x256. All images are ideally square and are divisible by 2. So texture sizes of 2x2, 4x4, 8x8, 16x16, 32x32, 64x64 and 128x128 are the standard dimensions to use. The parameters should be integer values.<br><br>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+PREPARE MATRIX TEXTURE Matrix Number, Image Value, Across, Down<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="matrix3d.htm">Matrix3D Commands</a><br>
+<a href="glossary.htm">Glossary</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\matrix3d\exam03.dba">Texturing A Matrix</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

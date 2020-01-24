@@ -1,0 +1,43 @@
+Rem * Title  : Simple DLL Calling
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem
+rem Simple DLL Calling
+rem
+set window on
+
+rem Load a DLL Library
+load dll "DarkDLLSDK.dll",1
+
+rem Make a very simple DLL CALL
+call dll 1,"?SimpleFunction@@YAXXZ"
+
+rem Check if DLL has been loaded..
+if dll exist(1)=1
+	
+	rem Make a call and return an integer value (default)
+	callname$="?FunctionReturnInteger@@YAKH@Z"
+	if dll call exist(1,callname$)=1
+		value=call dll(1,callname$,123)
+		print "This is the integer value: ";value : sync
+	endif
+	
+	rem Make a call and return a real value
+	callname$="?FunctionReturnFloat@@YAKM@Z"
+	if dll call exist(1,callname$)=1
+		value#=call dll(1,callname$,123.321)
+		print "This is the real value: ";value# : sync
+	endif
+	
+	rem Make a call and return a string value
+	callname$="?FunctionReturnString@@YAKPAD@Z"
+	if dll call exist(1,callname$)=1
+		value$=call dll(1,callname$,"My String")
+		print "This is the string value: ";value$ : sync
+	endif
+
+endif
+
+rem Free a DLL Library
+delete dll 1
+

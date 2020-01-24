@@ -1,0 +1,102 @@
+Rem * Title  : Using Sprites
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===================================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ===================================================
+rem This program will draw a sprite on screen 
+rem ---------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a bitmap on to the screen
+load bitmap "face.bmp"
+
+rem Load back ground to bitmap 1
+load bitmap "back.bmp",1
+
+rem When you load a bitmap that bitmap becomes the current bitmap
+rem where all drawing is done 
+
+rem Use this command to set drawing to the screen
+set current bitmap 0 
+
+rem Grab image 1 from bitmap
+get image 1,18,17,156,196
+
+rem Now we will make a sprite
+sprite 1,100,100,1
+
+rem Get sprite width and find the middle of it going across
+spritewidth=(sprite width(1)/2)
+
+rem Get sprite height and find the middle of it going down
+spriteheight=(sprite height(1)/2)
+
+rem Get other sprite data
+spriteexists=sprite exist(1)
+spritevert=sprite flipped(1)
+spritehori=sprite mirrored(1)
+
+rem New offset for sprite 1 
+offset sprite 1,spritewidth,spriteheight
+
+rem Copy background to screen
+copy bitmap 1,0
+
+rem The is were on screen sprite will appear
+acrossscreen=100
+downscreen=100
+
+rem This is were sprite will move to
+targetacross=100
+targetdown=100
+
+rem When you make a sprite the sprite is set so that it save the background
+rem and restore it when it has moved
+rem you can switch of this by using the command SET SPRITE
+
+rem The sprite will not save the background
+rem please remove the REM command before running
+REM set sprite 1,0,1 
+
+rem please replace the REM command before using the next set sprite command
+
+rem The background color grab with the image will not be transparent
+rem please remove the ` before running
+`set sprite 1,1,0 
+
+print "setting save background and transparent on a sprite"
+do
+	rem Have we pressed the left mouse button	
+	if mouseclick()=1
+		rem get were mouse is across the screen
+		targetacross=mousex()
+		rem get were mouse is down the screen	
+		targetdown=mousey()
+	endif
+
+	rem This next part home the sprite on the target x and target y position
+	if acrossscreen<targetacross:acrossscreen=acrossscreen+1:endif
+	if acrossscreen>targetacross:acrossscreen=acrossscreen-1:endif
+	if downscreen<targetdown:downscreen=downscreen+1:endif
+	if downscreen>targetdown:downscreen=downscreen-1:endif
+	
+	rem Draw the sprite at the new position
+	sprite 1,acrossscreen,downscreen,1
+
+loop
+
+rem Clear the screen
+cls 
+
+rem Remove the sprite from memory
+delete sprite 1
+
+rem Remove image 1 from memory
+delete image 1
+
+rem End the program
+end
+

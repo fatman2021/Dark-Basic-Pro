@@ -1,0 +1,72 @@
+Rem * Title  : Sound Data Access
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 05
+rem ===============================================
+rem This program handles Sound Data Access
+rem -----------------------------------------------
+
+rem Set sync for screen
+sync on : sync rate 0
+
+rem Load Sound
+load sound "behold.wav",1
+
+rem Make memblock from sound
+make memblock from sound 1,1
+
+rem Get header WAV Settings
+headersize=12
+bitspersample=memblock dword(1,0)
+soundfrequency=memblock dword(1,4)
+soundsamples=memblock dword(1,8)
+soundsize=get memblock size(1)-headersize
+
+rem Make brand new sound memblock
+make memblock 5,soundsize+headersize
+write memblock dword 5,0,bitspersample
+write memblock dword 5,4,soundfrequency
+write memblock dword 5,8,0
+
+rem Write original data backwards to new memblock
+for b=2 to soundsize-1 step 2
+
+	rem Write word for each sample
+	pos=soundsize-b
+	v=memblock word(1,headersize+pos)
+	write memblock word 5,headersize+b,v
+
+next b
+
+rem We can change the frequency before we create new sound
+soundfrequency=25000
+write memblock dword 5,4,soundfrequency
+
+rem Create sound from new memblock
+make sound from memblock 2,5
+
+rem Main loop
+print "Custom Sounds Created With Memblocks"
+print
+sync off
+do
+
+rem Prompt
+print "Normal: Forwards"
+
+rem Play sound on spacekey
+play sound 1
+while sound playing(1)=1 : endwhile
+
+rem Prompt
+print "Customised: Backwards"
+
+rem Play sound on spacekey
+play sound 2
+while sound playing(2)=1 : endwhile
+
+rem End Loop
+loop
+end
+

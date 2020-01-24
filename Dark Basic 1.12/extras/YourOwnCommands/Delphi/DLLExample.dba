@@ -1,0 +1,29 @@
+rem Set Window Mode and Load DLL
+set window on
+load dll "DelphiTemplate.dll",1
+
+rem This will load and save integer values through a DLL
+I = 2001
+Print "I = ";I
+sync
+I = call dll(1,"SendIntReturnInt",I)
+Print "Return Value = ";I
+Print
+
+rem This will load and save floating point values through a DLL
+N# = 2001.1
+Print "N = ";N#
+sync
+N# = call dll(1,"SendFloatReturnFloat",N#)
+Print "Return Value = ";N#
+Print
+
+rem This will load and save string values through a DLL
+s$ = "Testing"
+Print "S$ = ";S$
+sync
+S$ = call dll(1,"SendStringReturnString",s$)
+Print "Return Value = ";s$
+
+rem Delete DLL
+delete dll 1

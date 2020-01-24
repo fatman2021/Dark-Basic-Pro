@@ -1,0 +1,36 @@
+Rem * Title  : Checklist File View
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===========================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ===========================================
+rem This program is a checklist file viewer
+rem -------------------------------------------
+
+rem Clear the screen
+cls
+
+rem List files within checklist
+perform checklist for files
+print "Files in directory:"
+for t=1 to checklist quantity()
+print checklist string$(t)
+next t
+print
+print "Press Any Key"
+
+rem Wait for key press
+suspend for key
+
+rem Clear the screen
+cls
+
+rem List available drives within checklist
+perform checklist for drives
+print "Available drives:"
+for t=1 to checklist quantity()
+print checklist string$(t)
+next t
+
+rem End the program
+end

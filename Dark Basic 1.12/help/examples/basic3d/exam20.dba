@@ -1,0 +1,49 @@
+Rem * Title  : Screen Objects
+Rem * Author : DBS-LB
+Rem * Date   : 8th September 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 20
+rem ==========================================
+rem This program shows use of screen objects
+rem ------------------------------------------
+autocam off
+hide mouse
+sync on
+
+rem Make some objects
+make object cylinder 1,200
+scale object 1,10,100,10
+make object sphere 2,100
+color object 2,rgb(255,255,0)
+ghost object on 2
+position object 2,0,100,0
+
+rem Place camera
+position camera 0,0,-500
+
+rem Begin main loop
+do
+
+rem Very simple screen flare
+if object in screen(2)=1
+	sc=sc+10 : if sc>100 then sc=100
+else
+	sc=sc-10 : if sc<10 then sc=10
+endif
+scale object 2,sc,sc,sc
+
+rem Text prompt over object
+center text object screen x(2),object screen y(2)-64,"STREET LAMP"
+
+rem Move camera around
+if leftkey()=1 then turn camera left 1
+if rightkey()=1 then turn camera right 1
+if upkey()=1 then move camera 5
+if downkey()=1 then move camera -5
+
+rem Update screen
+sync
+
+rem End of loop
+loop
+

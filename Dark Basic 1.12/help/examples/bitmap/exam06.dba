@@ -1,0 +1,171 @@
+Rem * Title  : Bitmap Editing
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 6
+rem ==========================================
+rem This program will play about with a bitmap
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Load a picture
+load bitmap "pics\bitmap0.bmp",1
+
+rem This command will copy one bitmap to another	
+copy bitmap 1,0
+
+rem Draw on bitmap 0 only
+set current bitmap 0
+
+rem press 1 to fade this bitmap
+rem press 2 to blur this bitmap
+rem press 3 to flip this bitmap
+rem press 4 to mirror this bitmap
+rem press 5 to check if this bitmap has benn mirrored
+rem press 6 to check if the bitmap has been flipped
+rem press 7 to get info on this bitmap
+
+do
+
+	rem press key 1 to fade bitmap by 75 persent
+	if keystate(2)>0
+
+		rem this command will hide the mouse pointer
+		hide mouse
+		
+		rem clear screen
+		cls 0
+
+		rem copy bitmap 1 to bitmap 0
+		copy bitmap 1,0
+
+		print "fading bitmap"
+
+		rem fade a bitmap
+		fade bitmap 0,75
+
+		print "done"
+
+		rem this command will show the mouse pointer on screen
+		show mouse
+
+	endif
+
+	rem press key 2 will blur bitmap 
+	if keystate(3)>0
+
+		rem this command will hide the mouse pointer
+		hide mouse
+
+		rem clear screen
+		cls 0
+
+		rem copy bitmap 1 to bitmap 0
+		copy bitmap 1,0
+
+		print "blur bitmap"
+
+		rem thgis command will blur the bitmap 
+		blur bitmap 0,3
+
+		rem this command will show the mouse pointer on screen
+		show mouse
+
+		print "done"
+	endif
+
+	rem press key 3
+	if keystate(4)>0
+
+		rem this command will hide the mouse pointer
+		hide mouse
+
+		flip bitmap 0
+
+		rem this command will show the mouse pointer on screen
+		show mouse
+
+	endif
+
+	rem press key 4
+	if keystate(5)>0
+
+		rem this command will hide the mouse pointer
+		hide mouse
+
+		rem this command will mirror a bitmap
+		mirror bitmap 0
+
+		rem this command will show the mouse pointer on screen
+		show mouse
+
+	endif
+
+	rem press key 5
+	if keystate(6)>0
+
+		rem this command will hide the mouse pointer
+		hide mouse
+
+		rem this command will see if the bitmap has been mirror 
+
+		if bitmap mirrored(0)=1
+			print "This bitmap has been mirrored"
+		else
+			print "This bitmap has not mirrored"
+		endif
+
+		rem this command will show the mouse pointer on screen
+		show mouse
+
+	endif
+
+	rem press key 6
+	if keystate(7)>0
+
+		rem this command will hide the mouse pointer
+		hide mouse
+
+		rem this command will see if the bitmap has been mirror 
+
+		if bitmap flipped(0)=1
+			print "This bitmap has been flipped"
+		else
+			print "This bitmap has not flipped"
+		endif
+
+		rem this command will show the mouse pointer on screen
+		show mouse
+
+	endif
+
+	rem press key 7
+	if keystate(8)>0
+
+		rem this command will hide the mouse pointer
+		hide mouse
+
+		rem clear screen
+		cls 0
+
+		rem copy bitmap 1 to bitmap 0
+		copy bitmap 1,0
+
+		rem this command will see if the bitmap has been mirror 
+		print "CURRENT BITMAP ",current bitmap()
+		print "BITMAP WIDTH ",bitmap width()
+		print "BITMAP HEIGHT ",bitmap height()
+		print "BITMAP DEPTH ",bitmap depth() 
+		rem this command will show the mouse pointer on screen
+		show mouse
+
+	endif
+	
+loop
+
+rem End the program
+end
+
+

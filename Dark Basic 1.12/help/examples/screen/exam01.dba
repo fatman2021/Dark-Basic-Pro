@@ -1,0 +1,62 @@
+Rem * Title  : Display Mode Switching
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program will check for graphics modes
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+rem has the computer what graphic modes it has
+perform checklist for display modes
+
+print "THE CURRENT SCREEN TYPE IS ",screen type()
+print "THE CURRENT SCREEN WIDTH IS ",screen width()
+print "THE CURRENT SCREEN HEIGHT IS ",screen height()
+print "THE CURRENT SCREEN DEPTH IS ",screen depth()
+print "THE CURRENT SCREEN FRAME RATE IS ",screen fps()
+print 
+if check display mode(800,600,16) then print "800x600x16 exists!"
+
+for t=1 to checklist quantity()
+
+	rem Clear screen
+	cls 
+
+	width=checklist value a(t)
+	height=checklist value b(t)
+	depth=checklist value c(t)
+		
+	rem Set screen to new display mode
+	set display mode width,height,depth
+
+	print "YOUR SCREEN CAN BE ",width," WIDTH BY ",height," HEIGHT AND A "," DEPTH OF ",depth
+	print "PRESS LEFT MOUSE BUTTON"	
+	
+	repeat
+
+		rem Pick a random color
+		ink rgb(rnd(255),rnd(255),rnd(255)),1
+
+		rem Were across screen to draw box
+		x=rnd(640)
+
+		rem Were down screen to draw box
+		y=rnd(460)+20
+		
+		rem Draw box on screen
+		box x,y,x+40,y+40
+		
+	rem Wait for left mouse button to be pressed
+	until mouseclick()=1
+
+next t
+
+rem Delete from memory the checklist string$
+empty checklist
+
+rem End the program
+end

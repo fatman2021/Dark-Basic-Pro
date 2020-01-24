@@ -1,0 +1,73 @@
+
+
+     Rem Setup sync 
+      Sync On 
+      Sync Rate 30 
+
+     Rem Load Textures 
+      Load image "cottag02.bmp",1 
+      Load image "barry.bmp",2 
+  
+
+     Rem Make Cubes and place randomly 
+      For x = 1 to 5 
+          Make object cube x,100 
+          Position object x,Rnd(2000),0,Rnd(2000) 
+          Set object collision to boxes x 
+          Texture object x,1 
+      Next x 
+
+     Rem Make sphere 
+      Make object sphere 10,50 
+      Position object 10,-100,0,-100 
+      Set object collision to spheres 10 
+      Texture object 10,2 
+
+     Rem Main loop 
+      Do 
+        Rem  Store Object angle Y in aY# 
+         aY# = Object angle Y(10) 
+
+        Rem  Control input for camera 
+         If Upkey()=1 then Move object 10,10 
+
+         If Leftkey()=1 
+             Yrotate object 10,Wrapvalue(aY#-5) 
+         Endif 
+
+         If Rightkey()=1 
+            Yrotate object 10,Wrapvalue(aY#+5) 
+         Endif 
+
+        Rem Detect collision 
+         If Object collision(10,0)>0 
+            Position object 10,X#,0,Z# 
+         Endif 
+
+        Rem get player object position and store in X# and Z# 
+         X# = Object position x(10) 
+         Z# = Object position z(10) 
+
+        Rem get new camera position and store in cZ# and cX# 
+         cZ# = Newzvalue(Z#,aY#-180,100) 
+         cX# = Newxvalue(X#,aY#-180,100) 
+
+        Rem position camera 
+         Position Camera cX#,75,cZ# 
+
+        Rem point the camera at the player object 
+         Point camera X#,25,Z# 
+
+        Rem Scroll textures on cubes 
+         Scroll object texture 1,0.005,0 
+         Scroll object texture 2,0,0.005 
+
+        Rem Scale textures on cubes 
+         Scale object texture 3,0.998,0.998 
+         Scale object texture 4,1.001,1.001 
+
+        Rem Refresh Screen 
+         Sync 
+
+      Loop 
+

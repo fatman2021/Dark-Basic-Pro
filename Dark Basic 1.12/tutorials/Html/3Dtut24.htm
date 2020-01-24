@@ -1,0 +1,261 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>13.
+Decoration Collision</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to spice up the 3D screen by adding decorative objects.</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>In this tutorial we will
+create a number of columns to be added to the landscape. We will also show
+a creative way of calculating collision on these columns using a math collision
+technique.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+create decorative objects</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>load
+image "cottag02.bmp",300</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>t=300</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>For
+x = 1 to 9</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;For
+z = 1 to 9</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Make object cube t,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Scale object t,100,600,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+y = get ground height(1,x*1000,z*1000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+position object t,x*1000,y+275,z*1000</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+texture object t,300</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+scale object texture t,1,-6</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+inc t</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;next
+z</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>next
+x</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code is added
+before our main loop and after the matrix is created. We load an image
+to texture our columns. We set the variable "t" to a value of 300. This
+is the number of our first column object. We use a nested loop to create
+and place each of our column objects. We don't want a column placed on
+the edges of the matrix, so rather than running our loops from 0 to 10
+we run them from 1 to 9. Our "x" loop is used to place our column objects
+across the matrix. The "z" loop is used to place our columns up and down
+the matrix. Inside the "z" loop we create a cube object using the "t" variable.
+We scale the cube object by 600 in the Y direction, to make a tall column.
+Next, we get the ground height of the matrix at our new X and Z position.
+Notice, to get our X and Z position we multiply our loop variables by 1000.
+This will place the columns at regular intervals on the matrix. Next, we
+position our object in the 3D world. We add 275 to our Y value. This is
+almost halfway up the object. Since the origin of our object is in the
+middle of the object this raises the origin above the Y position. We didn't
+raise it the full 300 units because we wanted the object to look as if
+it were stuck in the ground. We texture the object with our decorative
+texture. We scale the texture to fit the scaling we performed on the object.
+We used a&nbsp; negative 6 instead of a positive 6 to scale the texture
+on the object. We did this to invert the texture. As the texture was normally placed on the object it was upside down. This is a little trick you can
+use to flip the texture over. We next increment the "t" variable to begin
+creating our next decorative object.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Rem
+check for collision with wall decorations</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Function
+DecoCollide(X#,Y#,Z#)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;for
+u = 1 to 9</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+for v = 1 to 9</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if X#>u*1000-60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+if X#&lt;u*1000+60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+if Z#>v*1000-60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if Z#&lt;v*1000+60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if Y# &lt; Get ground height(1,u*1000,v*1000)+575</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Collide=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Exitfunction Collide</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+next v</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;next
+u</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Collide=0</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Endfunction
+Collide</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Functions are a very important
+part of programming. They can be used to create many useful and re-usable
+sets of code. You define a function after your main loop using the "Function"
+and "EndFunction" designations. After the "Function" key word you place
+the name of the function you wish to create and directly after that you
+place an opening and closing parenthesis. Inside the parenthesis you place
+the variables you wish to pass to the function to be used by the code inside
+the function. You end the function with an "EndFunction" key word. If you
+want the function to return a value you place the variable that holds the
+value behind the "EndFunction" Keyword. If you look in the middle of the
+function you will see the command "ExitFunction with the "Collide" variable
+after. If at some point in your function you wish to end the function without
+completing all the code inside of the function, you can use "ExitFunction"
+to exit the function and return a value from the function.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Function
+DecoCollide(X#,Y#,Z#)</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Notice, the "X#", "Y#" and
+"Z#" variables in the function. These are not the same variables you use
+for the player position. Even though these variables are written the same
+way, they are only relevant when the function is running. This is called
+the scope of the variable. Any variables used elsewhere in your program
+cannot be accessed from inside a function. Any variables created inside
+of a function are destroyed when the function exits. The only values a
+function can use are the values passed to it through the values designated
+in the parenthesis of the function declaration. Think about the "Object
+Angle Y(10)" command this is a function that is hard coded into DarkBASIC.
+The parameter is 10 and it returns the Y angle of object 10. If you find
+you are using the same code over and over then it is probably a good candidate
+for a function. In this example we will be using the "DecoCollide()" function
+to check for collision using player, monster and projectile position against
+all of the decoration columns. To do this we pass the X, Y and Z values
+of the objects position to check for collision with each of the columns.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+for u = 1 to 9</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+for v = 1 to 9</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+if X#>u*1000-60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+if X#&lt;u*1000+60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+if Z#>v*1000-60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if Z#&lt;v*1000+60</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if Y# &lt; Get ground height(1,u*1000,v*1000)+575</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Collide=1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Exitfunction Collide</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+next v</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;next
+u</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Collide=0</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>These two nested loops are
+similar to the loops we used to create the columns. Our columns are 100x100
+units and 600 units tall with 25 units of the column stuck in the ground.
+Since our columns are placed every 1000 units on our matrix we use the
+loops to iterate through each of the positions. We use nested If statements
+to check the X# and Z# values against each of the columns. We add and subtract
+60 units from our loop values multiplied by 1000. We are actually checking
+10 units more than the length and width of the columns. This keeps the
+player and monster from being stuck in the absolute wall of the column.
+The first column checked is at location 1000 if our player is at location
+(1059,50,10059) this is at the far corner of the column. We check to see
+if the X position is greater than 940. Yes it is. We continue through our
+nested "If" comparisons. Is the X position less than 1060? Yes it is. Is
+the players Z position greater than 940? Yes it is. Is the players Z position
+less than 1060? Yes it is. Is the players Y position less than the ground
+height of the column plus 575? Yes it is. We have a collision. Set the
+"Collide" variable equal to 1. There's no need to check the rest of the
+columns we found the answer we were looking for. Use the ExitFunction command
+to exit the function and return&nbsp; the value of collide. We know the
+player collided so we can stop the player from moving in the direction
+it is heading. If no collision was detected we would set Collide equal
+to 0 and end the function with "EndFunction" returning the value 0.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+collision detection</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;if
+DecoCollide(X#,Y#,Z#) = 1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+X#=oldX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Y#=oldY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Z#=oldZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code is found
+in the main loop in the key input section of the code. The player position
+values are passed to the function and if the function returns 1 then the
+player position is set to its original position before it was moved.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if DecoCollide(bX#,bY#,bZ#) = 1 then BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if DecoCollide(MbX#,MbY#,MbZ#) = 1 then MonsterBulletLife = 0</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>These two lines of code are
+found in the "ShootBullet" and "MonsterShootBullet" subroutines to check
+and, see if the bullets have hit one of the columns. If there is a collision
+the bullets lives are ended.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mX#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mZ#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+mY#= get ground height(1,mX#,mZ#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+If DecoCollide(mX#,mY#,mZ#) = 1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mX#=X#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mY#=Y#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mZ#=Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+X#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Z#=rnd(10000)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+Y#= get ground height(1,X#,Z#)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+If DecoCollide(X#,Y#,Z#) = 1</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+X#=mX#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Y#=mY#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
+Z#=mZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;&nbsp;
+endif</font></font></font>
+<br><font face="Arial,Helvetica"><font size=+1>These two sections of code
+are found in the "PlacePlayer" and "PlaceMonster" subroutines. The "DecoCollide'
+functions are used to see if the new positions are inside of a column position.
+If the function returns 1 the new monster or player position is set to
+the player or monster postion. This causes the loop to continue and generate
+a new random position until a position is generated that is not in any
+of the column locations.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

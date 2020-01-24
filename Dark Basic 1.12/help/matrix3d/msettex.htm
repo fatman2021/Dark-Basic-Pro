@@ -1,0 +1,33 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SET MATRIX TEXTURE<BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+This command will set different texture modes used by the specified matrix. Every texture is painted onto a matrix using an internal set of values called UV data. This data contains a range of real numbers from zero to one. Zero specifying the top/left corner of your texture and one being the bottom/right corner of your texture. When a matrix uses UV data greater and less than this range, you are permitted a number of texture wrap modes to describe what should happen to paint these areas. Setting the Texture Wrap Mode to zero will use the default wrap mode which repeat the pattern of the texture over and over, a mode of one will mirror the texture to create a seamless texture pattern and a mode of two will set clamping which retains the colour of the last pixel at the textures edge and paint with that throughout the out of range area. The Mipmap Generation Flag is used to generate mipmap textures where mipmap textures do not exist. A mipmap is a texture that has many levels of detail, which the matrix can select and use based on the matrix tiles distance from the camera. Setting this flag to one will generate a mipmap for the specified object. Use integer values to specify the parameters.<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+SET MATRIX TEXTURE Matrix Number, Texture Wrap Mode, Mipmap Generation Flag
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="matrix3d.htm">Matrix3D Commands</a><br>
+<a href="glossary.htm">Glossary</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\matrix3d\exam04.dba">Matrix Moulding</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

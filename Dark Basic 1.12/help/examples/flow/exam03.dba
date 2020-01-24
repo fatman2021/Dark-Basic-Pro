@@ -1,0 +1,83 @@
+Rem * Title  : DO LOOP Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 3
+rem ===========================================================
+rem This program will show you how to use LOOP commands
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem the first loop we will look at is the DO LOOP
+rem this loop will loop for ever or until an EXIT command is used
+
+variable=0
+
+do
+
+	rem clear the screen
+	cls 
+
+	print "press the left mouse button to quit"
+	print "we have loop ",variable," times using a DO LOOP"
+		
+	rem add one to variable
+	variable=variable+1
+
+	rem if you press left mouse button then exit from this loop
+	if mouseclick()=1:exit:endif
+
+loop 
+
+rem wait here till you release the mouse button
+repeat:until mouseclick()=0
+
+rem the second type of loop is the REPEAT UNTIL 
+rem the loop will end when variable = number
+rem or a EXIT command is used
+
+variable=0
+targetnumber=1000
+
+repeat
+
+	rem clear the screen
+	cls 
+
+	print "press the left mouse button to quit"
+	print "we have loop ",variable," times using a REPEAT UNTIL loop"
+
+	rem add one to variable
+	variable=variable+1
+
+	rem if you press left mouse button then exit from this loop
+	if mouseclick()=1:exit:endif
+
+until variable=numbertarget
+
+rem wait here till you release the mouse button
+repeat:until mouseclick()=0
+
+rem the third type of loop is the WHILE WEND
+	
+variable=0
+while variable<1000
+
+	rem clear the screen
+	cls 
+
+	print "press the left mouse button to quit"
+	print "we have loop ",variable," times using a WHILE ENDWHILE loop"
+
+	rem add one to variable
+	variable=variable+1
+
+	rem if you press left mouse button then exit from this loop
+	if mouseclick()=1:exit:endif
+
+endwhile
+
+rem End the program
+end

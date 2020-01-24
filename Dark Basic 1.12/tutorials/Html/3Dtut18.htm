@@ -1,0 +1,183 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>3Dtut1</title>
+</head>
+<body text="#FFFFFF" link="#FFFF00" vlink="#00FF00" background="dbback.gif" BGPROPERTIES="FIXED">
+<font face="Arial,Helvetica"><font color="#FFFF00"><font size=+3>3D
+Tutorials: 3. The Game</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+2>7.
+A Simple particle effect</font></font></font>
+<br><font face="Arial,Helvetica"><font color="#FFFF00"><font size=+1>Purpose:
+To show how to implement a simple particle effect.</font></font></font>
+<p><font size=+1>In this tutorial we
+will explain how to make a fiery smoke trail using a simple particle system.
+A particle system is loosely defined as a collection of volumetric points
+that follow a fixed set of rules for motion. The rules can affect position,
+speed, direction, color, rotation, age, shape, size, transparency and many
+other attributes that are used to simulate effects such as; smoke, fire,
+water falling or leaves growing on a tree. The uses of particle system
+are endless and provide a means of creating many realistic effects. For
+our volumetric points we will be using a plain object with a fire and smoke
+texture. The attributes we will use to generate the fiery smoke trail are
+position, size, transparency and rotation.</font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+load particles</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Load
+Image "fire.bmp",2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>For
+x&nbsp; = 0 to 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Make
+object plain x+10,5,5</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Texture
+object x+10,2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Set
+object x+10,1,0,0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Ghost
+object on x+10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Next
+x</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>rem
+intialize particle counter</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>Pn=10</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>This section of code is placed
+near the top of the program where we initialize all of our object and sounds.
+We are loading the texture for the particles and generating ten plain objects
+to simulate the smoke trail. The "Set Object" command is used to set special
+attributes of an object. The seven special attributes you can set or unset
+for an object are wireframe, transparency, cull, filter, light, fog and
+ambient. Here we will only be using the wireframe, transparency and cull
+attributes. The first parameter after the command is the object number
+we wish to affect. The second parameter is the wireframe attribute. We
+set this flag to 1 so the object is displayed with filled polygons instead
+of wireframe. This is the default setting for most 3D objects. The third
+parameter is the transparency flag. We set this attribute to 0 to allow
+transparency to be shown. Transparency in this context means that any color
+on the bitmap we use to texture the object that is black, will not be shown.
+The fourth parameter is the cull flag. This parameter is set to 0 to allow
+both sides of a polygon to be rendered in your 3D world. Normally only one
+side of the polygon is rendered in the 3D world. In most cases there is
+no reason to render both sides, since we are using a plain object which
+has no volume, we must do this to allow the viewer to see the polygon from
+all directions. The next new command is the "Ghost Object" command. This
+command is used to make the object transparent in the same way you would
+imagine a ghost would appear. With this command you can turn ghosting on
+or off. By default all object ghosting is off. This command uses one parameter,
+the number of the object you wish to ghost. We are also initializing the
+variable "Pn" so it's equal to the number of the first particle we created.
+The "Pn" variable will be used to keep an index of which particle needs
+to be affected next.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+If BulletLife > 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Dec BulletLife</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Move object 2,10</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bX#=Object position X(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bY#=Object position Y(2)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+bZ#=Object position Z(2)</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Rem The particle system</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+inc Pn</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Pn=20 then Pn=10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Scale object Pn,100,100,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position object Pn,bX#,bY#,bZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+point object Pn,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Zrotate object Pn,rnd(180)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+for x = 1 to 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+scale object int((Wrapvalue((Pn-9+x)*36))/36)+10,100+x*25,100+x*25,100+x*25</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+set cursor 10,10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+print int((Wrapvalue((Pn+x)*36))/36)+10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+next x</font></font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position sound 2,bX#,bY#,bZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+set cursor 10,10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Sqrt((mX# - bX#)^2 + (mY#+25 - bY#)^2 + (mZ# - bZ#)^2) &lt;20</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+print "hit hit hit hit hit hit hit hit"</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if BulletLife = 0</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+Hide object 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+stop sound 2</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+endif</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;Endif</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>Here we have added the simple
+particle system to our bullet life section of the game code.</font></font>
+<p><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;inc
+Pn</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+if Pn=210 then Pn=10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Scale object Pn,100,100,100</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Position object Pn,bX#,bY#,bZ#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+point object Pn,X#,Y#,Z#</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+Zrotate object Pn,rnd(180)</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+for x = 1 to 10</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;&nbsp;
+scale object int((Wrapvalue((Pn-9+x)*36))/36)+10,100+x*25,100+x*25,100+x*25</font></font></font>
+<br><font face="Courier New,Courier"><font color="#FFFF00"><font size=+1>&nbsp;
+next x</font></font></font>
+<p><font face="Arial,Helvetica"><font size=+1>When the bullet first begins
+its life we increment the "Pn" variable to move to the next particle object
+in the set. We then test the "Pn" variable to see if it has gone out of
+the bounds of the number of particles we have created, if so we set "Pn"
+equal to 10. We then reset the scale of the particle object to its original
+size and place it exactly where the bullet is located. Next, we point the
+particle object at the camera and rotate the object a random number of
+degrees. In the for-next loop we are using a little creative math to scale
+each particle to make it appear to expand as if the smoke were dissipating.
+The problem to solve, is to figure out which particle is at the front of
+the smoke trail and which particle is at the rear of the smoke trail. To
+do this we do a little trick with the "WrapValue" command. This command
+is normally used to keep angles within the bounds of 360 degrees. Since
+we are using 10 objects we subtract nine from the value of "Pn". The value
+of "Pn" will always range from 10 to 19 which accounts for 10 objects. We
+then add the value of the "x" variable and multiply that by 36. If the
+value of "Pn" is 5 and we are on our sixth iteration of the loop then
+the value in the "WrapValue" parameter is equal to 11 times 36 or 396.
+This value is clearly outside the bounds of 360 so wrapvalue makes the
+value equal to 36. We then divide 36 by 36 and get the value of 1 which
+is the next particle object number after the tenth object which would be
+the first particle.&nbsp;</font></font>
+<p><font size=+1> Essentially this trick loops the number from 1 to 10
+and back to 1 no matter what the starting value is. Part of programming
+is finding creative solutions to difficult problems. There are many ways
+to solve a problem and the simplest way is usually the best. This also
+demonstrates that you are not locked into a specific way of using the commands
+in DarkBASIC. Thinking out side of the box can yield many creative solutions.
+Each object is scaled by a factor in accordance to its position in the
+smoke trail as represented by the variable used in the for next loop. This
+gives an expanding smoke effect.</font>
+<br>&nbsp;
+</body>
+</html>

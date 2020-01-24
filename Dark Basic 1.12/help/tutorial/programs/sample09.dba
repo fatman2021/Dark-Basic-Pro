@@ -1,0 +1,44 @@
+Rem * Title  : Tutorial Sample 9
+Rem * Author : DBS-LB
+Rem * Date   : 1/8/99
+rem Load stone floor bitmap into image
+LOAD BITMAP "floor.bmp",1
+GET IMAGE 1,0,0,128,128
+DELETE BITMAP 1
+
+rem Activate manual syncronization and hide mouse
+SYNC ON : HIDE MOUSE
+
+rem Make a 3D landscape
+MAKE MATRIX 1,10000.0,10000.0,25,25
+
+rem Texture landscape
+PREPARE MATRIX TEXTURE 1,1,1,1
+
+rem Randomise landscape
+RANDOMIZE MATRIX 1,100.0
+
+rem Activate and distance fogging
+FOG ON
+FOG COLOR 0
+FOG DISTANCE 5000
+
+rem Begin loop
+DO
+
+rem Control camera turret
+IF LEFTKEY()=1 THEN angle#=angle#-3.0
+IF RIGHTKEY()=1 THEN angle#=angle#+3.0
+
+rem Ensure angle stays within range
+angle#=wrapvalue(angle#)
+
+rem Update camera
+YROTATE CAMERA angle#
+
+rem Refresh screen
+SYNC
+
+rem End loop
+LOOP
+

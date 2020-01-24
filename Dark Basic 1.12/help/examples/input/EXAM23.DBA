@@ -1,0 +1,21 @@
+Rem * Title  : Registry Access
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 23
+rem ===============================================
+rem This program handles Registry Access
+rem -----------------------------------------------
+
+rem Write a value to the registry
+write to registry "Software\MyApp","MyData1",42
+write to registry "Software\MyApp","MyData2",24
+
+rem Read a value from the registry
+value1=get registry("Software\MyApp","MyData1")
+value2=get registry("Software\MyApp","MyData2")
+
+rem Show the value
+print value2
+print value1
+

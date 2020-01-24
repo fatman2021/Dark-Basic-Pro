@@ -1,0 +1,23 @@
+Rem * Title  : Your First Model
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 1
+rem ==========================================
+rem This program loads your first model
+rem ------------------------------------------
+
+rem Load your object
+load object "walk.x",1
+
+rem Animate your object
+play object 1
+
+rem Press any key to continue
+suspend for key
+
+rem Delete your object
+delete object 1
+
+rem End the program
+end

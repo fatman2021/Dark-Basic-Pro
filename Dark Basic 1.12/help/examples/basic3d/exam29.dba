@@ -1,0 +1,74 @@
+Rem * Title  : Basic Mipmapping
+Rem * Author : DBS-LB
+Rem * Date   : June 2001
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 29
+rem ==========================================
+rem This program shows use of basic mipmapping
+rem ------------------------------------------
+hide mouse : sync on : sync rate 60
+
+rem Create a texture that will cause artifacts
+create bitmap 1,256,256
+cls 0 : ink rgb(255,255,0),0
+for y=0 to 255 step 16
+	for b=0 to 7
+		line 0,y+b,255,y+b
+	next b
+next y
+box 0,0,15,255 : box 240,0,255,255
+get image 1,0,0,255,255
+delete bitmap 1
+
+rem Make a floor tile (using reloaded mipmap converted image)
+make object plain 1,100,100 : xrotate object 1,90 : texture object 1,1
+scale object texture 1,2,2
+ 
+rem Make a static world from the tile object
+for x=-10 to 10
+	for z=0 to 20
+		position object 1,x*100,0,z*100
+		make static object 1
+	next z
+next x
+
+rem Delete object when finished
+delete object 1
+
+rem Make a cube and texture with same pattern
+make object cube 1,100 : texture object 1,1
+position object 1,0,50,200
+
+rem Make cube use wrap texture mode and generate a mipmap
+set object texture 1,0,1
+
+rem Place camera
+position camera 0,25,0
+point camera 0,25,100
+
+rem Main loop
+do
+
+	rem User prompt
+	center text 320,10,"SELECT KEYS 1 TO 3 FOR DIFFERENT MIPMAP MODES"
+	if inkey$()="1" then set mipmap mode 0 : desc$="NO MIPMAPPING"
+	if inkey$()="2" then set mipmap mode 1 : desc$="POINT MIPMAPPING"
+	if inkey$()="3" then set mipmap mode 2 : desc$="LINEAR MIPMAPPING"
+	center text 320,30,desc$
+
+	rem And texture modes
+	center text 320,50,"SELECT KEYS 4 TO 6 FOR DIFFERENT TEXTURE MODES"
+	if inkey$()="4" then set static objects texture 0 : desc2$="WRAP TEXTURE"
+	if inkey$()="5" then set static objects texture 1 : desc2$="MIRROR TEXTURE"
+	if inkey$()="6" then set static objects texture 2 : desc2$="CLAMP TEXTURE"
+	center text 320,70,desc2$
+
+	rem Move cube into distance
+	a#=wrapvalue(a#+1) : position object 1,0,50,1000+(cos(a#)*900)
+
+	rem Update screen
+	sync
+
+rem End loop
+loop
+

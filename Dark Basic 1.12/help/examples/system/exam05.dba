@@ -1,0 +1,71 @@
+Rem * Title  : T&L Control
+Rem * Author : DBS-LB
+Rem * Date   : 19th July 2000
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ==========================================
+rem This program will control hardware T&L
+rem ------------------------------------------
+draw to back : sync rate 0 : sync on
+backdrop off
+
+rem Check for T&L availability
+if tnl available()=0 then print "Your system does not support HW T&L" : end
+
+rem Trial run (techie: touch memory before test)
+gosub _spin_cube
+
+rem Disable T&L
+disable tnl
+
+rem Test speed now
+hide mouse
+gosub _spin_cube
+avfr2=avfr#
+
+rem Enable T&L
+enable tnl
+
+rem Test speed
+hide mouse
+gosub _spin_cube
+avfr1=avfr#
+
+rem Report
+cls 0
+print "T&L Enabled...";avfr1
+print "T&L Disabled...";avfr2
+
+rem End program
+end
+
+_spin_cube:
+
+rem Make cube
+make object cube 1,100
+
+rem Simple spinning cube loop
+avfr#=0
+for t=1 to 2000
+
+	rem Print framerate
+	fr=screen fps()
+	cls 0 : print fr
+	inc avfr#,fr
+
+	rem Rotate cube
+	yrotate object 1,wrapvalue(t)
+
+	rem Update screen
+	sync
+
+next t
+
+rem Delete cube
+delete object 1
+
+rem Work out average
+avfr#=avfr#/2000
+
+return
+

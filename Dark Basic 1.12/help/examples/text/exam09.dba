@@ -1,0 +1,152 @@
+Rem * Title  : Manipulating Strings
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 9
+rem ==========================================
+rem This program will use more string command
+rem ------------------------------------------
+	
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Pick a new font
+rem the new font will work with all text command but not the print command
+	
+rem This is the font i want to use
+set text font "times new roman"
+	
+rem Set the size of the new font  
+set text size 32
+
+rem *****************
+rem * command asc() *
+rem *****************
+print "THE COMMAND ASC() WILL RETURN THE FIRST LETTER IN THE STRING HELLO"
+print "THE ASCII NUMBER OF THE FIRST LETTER IN HELLO IS ",asc("HELLO")
+print
+print "TO GET ALL THE ASCII NUMBERS FROM THE STRING USE THESE COMMANDS"
+print 
+
+message$="HELLO"
+
+rem First get the number of letter in message$
+print "THE LETTER IS          ";
+for t= 1 to len(message$)
+	rem print the letter
+	print mid$(message$,t),"   ";
+next t
+print 
+print 
+
+rem First get the number of letter in message$
+print "THE NUMBERS ARE ";
+for t= 1 to len(message$)
+	rem print the numbers
+	print ASC(mid$(message$,t)),"  ";
+next t
+print 
+print 
+
+print "PRESS SPACEKEY"
+suspend for key
+cls 
+
+rem ******************
+rem * command bin$() *
+rem ******************
+print "THE BINARY REPRESENTATION OF THE NUMBER 1024 is "
+print bin$(255)
+print
+
+rem ******************
+rem * command HEX$() *
+rem ******************
+print "THE HEX REPRESENTATION OF THE NUMBER 255 is "
+print HEX$(255)
+print
+
+rem *****************
+rem * command val() *
+rem *****************
+print "TO TURN A STRING INTO A INTEGER NUMBER USE THE VAL() COMMAND"
+print "THE STRING 1024 WILL BE TURNED INTO A NUMBER ",val("1024")
+print
+
+rem ******************
+rem * command str$() *
+rem ******************
+print "TO TURN A NUMBER INTO A STRING USE THE STR$() COMMAND"
+print "THE NUMBER 1024 WILL BE TURNED INTO A STRING ",STR$(1024)
+print
+
+rem *****************
+rem * command len() *
+rem *****************
+print "TO COUNT THE LETTER IN A STRING USE THE LEN() COMMAND"
+print "THE STRING HELLO WILL RETURN 5 ",len(message$)
+print
+
+rem ******************
+rem * command chr$() *
+rem ******************
+print "THE COMMAND CHR$() WILL TURN A ASCII NUMBER INTO A ONE LETTER STRING"
+print "THE ASCII NUMBER 42 IS A STAR "
+print chr$(42)
+print 
+
+rem ******************
+rem * command lower$() *
+rem ******************
+print "THE COMMAND LOWER$() WILL RETURN A STRING AS LOWERCASE"
+print "THE STRING 'Hello WORLD' IS RETURNED AS "
+print lower$("Hello WORLD")
+print 
+
+rem ******************
+rem * command upper$() *
+rem ******************
+print "THE COMMAND UPPER$() WILL RETURN A STRING AS UPPERCASE"
+print "THE STRING 'Hello World' IS RETURNED AS "
+print upper$("Hello World")
+print 
+
+print "PRESS SPACEKEY"
+suspend for key
+cls 
+
+rem *******************
+rem * command left$() *
+rem *******************
+print "THE COMMAND LEFT$()"
+print "WILL RETURN FROM THE LEFT OF THE STRING"
+print "ALL THE LETTER UPTO NUMBER"
+print "THE STRING HELLO WORLD WOULD RETURN "
+print left$("HELLO WORLD",5)  
+print 
+
+rem ********************
+rem * command right$() *
+rem ********************
+print "THE COMMAND RIGHT$()"
+print "WILL RETURN FROM THE RIGHT OF THE STRING"
+print "ALL THE LETTER UPTO NUMBER"
+print "THE STRING HELLO WORLD WOULD RETURN "
+print right$("HELLO WORLD",5)  
+print 	
+
+rem ******************
+rem * command mid$() *
+rem ******************
+print "THE COMMAND MID$()"
+print "WILL RETURN FROM THE MIDDLE OF THE STRING"
+print "THE LETTER AT THE NUMBER POSITION SPECIFIED"
+print "THE STRING HELLO WORLD WOULD RETURN "
+print mid$("HELLO WORLD",7)  
+print 
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

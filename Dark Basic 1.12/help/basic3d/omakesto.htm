@@ -1,0 +1,38 @@
+<HTML>
+<BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">MAKE STATIC OBJECT<BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+This command will construct a static object from an existing 3D object and re-create it at the existing objects position. Static object cannot be moved or changed in anyway once created and are typically used to create large scenary constructions for your 3D worlds.<br>
+<br>
+Setting the optional Occlusion Mode value to one will specify the static object as one that can obscure other objects, thus removing them from the rendering list and increasing performance. Any static objects using this mode generates an invisible  rectangular bounding box. This has the advantage of speed, but the disadvantage of reduced accuracy. Be sure to keep objects you are using for occlusion as cube shaped as possible, otherwise you may notice objects being removed from view that are not entirely hidden by the static object. An occlusion mode value of three will hide the object doing the occluding. An occlusion mode value of four will hide the object and stretch the occlusion zone height to infinity.<br>
+<br>
+A Static object should be created from a specified object that contains no more than 2000 vertices, otherwise a slight performance hit could occur. A specified object will also loose its additional visual properties such as ghosting and transparency when added. The parameter(s) should be specified using an integer value.<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">SYNTAX <BR> 
+<FONT COLOR="White">
+<FONT SIZE="4">
+MAKE STATIC OBJECT Object Number<BR>
+MAKE STATIC OBJECT Object Number, Occlusion Mode<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">RELATED INFO<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="basic3d.htm">Basic3D Commands</a><br>
+<a href="glossary.htm">Glossary</a>
+<BR><BR>
+
+<FONT COLOR="Yellow">
+<FONT SIZE="6" FACE="Arial">EXAMPLE<BR>
+<FONT COLOR="White">
+<FONT SIZE="4">
+<a href="examples\basic3d\exam19.dba">Static Objects</a><br>
+<BR><BR>
+
+</FONT>
+</BODY>
+</HTML>

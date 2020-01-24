@@ -1,0 +1,35 @@
+Rem * Title  : Shell Execution
+Rem * Author : DBS-LB
+Rem * Date   : 1st April 2000
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 16
+rem ============================================
+rem This program handles the execution of a file
+rem --------------------------------------------
+
+rem Make small text file
+filename$="text.txt"
+if file exist(filename$)=1 then delete file filename$
+open to write 1,filename$
+write string 1,"My Text Document "+str$(rnd(100))+"."
+write string 1,"The End!"
+close file 1
+
+rem Execute shell (and wait here until EXE terminates)
+directory$=""
+commandline$=filename$
+execute file "C:\Windows\NOTEPAD.EXE",commandline$,directory$,1
+
+rem Execute shell (and carry on without waiting for termination)
+execute file "C:\Windows\NOTEPAD.EXE",commandline$,directory$
+
+rem End of program
+sync on
+while inkey$()=""
+cls
+print "Welcome back to DarkBASIC"
+print "Press Any Key"
+sync
+endwhile
+end
+

@@ -1,0 +1,106 @@
+Rem * Title  : Sequential File Access
+Rem * Author : DBS-LB
+Rem * Date   : 1st April 2000
+rem ============================================
+rem DARK BASIC EXAMPLE PROGRAM 14
+rem ============================================
+rem This program uses sequential file access
+rem --------------------------------------------
+dim lee$(10,10)
+
+rem 0 = Write Data
+rem 1 = Read Data
+for mode=0 to 1
+
+	rem Clear screen
+	cls rgb(rnd(100),rnd(100),rnd(100))
+
+	rem Delete file
+	if file exist("data.dat") then delete file "data.dat"
+	
+	rem Write or Read..
+	if mode=0
+	
+		rem Open file for writing
+		open to write 1,"data.dat"
+	
+		rem Write data types
+		write byte 1,1 : print 1
+		write word 1,2 : print 2
+		write long 1,3 : print 3
+		write file 1,4 : print 4
+		write float 1,5.5 : print 5.5
+	
+		rem Write matrix of strings
+		for x=1 to 10
+			for y=1 to 10
+				a$=str$(x)+str$(y)	
+				lee$(x,y)=a$
+				write string 1,a$
+			next y
+		next x
+	
+		rem Close file
+		close file 1
+	
+		rem Rename file
+		if file exist("store.dat")=0
+			rename file "data.dat","store.dat"
+		endif
+	
+	else
+	
+		rem Move file
+		move file "store.dat","data.dat"
+	
+		rem Open file for reading
+		open to read 1,"data.dat"
+	
+		rem Display data types
+		read byte 1,a : print a
+		read word 1,a : print a
+		read long 1,a : print a
+		read file 1,a : print a
+		read float 1,a# : print a#
+	
+		rem Read matrix of strings
+		for x=1 to 10
+			for y=1 to 10
+				read string 1,a$
+				lee$(x,y)=a$
+			next y
+		next x
+	
+		rem Close file
+		close file 1
+	
+		rem Move file back
+		move file "data.dat","store.dat"
+	
+	endif
+	
+	rem Display matrix of strings
+	print
+	for x=1 to 10
+		for y=1 to 10
+			print lee$(x,y);" ";
+		next y
+		print
+	next x
+	
+	rem Wait for key press
+	print
+	if mode=0 then print "Press Any Key To Read Data"
+	if mode=1 then print "Press Any Key To Exit"
+	suspend for key
+
+next mode
+
+rem Make an empty file if none exist
+if file exist("blank.txt")=0
+	make file "blank.txt"
+endif
+
+rem End of program
+end
+

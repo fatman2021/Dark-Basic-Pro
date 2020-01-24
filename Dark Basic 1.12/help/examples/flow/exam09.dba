@@ -1,0 +1,35 @@
+Rem * Title  : SYNC Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 9
+rem ===========================================================
+rem This program will show you how to use the sync command
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+	
+rem If you use the SYNC ON command 
+rem then you must use a SYNC to tell the computer to update the screen
+rem if you do not use sync then the computer will lock up
+
+rem Activate manual sync
+sync rate 30
+sync on
+
+do
+	
+	rem Print Some things to the screen
+	print "hello, ";
+	print "how are you, ";
+	print "nice day?"
+
+	rem Update screen
+	sync
+
+loop
+
+rem End of program
+end
+

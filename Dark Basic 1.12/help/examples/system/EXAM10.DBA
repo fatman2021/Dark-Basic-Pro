@@ -1,0 +1,37 @@
+Rem * Title  : Active Application
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 10
+rem ===============================================
+rem This program handles Always Active Apps
+rem -----------------------------------------------
+sync on : sync rate 0
+
+rem Make nice font
+set text font "Arial" : set text size 54 : s$="ALWAYS ACTIVE OFF"
+
+rem Normal applications will pause when minimised
+do
+
+rem Handle counter
+count=count+1
+
+rem Switch between states
+if spacekey()=1 then always active on : s$="ALWAYS ACTIVE ON"
+if returnkey()=1 then always active off : s$="ALWAYS ACTIVE OFF"
+
+rem User prompt
+cls 0
+print "ALT+TAB Minimises This Full Screen Application - Watch the value of the Numeric"
+print "Hit Space To Set Always Active ON - Applcation Runs Full Speed in Background"
+print "Hit Return To Set Always Active OFF - Application Runs at Idle Speed as Normal"
+center text 320,180,s$
+center text 320,240,str$(count)
+
+rem Update screen
+sync
+
+rem End loop
+loop
+

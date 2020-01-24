@@ -1,0 +1,30 @@
+Rem * Title  : Create a Bitmap
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 99
+rem ==========================================
+rem DARK BASIC EXAMPLE PROGRAM 5
+rem ==========================================
+rem This program will create a bitmap
+rem ------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem This command will make a new bitmap
+rem when you load or create a bitmap
+rem the bitmap will be set to the current bitmap for drawing on
+create bitmap 1,640,480
+
+rem Draw some random cricle on bitmap 1
+for t=0 to 200
+	circle rnd(640),rnd(480),rnd(100)
+next t
+
+rem This command will copy bitmap 1 to 0
+copy bitmap 1,0
+
+rem Will wait for you to press any key
+suspend for key
+
+rem End the program
+end

@@ -1,0 +1,152 @@
+<HTML><BODY BACKGROUND="webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED">
+<CENTER>
+<FONT COLOR="WHITE" SIZE="9" FACE="Verdana">DARK BASIC<br></FONT>
+<FONT COLOR="WHITE" SIZE="5" FACE="Verdana">Data Types, Variables and Arrays<br></CENTER>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+DATA TYPES<br>
+<br>
+We have established that statements are used to write a program. A statement can be broken up into a command and its data. The command is the operation, or task you wish to perform. The data is that which must be used by the command to complete the operation. The data is also referred to as the parameter(s).<br>
+<br>
+There are three types of data you can use. Integer numbers, real numbers and string. Each type of data holds a slightly different type of value.<br>
+<br>
+Integer Numbers<br>
+<br>
+An integer number can hold a whole number, but no fraction. For the value to be negative, you must place a hyphen symbol (-) before the value. You must not use commas as part of the number as this would generate a Syntax Error. Examples of integer numbers:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+42<br>
+10000<br>
+-233000<br>
+-100<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Real Numbers<br>
+<br>
+A real number can hold a whole number or a fractional number that uses a decimal point. For the value to be negative, you must place a hyphen symbol (-) before the value. Examples of real numbers:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+20.0005<br>
+99.9<br>
+-5000.12<br>
+-9999.9991<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Strings<br>
+<br>
+String data is non-numerical, and is used to store characters and words. All strings consist of characters enclosed within double quotation marks. The string data can include numbers and other numerical symbols but will be treated as text. Examples of strings are:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+"A"<br>
+"Hello World"<br>
+"Telephone"<br>
+"I am 99 years old"<br>
+"1.2.3.4.5.6.7.8.9"<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Each string can consist of up to 255 characters. You can also have a string with no data whatsoever, represented by an empty pair of double quotation marks.<br>
+<br>
+<br>
+VARIABLES<br>
+<br>
+The best way to demonstrate what a variable does is by way of an example. Take the calculation:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+A = 3 + 4<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+A variable is used to store a value. It's that simple. You can have a variable that stores any type of data, and you can have as many as you want.  The following program shows you how the contents of the variable can be output to the screen:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+A = 3 + 4<br>
+PRINT A<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Now take the next example to show you how variables can be used as freely as standard number types:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+A = 2<br>
+B = 8<br>
+C = A + B<br>
+PRINT C<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+In the preceding example, 3 is stored in the A variable, 4 is stored in the B variable and C is given the result of the calculation between A and B. The calculation is based on the values stored within the variables and so the calculation is actually C = 2 + 8. The result, which in this case is 10, is stored as the new value of C and this is the value that eventually gets printed to the screen.<br>
+<br>
+So far, we have seen variables used to store and recall integer values. Variables can also store real numbers and strings. In order to allow a variable to store these other types of data, you must make sure the variable is recognized as an integer, real or string variable. To name a real number variable, you must add a hash character (#) as the last character of the variable name. If you want your variable to store a string, you must add a dollar character ($) as the last character of the variable name.  Lets see these new variables used to store and recall real values:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+mydata#=42.5<br>
+PRINT mydata#<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+By adding the (#) symbol, we are instructing the program to treat the variable as a real number variable. Exactly the same rule applies to a string variable:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+myname$="Lee"<br>
+PRINT myname$<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+All variable names can use either upper or lower case characters, which means a variable called NAME$ is the same variable as name$ or Name$. String variables even support the use of limited maths. The following example adds two strings together and the result is a concatenation of the two strings:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+a$="Hello"<br>
+b$="World"<br>
+c$=a$+b$<br>
+print c$<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+To run this example, the text "HelloWorld" will be printed to the screen. Would you be able to alter this example to place a space between "Hello" and "World"?<br>
+<br>
+<br>
+ARRAYS<br>
+<br>
+Arrays are going to be a very important part of your future programs. They allow you to store large amounts of data under a single name. You can then access the data by index rather than by name alone.<br>
+<br>
+If you had to write a program that stored each weeks lottery numbers, typing out 52 unique variable names is a lot of work, hard to maintain and quite unnecessary. Arrays allow you to create a special kind of variable that can store more than one item of data. You might start your program like this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+lottery1$="43,76,12,34,12,11"<br>
+lottery2$="76,12,34,12,11,44"<br>
+lottery3$="12,34,12,02,05,07"<br>
+etc..<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Two hours later, you realize you could have written it like this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+DIM lottery$(52)<br>
+lottery$(1)="43,76,12,34,12,11"<br>
+lottery$(2)="76,12,34,12,11,44"<br>
+lottery$(3)="12,34,12,02,05,07"<br>
+etc..<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+We declare a string array using the DIM command followed by a name for our array. Like variables, when we use a dollar symbol after the name we instruct the program to use the array to store only strings. We then enclose in brackets how many items of data we wish the array to store. The array can be filled almost like a variable, but you must also provide the position within the array you wish to store your data.<br>
+<br>
+But you then ask yourself what benefits I would have gained using the second approach. If you where also required to print out all 52 lottery numbers to the screen with your first approach you would have to add another 52 statements that printed each variable:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+PRINT lottery1$<br>
+PRINT lottery2$<br>
+PRINT lottery3$<br>
+etc..<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+But if you had used an array, the same example would look like this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+PRINT lottery$(1)<br>
+PRINT lottery$(2)<br>
+PRINT lottery$(3)<br>
+etc..<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+You will have noticed that by using an array, you no longer have to refer to your data using a unique variable name. You can now point to the data you want using a position number. Accessing data this way has a thousand advantages over trying to access data by variable name alone, as you will discover. One example would be to improve the above like this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+FOR T=1 TO 52<br>
+PRINT lottery$(T)<br>
+NEXT T<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Incredibly the above code replaced 52 PRINT statements with just 3 statements. With the above example, T is incremented from 1 to 52 within a loop that prints out the contents of the array at that position.<br>
+<br>
+Arrays can also store multiple levels of data. At the moment our lottery entries are stored as strings and the numbers are hard to get at. Let's say we wanted to store all six numbers for every lottery week, we would create an array like this:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+DIM lottery(52,6)<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+Without the dollar symbol($), we are declaring the array to store integer numbers instead of strings.  You will also notice we have a second number separated by a comma. This means for every array position from 1 to 52, there is a sub-set numbered 1 to 6 in which multiple data can be stored. You can visualize an array as a filing cabinet with large draws numbered 1 to 52. Within each of the 52 draws is a tray with 6 boxes inside. You can store a value in each box. In all you can store 312 (52 x 6) values in this array. You can have up to five dimensions in your array, which means you can create an array as big as (1,2,3,4,5). Be careful when declaring dimensions as large arrays consume large amounts of memory and may reduce overall performance of your program.<br>
+<br>
+Entering data into our new array is elementary:<br>
+<br></FONT><FONT COLOR="YELLOW" SIZE="4" FACE="Courier">
+lottery(1,1)=43<br>
+lottery(1,2)=76<br>
+lottery(1,3)=12<br>
+lottery(1,4)=34<br>
+lottery(1,5)=12<br>
+lottery(1,6)=11<br>
+lottery(2,1)=43<br>
+lottery(2,2)=76<br>
+lottery(2,3)=12<br>
+lottery(2,4)=34<br>
+lottery(2,5)=12<br>
+lottery(2,6)=11<br>
+</FONT><FONT COLOR="WHITE" SIZE="4" FACE="Verdana"><br>
+You are now able to give your program access to much more useful data. Unlike the string approach, you could make your program count how many times a certain number has appeared.<br>
+<br>
+As you have determined, arrays need to be declared as a particular type. You can have an array of integer numbers, real numbers or strings. You cannot have multiple types in the same array, but you can declare new arrays dedicated to holding such data.<br>
+<br>
+Click here to go to the <a href="prin3.htm">Next Section</A>.<br>
+</FONT></BODY></HTML>

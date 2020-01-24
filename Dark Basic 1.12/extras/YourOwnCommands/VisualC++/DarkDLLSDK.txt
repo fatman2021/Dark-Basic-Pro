@@ -1,0 +1,13 @@
+'Quick View Pro' was used to extract this data from the DLL:
+
+Ordinal	Entry Point	Name
+0000	000010b1	?FunctionReturnFloat@@YAKM@Z
+0001	00001066	?FunctionReturnInteger@@YAKH@Z
+0002	00001101	?FunctionReturnString@@YAKPAD@Z
+0003	0000104d	?SimpleFunction@@YAXXZ
+
+The name part is the decorated names of the Functions the
+DarkDLLSDK.DLL File exports and which you can call within
+your DarkBASIC Program. You must also ensure you use the
+right number and type of parameters or the call will fail.
+

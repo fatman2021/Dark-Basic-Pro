@@ -1,0 +1,42 @@
+Rem * Title  : TIMER Commands
+Rem * Author : DBS-MB
+Rem * Date   : 1st August 1999
+rem ===========================================================
+rem DARK BASIC EXAMPLE PROGRAM 12
+rem ===========================================================
+rem This program will show you how to use the time commands
+rem -----------------------------------------------------------
+
+rem Set the ink to white and paper color to black 
+ink rgb(244,214,210),1
+
+rem Display the current date and time
+print "DATE:";get date$()
+print "TIME:";get time$()
+print
+
+rem Your can use the timer() command
+rem to see how long parts of your program is takeing
+
+rem Get time in milliseconds
+a=timer()
+	
+rem Call gosub mylabel
+gosub mylabel
+	
+rem How many millisecond gosub has taken
+b=(timer()-a)
+
+print "THIS GOSUB TOOK ",b," MILLISECONDS"
+	
+rem End of program
+end
+
+
+mylabel:
+
+for t=1 to 1000
+next t
+
+return
+

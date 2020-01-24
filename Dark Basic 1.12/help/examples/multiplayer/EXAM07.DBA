@@ -1,0 +1,120 @@
+Rem * Title  : Sending a Mesh
+Rem * Author : DBS-LB
+Rem * Date   : October 2001
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 07
+rem ===============================================
+rem This program handles sending a Mesh on the net
+rem -----------------------------------------------
+
+rem Load sound
+load sound "smash.wav",1
+
+rem Make Net Game
+gosub _join_or_host
+
+rem Nice font
+set text font "arial"
+set text size 18
+set text to bold
+
+rem All players have an object
+make object sphere 1,100
+point camera 0,20,0
+move camera -100
+make mesh from object 1,1
+make memblock from mesh 1,1
+set ambient light 5
+
+rem Main game loop
+do
+	
+	rem Label text
+	center text 160,8,"MULTIPLAYER MESH EXCHANGE"
+	if iam$="host"
+		center text 160,48,"..Use MOUSE BUTTONS to Dent Ball.."
+	else
+		center text 160,48,"..Watch Ball Get Dented By Host.."
+	endif
+
+	rem Detect mouse button and make a dent
+	if iam$="host"
+		if mouseclick()=1
+			if dentmake=0
+				make memblock from mesh 1,1
+				vmax=memblock dword(1,0)-1
+				vbytepos=memblock dword(1,4)
+				rndpos=vbytepos+(rnd(vmax)*12)
+				xpos#=memblock float(1,rndpos+0)
+				ypos#=memblock float(1,rndpos+4)
+				zpos#=memblock float(1,rndpos+8)
+				xpos#=((xpos#*1.0)*0.8)
+				ypos#=((ypos#*1.0)*0.8)
+				zpos#=((zpos#*1.0)*0.8)
+				write memblock float 1,rndpos+0,xpos#
+				write memblock float 1,rndpos+4,ypos#
+				write memblock float 1,rndpos+8,zpos#
+				make mesh from memblock 1,1
+				change mesh 1,0,1
+				dentmade=1
+				play sound 1
+				dentmake=5
+			endif
+		else
+			dentmake=0
+		endif
+		if dentmake>0 then dec dentmake
+	endif
+
+	rem Slowly rotate ball
+	yrotate object 1,wrapvalue(object angle y(1)+1)
+
+	rem Only if net game in session
+	if net game exists()=1
+
+		rem Host sends new mesh to players
+		if dentmade=1
+			send net message mesh 0,1,1
+			dentmade=0
+		endif
+
+		rem Receive new mesh from host
+		repeat
+			if net message type()=8
+				net message mesh 2 : pn=net message player from()
+				if mesh exist(2)=1
+					change mesh 1,0,2
+					play sound 1
+				endif
+			endif
+			get net message
+		until net message exists()=0
+	endif
+
+	rem Update screen
+	sync
+
+loop
+
+rem Join or Host Subroutine
+_join_or_host:
+
+	rem Set sync, display mode and an always active window
+	sync on : set display mode 320,240,16 : always active on
+	set window on : set window title "JOINER"
+
+	rem Join First, Else Host (for best results run as EXECUTABLES)
+	center text 160,100,"...ATTEMPTING TO JOIN..."
+	center text 160,120,"[IN DB...HIT ESCAPE TO BYPASS WARNING]" : sync : sync
+	join net game 1,"Bill"
+	if net game exists()=0
+		cls 0 : center text 160,110,"...HOSTING NEW NET GAME..." : sync : sync
+		create net game "mygamename","Fred",4,0
+		set window position 330,23 : set window title "HOST"
+		iam$="host"
+	else
+		iam$="joiner"
+	endif
+
+return
+

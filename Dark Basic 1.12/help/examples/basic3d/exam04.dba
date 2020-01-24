@@ -1,0 +1,159 @@
+Rem * Title  : Models From Scratch
+Rem * Author : DBS-LB
+Rem * Date   : 1st Sept 99
+rem ===============================================
+rem DARK BASIC EXAMPLE PROGRAM 4
+rem ===============================================
+rem This program makes new models from scratch
+rem -----------------------------------------------
+
+rem Load a mesh into memory
+load mesh "mesh.x",1
+
+rem Load image for use as texture
+load bitmap "floor1.bmp",1
+get image 1,0,0,128,128
+delete bitmap 1
+
+rem Make object from one mesh and one texture
+make object 1,1,1
+
+rem Delete mesh from memory
+delete mesh 1
+
+rem Scale object to make it much bigger
+scale object 1,10000,10000,10000
+
+rem Position object to one side
+position object 1,-250,0,0
+
+rem Make and position a sphere object
+make object sphere 2,75
+position object 2,-150,0,0
+
+rem Make and position a cube object
+make object cube 3,75
+position object 3,-50,0,0
+
+rem Replace cube with box and position a box object
+delete object 3
+make object box 3,75,75,75
+position object 3,-50,0,0
+
+rem Make and position a cylinder object
+make object cylinder 4,75
+position object 4,50,0,0
+
+rem Make and position a cone object
+make object cone 5,75
+position object 5,150,0,0
+
+rem Make and position a plain object
+make object plain 6,75,75
+position object 6,250,0,0
+
+rem Make and position a triangle object
+make object triangle 7,0,0,0,0,100,0,100,0,0
+position object 7,350,0,0
+
+rem Reposition camera to see them all
+position camera 0,200,-500
+
+rem Deactivate autobackdrop
+backdrop off
+
+rem Scroll through object data for each one
+for o=1 to 8
+
+rem Clear the screen
+cls
+
+rem Texture each object as view it
+if object exist(o)=1 then texture object o,1
+
+rem Print information about object
+print "Object Information"
+print "------------------"
+print
+print "Object Number:";o
+print
+if object exist(o)=1
+	print "total object frames = ";total object frames(o)
+	print "object position x = ";object position x(o)
+	print "object position y = ";object position y(o)
+	print "object position z = ";object position z(o)
+	print "object angle x = ";object angle x(o)
+	print "object angle y = ";object angle y(o)
+	print "object angle z = ";object angle z(o)
+	print "object visible = ";object visible(o)
+	print "object playing = ";object playing(o)
+	print "object looping = ";object looping(o)
+	print "object frame = ";object frame(o)
+	print "object speed = ";object speed(o)
+	print "object interpolation= ";object interpolation(o)
+else
+	print "object does not exist!"
+endif
+
+rem User prompt
+print
+print "Press any key"
+suspend for key
+
+Rem Complete next loop
+next o
+
+rem Delete all six objects
+for o=1 to 7 : delete object o : next o
+
+rem ** Putting it all together **
+backdrop on
+color backdrop rgb(255,0,0)
+
+rem Make rod mesh
+make object box 1,10,100,10
+make mesh from object 1,1
+delete object 1
+
+rem Make robot arm limbs
+make object cone 1,100
+add limb 1,1,1
+add limb 1,2,1
+add limb 1,3,1
+add limb 1,4,1
+add limb 1,5,1
+
+rem Place camera
+position camera 0,0,-500
+point camera 0,0,0
+
+rem Link all limbs based on a robotic arm
+offset limb 1,1,0,50,0
+link limb 1,2,1
+offset limb 1,2,0,50,0
+link limb 1,3,2
+offset limb 1,3,0,50,0
+link limb 1,4,3
+offset limb 1,4,0,50,0
+
+rem The last limb is a magnet block
+link limb 1,5,4
+scale limb 1,5,200,50,200
+offset limb 1,5,0,50,0
+
+rem Manual sync loop
+sync on
+do
+
+rem Use mouse position to affect limb rotations
+rotate limb 1,0,0,wrapvalue(220-(mousex()/8)),0
+rotate limb 1,1,wrapvalue(5+(mousey()/12)),0,0
+rotate limb 1,2,wrapvalue(5+(mousey()/12)),0,0
+rotate limb 1,3,wrapvalue(5+(mousey()/12)),0,0
+rotate limb 1,4,wrapvalue(5+(mousey()/12)),0,0
+
+rem Update screen
+sync
+
+rem End loop
+loop

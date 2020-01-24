@@ -1,0 +1,51 @@
+<HTML><BODY BACKGROUND="../webgfx/dbback.gif" TEXT="White" LINK="Yellow" VLINK="Lime" BGPROPERTIES="FIXED"><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">
+CHANGE MESH FROM MEMBLOCK
+
+<BR><FONT COLOR="White"><FONT SIZE="4">
+This command will change a mesh from a memblock. This command is similar to MAKE MESH FROM MEMBLOCK, and skips the mesh creation step to make this command faster. You must ensure the mesh uses the same data structure as the memblock or this command will produce undesirable results. The specified values must be integer values and the source resource must exist or the command will fail. The memblock stores the data as described below.<br>
+<br>
+Memblock-Mesh  (32 Byte Header)<br>
+-Header<br>
+--4 BYTES (DWORD) Number Of Vertices<br>
+--4 BYTES (DWORD) Offset in Bytes to Vertice Data<br>
+--4 BYTES (DWORD) Number Of Normals<br>
+--4 BYTES (DWORD) Offset in Bytes to Normals Data<br>
+--4 BYTES (DWORD) Number of Faces<br>
+--4 BYTES (DWORD) Offset in Bytes to Face Data<br>
+--4 BYTES (DWORD) Size Of All Face Data<br>
+--4 BYTES (DWORD) Offset in Bytes to Texture UV Data<br>
+-Data<br>
+--Vertice Data<br>
+---For Each Vertex<br>
+----4 BYTES (FLOAT) - X Position of 3D Geometry<br>
+----4 BYTES (FLOAT) - Y Position of 3D Geometry<br>
+----4 BYTES (FLOAT) - Z Position of 3D Geometry<br>
+--Normals Data<br>
+---For Each Normal<br>
+----4 BYTES (FLOAT) - X Normalised Normal of 3D Geometry<br>
+----4 BYTES (FLOAT) - Y Normalised Normal of 3D Geometry<br>
+----4 BYTES (FLOAT) - Z Normalised Normal of 3D Geometry<br>
+--Face Data<br>
+---For Each Face (a face makes a polygon using A,B and C as vector points)<br>
+----2 BYTES (DWORD) - Number of Vectors in Face (always use 3)<br>
+----2 BYTES (DWORD) - Index to Vertex in Vertex Data for Vector A<br>
+----2 BYTES (DWORD) - Index to Normal in Vertex Data for Vector A<br>
+----2 BYTES (DWORD) - Index to Vertex in Vertex Data for Vector B<br>
+----2 BYTES (DWORD) - Index to Normal in Vertex Data for Vector B<br>
+----2 BYTES (DWORD) - Index to Vertex in Vertex Data for Vector C<br>
+----2 BYTES (DWORD) - Index to Normal in Vertex Data for Vector C<br>
+--Texture Data<br>
+---For Each Vertex<br>
+----4 BYTES (FLOAT) - U Value of Texture<br>
+----4 BYTES (FLOAT) - V Value of Texture
+
+
+<BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">SYNTAX<BR><FONT COLOR="White"><FONT SIZE="4">
+CHANGE MESH FROM MEMBLOCK Mesh Number, Memblock Number
+
+<BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">RELATED INFO<BR><FONT COLOR="White"><FONT SIZE="4">
+<a href="memblock.htm">Memblock Commands</a>
+
+<BR><a href="glossary.htm">Glossary</a><BR><BR><FONT COLOR="Yellow"><FONT SIZE="6" FACE="Arial">EXAMPLE<BR><FONT COLOR="White"><FONT SIZE="4">
+<a href="examples\memblock\exam03.dba">Mesh Data Access</a><br>
+<BR><BR></FONT></BODY></HTML>
